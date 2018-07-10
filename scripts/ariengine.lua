@@ -16,3 +16,7 @@ project ("ariengine")
 		"../include/ari/**.hpp",
 		"../src/engine/**.cpp",
 	}
+
+	defines {
+		"ARI_EXPORT",
+	}
