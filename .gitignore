@@ -31,6 +31,10 @@
 *.out
 *.app
 
+# docs
+*.doctree
+*.pickle
+
 # Folders
-_build
-.build
+/_build/
+.build/
