@@ -10,7 +10,7 @@ Welcome to Ariyana's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+   building
 
 Indices and tables
 ==================
