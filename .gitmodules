@@ -10,3 +10,6 @@
 [submodule "deps/ecs"]
 	path = deps/ecs
 	url = https://github.com/kochol/ecs.git
+[submodule "deps/termite-jobs"]
+	path = deps/termite-jobs
+	url = https://github.com/kochol/termite-jobs.git
