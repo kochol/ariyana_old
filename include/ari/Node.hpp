@@ -6,8 +6,13 @@
 
 namespace ari
 {
-	class ARI_API Node: public std::enable_shared_from_this<Node>
+	class World;
+	class Entity;
+
+	class ARI_API Node
 	{
+		friend class World;
+
 	public:
 
 		enum class Type
@@ -26,30 +31,35 @@ namespace ari
 		virtual ~Node();
 
 		//! Adds a node as child.
-		virtual void AddChild(std::shared_ptr<Node> child);
+		virtual void AddChild(Node* child);
 
 		/*! Removes a child from this node.
 		\param child The pointer to the child.
 		*/
-		virtual void RemoveChild(std::shared_ptr<Node> child);
+		virtual void RemoveChild(Node* child);
 
 		//! Removes all children of this node.
 		void RemoveChildren();
 
 		//! Returns the node parent.
-		virtual std::shared_ptr<Node> GetParent() { return m_pParent; }
+		virtual Node* GetParent() { return m_pParent; }
 
 		//! Sets the node parent.
-		virtual void SetParent(std::shared_ptr<Node> parent);
+		virtual void SetParent(Node* parent);
 
 		//! Returns the node type.
 		Node::Type GetType() const { return m_eNodeType; }
 
+		//! Returns the parent Entity in the tree
+		Entity* GetParentEntity() const;
+
+
 	protected:
 
-		std::shared_ptr<Node> m_pParent;
-		tinystl::vector<std::shared_ptr<Node>> m_vChilds;
+		Node* m_pParent;
+		tinystl::vector<Node*> m_vChilds;
 		Node::Type m_eNodeType;
+		World* m_pWorld;
 
 	}; // Node
 

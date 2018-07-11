@@ -7,7 +7,6 @@ namespace ari
 	}
 
 	Entity::~Entity()
-	{
-	}
+	= default;
 
 } // ari

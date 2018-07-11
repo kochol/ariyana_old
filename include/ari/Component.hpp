@@ -5,6 +5,8 @@ namespace ari
 {
 	class ARI_API Component: public Node
 	{
+	public:
+
 		//! Constructor
 		Component();
 

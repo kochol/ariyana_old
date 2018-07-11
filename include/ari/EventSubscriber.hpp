@@ -8,12 +8,23 @@ namespace ari
 	class Entity;
 	class Component;
 
+	namespace Internal
+	{
+		class ARI_API BaseEventSubscriber
+		{
+		public:
+
+			virtual ~BaseEventSubscriber() = default;
+		};
+		
+	} // Internal
+
 	/**
 	* Subclass this as EventSubscriber<EventType> and then call World::subscribe() in order to subscribe to events. Make sure
 	* to call World::unsubscribe() or World::unsubscribeAll() when your subscriber is deleted!
 	*/
 	template<typename T>
-	class ARI_API EventSubscriber
+	class ARI_API EventSubscriber: public Internal::BaseEventSubscriber
 	{
 	public:
 
@@ -51,7 +62,7 @@ namespace ari
 			ARI_DECLARE_TYPE;
 
 			Entity* entity;
-			std::weak_ptr<Component> component;
+			Component* component;
 		};
 
 		// Called when a component is removed
@@ -60,7 +71,7 @@ namespace ari
 			ARI_DECLARE_TYPE;
 
 			Entity* entity;
-			std::weak_ptr<Component> component;
+			Component* component;
 		};
 	} // events
 

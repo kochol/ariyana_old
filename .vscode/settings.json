@@ -1,3 +1,6 @@
 {
-	"restructuredtext.confPath": "${workspaceRoot}/docs"
+	"restructuredtext.confPath": "${workspaceRoot}/docs",
+	"files.associations": {
+		"xmemory0": "cpp"
+	}
 }

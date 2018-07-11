@@ -1,8 +1,12 @@
 #include "..\..\..\include\ari\Node.hpp"
+#include "..\..\..\include\ari\World.hpp"
+#include "..\..\..\include\ari\Component.hpp"
+#include "..\..\..\include\ari\Entity.hpp"
+#include <cassert>
 
 namespace ari
 {
-	Node::Node() : m_pParent(nullptr), m_eNodeType(Type::Unknown)
+	Node::Node() : m_pParent(nullptr), m_eNodeType(Type::Unknown), m_pWorld(nullptr)
 	{
 	}
 
@@ -12,22 +16,33 @@ namespace ari
 		RemoveChildren();
 	}
 
-	void Node::AddChild(std::shared_ptr<Node> child)
+	void Node::AddChild(Node* child)
 	{
 		m_vChilds.push_back(child);
-		child->SetParent(shared_from_this());
+		child->SetParent(this);
+
+		if (m_eNodeType == Type::Component)
+		{
+			assert(m_pWorld);
+			m_pWorld->emit<events::OnComponentAssigned>({ GetParentEntity(), static_cast<Component*>(this) });
+		}
 
 	} // AddChild
 
-	void Node::RemoveChild(std::shared_ptr<Node> child)
+	void Node::RemoveChild(Node* child)
 	{
-		for (tinystl::vector<std::shared_ptr<Node>>::iterator it = m_vChilds.begin();
+		for (tinystl::vector<Node*>::iterator it = m_vChilds.begin();
 			 it != m_vChilds.end(); ++it)
 		{
 			if ((*it) == child)
 			{
 				child->m_pParent = nullptr;
 				m_vChilds.erase(it);
+				if (m_eNodeType == Type::Component)
+				{
+					assert(m_pWorld);
+					m_pWorld->emit<events::OnComponentRemoved>({ GetParentEntity(), static_cast<Component*>(this) });
+				}
 				return;
 			}
 		}
@@ -36,23 +51,36 @@ namespace ari
 
 	void Node::RemoveChildren()
 	{
-		for (auto & node : m_vChilds)
-		{
-			node->m_pParent = nullptr;
-		}
+		//for (auto & node : m_vChilds)
+		//{
+		//	node->m_pParent = nullptr;
+		//}
 
 		m_vChilds.clear();
 
 	} // RemoveChildren
 
-	void Node::SetParent(std::shared_ptr<Node> parent)
+	void Node::SetParent(Node* parent)
 	{
 		if (m_pParent)
 		{
-			m_pParent->RemoveChild(shared_from_this());
+			m_pParent->RemoveChild(this);
 		}
 		m_pParent = parent;
 
 	} // SetParent
+
+	Entity* Node::GetParentEntity() const
+	{
+		if (m_pParent)
+		{
+			if (m_pParent->m_eNodeType == Type::Entity)
+			{
+				return static_cast<Entity*>(m_pParent);
+			}
+			return m_pParent->GetParentEntity();
+		}
+		return nullptr;
+	}
 
 } // ari

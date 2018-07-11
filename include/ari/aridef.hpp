@@ -1,7 +1,7 @@
 #pragma once
 
 #if defined( _MSC_VER )
-#pragma warning(disable:4251)
+#pragma warning(disable:4251) // dll interface for std types
 #ifdef ARI_EXPORT
 	#define ARI_API __declspec(dllexport)
 #else
