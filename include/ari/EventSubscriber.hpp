@@ -57,21 +57,23 @@ namespace ari
 		};
 
 		// Called when a component is assigned (not necessarily created).
+		template <class T>
 		struct OnComponentAssigned
 		{
 			ARI_DECLARE_TYPE;
 
 			Entity* entity;
-			Component* component;
+			T* component;
 		};
 
 		// Called when a component is removed
+		template <class T>
 		struct OnComponentRemoved
 		{
 			ARI_DECLARE_TYPE;
 
 			Entity* entity;
-			Component* component;
+			T* component;
 		};
 	} // events
 

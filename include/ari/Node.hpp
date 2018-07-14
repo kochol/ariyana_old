@@ -31,12 +31,14 @@ namespace ari
 		virtual ~Node();
 
 		//! Adds a node as child.
-		virtual void AddChild(Node* child);
+		template <class T>
+		void AddChild(T* child);
 
 		/*! Removes a child from this node.
 		\param child The pointer to the child.
 		*/
-		virtual void RemoveChild(Node* child);
+		template <class T>
+		void RemoveChild(T* child);
 
 		//! Removes all children of this node.
 		void RemoveChildren();

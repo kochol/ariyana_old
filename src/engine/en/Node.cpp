@@ -16,7 +16,8 @@ namespace ari
 		RemoveChildren();
 	}
 
-	void Node::AddChild(Node* child)
+	template <class T>
+	void Node::AddChild(T* child)
 	{
 		m_vChilds.push_back(child);
 		child->SetParent(this);
@@ -24,12 +25,13 @@ namespace ari
 		if (m_eNodeType == Type::Component)
 		{
 			assert(m_pWorld);
-			m_pWorld->emit<events::OnComponentAssigned>({ GetParentEntity(), static_cast<Component*>(this) });
+			m_pWorld->emit<events::OnComponentAssigned<T>>({ GetParentEntity(), static_cast<T*>(this) });
 		}
 
 	} // AddChild
 
-	void Node::RemoveChild(Node* child)
+	template <class T>
+	void Node::RemoveChild(T* child)
 	{
 		for (tinystl::vector<Node*>::iterator it = m_vChilds.begin();
 			 it != m_vChilds.end(); ++it)
@@ -41,7 +43,7 @@ namespace ari
 				if (m_eNodeType == Type::Component)
 				{
 					assert(m_pWorld);
-					m_pWorld->emit<events::OnComponentRemoved>({ GetParentEntity(), static_cast<Component*>(this) });
+					m_pWorld->emit<events::OnComponentRemoved<T>>({ GetParentEntity(), static_cast<T*>(this) });
 				}
 				return;
 			}
