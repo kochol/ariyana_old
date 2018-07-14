@@ -1,4 +1,5 @@
-#include "..\..\..\include\ari\Entity.hpp"
+#include "../../../include/ari/en/Entity.hpp"
+
 namespace ari
 {
 	Entity::Entity()

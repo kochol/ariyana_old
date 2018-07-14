@@ -1,7 +1,7 @@
-#include "..\..\..\include\ari\Node.hpp"
-#include "..\..\..\include\ari\World.hpp"
-#include "..\..\..\include\ari\Component.hpp"
-#include "..\..\..\include\ari\Entity.hpp"
+#include "../../../include/ari/en/Node.hpp"
+#include "../../../include/ari/en/World.hpp"
+#include "../../../include/ari/en/Component.hpp"
+#include "../../../include/ari/en/Entity.hpp"
 #include <cassert>
 
 namespace ari

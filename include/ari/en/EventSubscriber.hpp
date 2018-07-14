@@ -1,5 +1,5 @@
 #pragma once
-#include "aridef.hpp"
+#include "../aridef.hpp"
 #include <memory>
 
 namespace ari

@@ -1,4 +1,5 @@
-#include "..\..\..\include\ari\Component.hpp"
+#include "../../../include/ari/en/Component.hpp"
+
 namespace ari
 {
 	Component::Component()
