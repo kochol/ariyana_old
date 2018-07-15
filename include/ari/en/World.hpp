@@ -9,6 +9,8 @@
 
 namespace ari
 {
+	class System;
+
 	class ARI_API World
 	{
 	public:
@@ -18,6 +20,21 @@ namespace ari
 
 		//! Destructor
 		~World() = default;
+
+		/**
+		 * Add a new system to the world
+		 */
+		void AddSystem(System* p_system);
+
+		/**
+		 * Removes a system from world
+		 */
+		void RemoveSystem(System* p_system);
+
+		/** 
+		 * Updates the world
+		 */
+		void Update(float tick);
 
 		/**
 		* Subscribe to an event.
@@ -95,6 +112,7 @@ namespace ari
 
 		std::unordered_map<TypeIndex,
 			tinystl::vector<Internal::BaseEventSubscriber*>> subscribers;
+		tinystl::vector<System*> systems;
 
 	}; // World
 
