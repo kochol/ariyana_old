@@ -30,4 +30,4 @@ Open bgfx solution in Visual Studio 2017:
 
 .. code-block:: shell
 
-	start .build\projects\vs2017\bgfx.sln
+	start .build\projects\vs2017\ariyana.sln
