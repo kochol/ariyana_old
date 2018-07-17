@@ -28,7 +28,7 @@ namespace ari
 	{
 		for (auto s: systems)
 		{
-			s->Update(tick);
+			s->Update(this, tick);
 		}
 	}
 

@@ -10,16 +10,17 @@ namespace ari
 	public:
 
 		//! Constructor
-		Camera();
+		Camera(): _isActive(false) { }
 
 		//! Destructor
-		~Camera();
+		virtual ~Camera() = default;
 
 		Vector3 Target,
 			Up,
 			Right;
 		Matrix _view,
 			_proj;
+		bool _isActive;
 		
 	}; // Camera
 	

@@ -33,7 +33,7 @@ namespace ari
 		/**
 		* Called when an event is emitted by the world.
 		*/
-		virtual void receive(World* world, const T& event) = 0;
+		virtual void Receive(World* world, const T& event) = 0;
 
 	}; // EventSubscriber
 

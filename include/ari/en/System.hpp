@@ -16,7 +16,7 @@ namespace ari
 		virtual ~System() = default;
 
 		//! Update the system
-		virtual void Update(float tick) = 0;
+		virtual void Update(World* p_world, float tick) = 0;
 
 		//! Configure the system after adding it to the world
 		virtual void Configure(World* p_world) = 0;

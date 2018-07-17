@@ -103,7 +103,7 @@ namespace ari
 				for (auto* base : found->second)
 				{
 					auto* sub = reinterpret_cast<EventSubscriber<T>*>(base);
-					sub->receive(this, event);
+					sub->Receive(this, event);
 				}
 			}
 		}

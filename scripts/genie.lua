@@ -27,7 +27,7 @@ BIMG_DIR   = os.getenv("BIMG_DIR")
 local BGFX_BUILD_DIR = path.join(MODULE_DIR, ".build")
 local BGFX_THIRD_PARTY_DIR = path.join(BGFX_DIR, "3rdparty")
 if not BX_DIR then
-	BX_DIR = path.getabsolute(path.join(BGFX_DIR, "../bx"))
+	BX_DIR = path.getabsolute(path.join(BGFX_DIR, "../termite-jobs/deps/bx"))
 end
 
 if not BIMG_DIR then
