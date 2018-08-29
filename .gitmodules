@@ -13,3 +13,6 @@
 [submodule "deps/termite-jobs"]
 	path = deps/termite-jobs
 	url = https://github.com/kochol/termite-jobs.git
+[submodule "deps/FiberTaskingLib"]
+	path = deps/FiberTaskingLib
+	url = https://github.com/kochol/FiberTaskingLib
