@@ -7,12 +7,6 @@
 [submodule "deps/bgfx"]
 	path = deps/bgfx
 	url = https://github.com/kochol/bgfx.git
-[submodule "deps/ecs"]
-	path = deps/ecs
-	url = https://github.com/kochol/ecs.git
-[submodule "deps/termite-jobs"]
-	path = deps/termite-jobs
-	url = https://github.com/kochol/termite-jobs.git
 [submodule "deps/FiberTaskingLib"]
 	path = deps/FiberTaskingLib
 	url = https://github.com/kochol/FiberTaskingLib
