@@ -7,6 +7,6 @@
 [submodule "deps/bgfx"]
 	path = deps/bgfx
 	url = https://github.com/kochol/bgfx.git
-[submodule "deps/FiberTaskingLib"]
-	path = deps/FiberTaskingLib
-	url = https://github.com/kochol/FiberTaskingLib
+[submodule "deps/arideps"]
+	path = deps/arideps
+	url = https://github.com/kochol/arideps.git
