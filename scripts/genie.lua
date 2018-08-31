@@ -19,10 +19,11 @@ solution "Ariyana"
 	language "C++"
 	-- startproject "example-00-helloworld"
 
-MODULE_DIR = path.getabsolute("../")
-BGFX_DIR   = path.getabsolute("../deps/bgfx")
-BX_DIR     = os.getenv("BX_DIR")
-BIMG_DIR   = os.getenv("BIMG_DIR")
+MODULE_DIR  = path.getabsolute("../")
+ARIDEPS_DIR = path.getabsolute("../deps/arideps") 
+BGFX_DIR    = path.getabsolute("../deps/bgfx")
+BX_DIR      = os.getenv("BX_DIR")
+BIMG_DIR    = os.getenv("BIMG_DIR")
 
 local BGFX_BUILD_DIR = path.join(MODULE_DIR, ".build")
 local BGFX_THIRD_PARTY_DIR = path.join(BGFX_DIR, "3rdparty")

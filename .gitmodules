@@ -10,3 +10,6 @@
 [submodule "deps/arideps"]
 	path = deps/arideps
 	url = https://github.com/kochol/arideps.git
+[submodule "deps/spdlog"]
+	path = deps/spdlog
+	url = https://github.com/gabime/spdlog.git
