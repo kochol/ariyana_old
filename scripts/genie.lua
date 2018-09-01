@@ -1,3 +1,8 @@
+newoption {
+	trigger = "with-tests",
+	description = "Enable building tests.",
+}
+
 solution "Ariyana"
 	configurations {
 		"Debug",
@@ -67,3 +72,33 @@ bgfxProject("", "StaticLib", {})
 dofile(path.join(BX_DIR,   "scripts/bx.lua"))
 dofile(path.join(BIMG_DIR, "scripts/bimg.lua"))
 dofile(path.join(BIMG_DIR, "scripts/bimg_decode.lua"))
+
+function testProject(...)
+	for _, name in ipairs({...}) do
+		project ("test-" .. name)
+			uuid (os.uuid("test-" .. name))
+			kind "ConsoleApp"
+
+		files {
+			path.join(MODULE_DIR, "tests", name, "**.cpp"),
+			path.join(MODULE_DIR, "tests", name, "**.hpp"),
+		}
+
+		includedirs {
+			path.join(MODULE_DIR,   "include"),
+		}
+	
+		links {
+			"ariengine",
+		}	
+
+	end
+end
+
+if _OPTIONS["with-tests"] then
+	group "tests"
+
+	testProject("00-init")
+end
+
+print(_OPTIONS["with-tests"])

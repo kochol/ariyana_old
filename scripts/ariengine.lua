@@ -31,4 +31,15 @@ project ("ariengine")
 		libdirs { path.join(ARIDEPS_DIR, "libs/win32") }
 
 	configuration { "vs*", "x64" }
-	libdirs { path.join(ARIDEPS_DIR, "libs/win64") }
+		libdirs { path.join(ARIDEPS_DIR, "libs/win64") }
+
+if string.find(_ACTION, "vs") then
+	if os.isdir(path.join(MODULE_DIR, ".build/win32_" .. _ACTION .. "/bin")) == false then
+		os.mkdir(path.join(MODULE_DIR, ".build/win32_" .. _ACTION .. "/bin"))
+	end
+	if os.isdir(path.join(MODULE_DIR, ".build/win64_" .. _ACTION .. "/bin")) == false then
+		os.mkdir(path.join(MODULE_DIR, ".build/win64_" .. _ACTION .. "/bin"))
+	end
+	print(os.copyfile(path.join(ARIDEPS_DIR, "libs/win32/SDL2.dll"), path.join(MODULE_DIR, ".build/win32_" .. _ACTION .. "/bin/SDL2.dll")))
+	print(os.copyfile(path.join(ARIDEPS_DIR, "libs/win64/SDL2.dll"), path.join(MODULE_DIR, ".build/win64_" .. _ACTION .. "/bin/SDL2.dll")))	
+end

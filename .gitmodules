@@ -13,3 +13,6 @@
 [submodule "deps/spdlog"]
 	path = deps/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "tests"]
+	path = tests
+	url = https://github.com/kochol/ariyana_tests.git
