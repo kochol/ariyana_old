@@ -12,6 +12,7 @@ project ("ariengine")
 
 	links {
 		"bx",
+		"bimg",
 		"bgfx",
 		"ftl",
 		"SDL2"
@@ -20,6 +21,7 @@ project ("ariengine")
 	files {
 		"../include/ari/**.hpp",
 		"../src/engine/**.cpp",
+		"../src/engine/**.hpp",
 		"../deps/spdlog/include/**.h"
 	}
 

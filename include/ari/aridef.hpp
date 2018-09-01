@@ -11,6 +11,11 @@
 	#define ARI_API
 #endif
 
+#define ARI_CONFIG_MAX_WINDOW		   8
+#define ENTRY_WINDOW_FLAG_NONE         UINT32_C(0x00000000)
+#define ENTRY_WINDOW_FLAG_ASPECT_RATIO UINT32_C(0x00000001)
+#define ENTRY_WINDOW_FLAG_FRAME        UINT32_C(0x00000002)
+
 // Define ARI_NO_RTTI to turn off RTTI. This requires using the ARI_DEFINE_TYPE and ARI_DECLARE_TYPE macros on all types
 // that you wish to use as components or events. If you use ARI_NO_RTTI, also place ARI_TYPE_IMPLEMENTATION in a single cpp file.
 //#define ARI_NO_RTTI

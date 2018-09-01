@@ -9,10 +9,17 @@ namespace spdlog
 
 namespace ari
 {
+	class SdlWindow;
+
 	struct InitParams
 	{
-		int Height,
-			Width;
+		InitParams(): Height(600), Width(800), FullScreen(false)
+		{}
+
+		uint32_t Height,
+				 Width;
+
+		bool FullScreen;
 
 	}; // InitParams
 
@@ -29,11 +36,14 @@ namespace ari
 		//! Init the engine device
 		bool Init(InitParams params);
 
+		bool Run();
+
 		std::shared_ptr<spdlog::logger> GetLogger() const { return  Logger; }
 
 	private:
 
 		std::shared_ptr<spdlog::logger> Logger;
+		SdlWindow	*					m_pWindow;
 
 	}; // Device
 }
