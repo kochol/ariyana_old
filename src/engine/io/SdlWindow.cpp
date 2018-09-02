@@ -2,6 +2,7 @@
 
 #include <SDL2/SDL.h>
 #include <string>
+#include <spdlog/logger.h>
 
 BX_PRAGMA_DIAGNOSTIC_PUSH()
 BX_PRAGMA_DIAGNOSTIC_IGNORED_CLANG("-Wextern-c-compat")
@@ -88,6 +89,13 @@ namespace ari
 
 	bool SdlWindow::Init(InitParams & params)
 	{
+		// Init the SDL
+		if (SDL_Init(0 | SDL_INIT_GAMECONTROLLER) < 0)
+		{
+			Device::GetSingleton().GetLogger()->error("Can't Initialize SDL2.");
+			return false;
+		}
+
 		m_mx = m_my = 0;
 		m_params = params;
 
@@ -109,7 +117,7 @@ namespace ari
 		s_userEventStart = SDL_RegisterEvents(7);
 
 		sdlSetWindow(m_window[0]);
-		bgfx::renderFrame();
+	//	bgfx::renderFrame();
 
 		// Force window resolution...
 		WindowHandle defaultWindow = { 0 };
@@ -130,7 +138,7 @@ namespace ari
 	WindowHandle SdlWindow::findHandle(SDL_Window* _window)
 	{
 		bx::MutexScope scope(m_lock);
-		for (uint32_t ii = 0, num = m_windowAlloc.getNumHandles(); ii < num; ++ii)
+		for (uint16_t ii = 0, num = m_windowAlloc.getNumHandles(); ii < num; ++ii)
 		{
 			uint16_t idx = m_windowAlloc.getHandleAt(ii);
 			if (_window == m_window[idx])

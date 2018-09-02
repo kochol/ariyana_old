@@ -31,3 +31,9 @@ Open bgfx solution in Visual Studio 2017:
 .. code-block:: shell
 
 	start .build\projects\vs2017\ariyana.sln
+
+Generate Visual Studio 2017 project files with test projects:
+
+.. code-block:: shell
+
+	deps\bx\tools\bin\windows\genie --with-tests vs2017

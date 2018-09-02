@@ -2,6 +2,10 @@
 #include "aridef.hpp"
 #include <memory>
 
+namespace bx
+{
+	class Thread;
+}
 namespace spdlog
 {
 	class logger;
@@ -33,6 +37,8 @@ namespace ari
 		//! Destructor
 		~Device();
 
+		static Device& GetSingleton();
+
 		//! Init the engine device
 		bool Init(InitParams params);
 
@@ -40,10 +46,16 @@ namespace ari
 
 		std::shared_ptr<spdlog::logger> GetLogger() const { return  Logger; }
 
-	private:
+	protected:
+
+		static int InitBgfxInThread(bx::Thread* _thread, void* _userData);
 
 		std::shared_ptr<spdlog::logger> Logger;
 		SdlWindow	*					m_pWindow;
+		InitParams						m_params;
+		uint32_t		m_debug, m_reset;
+		bx::Thread	*	m_pGfxThread;
 
 	}; // Device
 }
+
