@@ -10,6 +10,10 @@ namespace spdlog
 {
 	class logger;
 }
+namespace ftl
+{
+	class TaskScheduler;
+}
 
 namespace ari
 {
@@ -53,8 +57,9 @@ namespace ari
 		std::shared_ptr<spdlog::logger> Logger;
 		SdlWindow	*					m_pWindow;
 		InitParams						m_params;
-		uint32_t		m_debug, m_reset;
-		bx::Thread	*	m_pGfxThread;
+		uint32_t						m_debug, m_reset;
+		bx::Thread					*	m_pGfxThread;
+		ftl::TaskScheduler			*	m_pTaskMgr;
 
 	}; // Device
 }

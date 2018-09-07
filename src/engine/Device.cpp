@@ -1,25 +1,29 @@
 ﻿#include "..\..\include\ari\Device.hpp"
-#include <SDL2/SDL.h>
 #include <spdlog/logger.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include "io/SdlWindow.hpp"
 #include <bgfx/bgfx.h>
 #include <bx/thread.h>
+#include <ftl/task_scheduler.h>
 
 namespace ari
 {
-	Device* g_pDevice = NULL;
+	Device* g_pDevice = nullptr;
 
-	Device::Device(): m_pWindow(nullptr)
+	Device::Device() : m_pWindow(nullptr), m_pGfxThread(nullptr)
 	{
 		Logger = spdlog::stdout_color_mt("main");
 		g_pDevice = this;
+		m_pTaskMgr = new ftl::TaskScheduler();
 	}
 
 	Device::~Device()
 	{
 		delete m_pWindow;
-		g_pDevice = NULL;
+		g_pDevice = nullptr;
+		delete m_pTaskMgr;
+		m_pGfxThread->shutdown();
+		delete m_pGfxThread;
 	}
 
 	Device & Device::GetSingleton()

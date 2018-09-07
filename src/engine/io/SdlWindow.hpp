@@ -3,7 +3,7 @@
 #include "bx/handlealloc.h"
 #include "bx/mutex.h"
 
-class SDL_Window;
+struct SDL_Window;
 
 namespace ari
 {
