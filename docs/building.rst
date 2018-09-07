@@ -26,7 +26,7 @@ Generate Visual Studio 2017 project files:
 
 	deps\bx\tools\bin\windows\genie vs2017
 
-Open bgfx solution in Visual Studio 2017:
+Open ariyana solution in Visual Studio 2017:
 
 .. code-block:: shell
 
