@@ -117,6 +117,7 @@ namespace ari
 		s_userEventStart = SDL_RegisterEvents(7);
 
 		sdlSetWindow(m_window[0]);
+		// Calling this function before bgfx init makes bgfx single threaded.
 	//	bgfx::renderFrame();
 
 		// Force window resolution...
