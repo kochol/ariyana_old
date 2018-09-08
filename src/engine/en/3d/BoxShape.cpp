@@ -5,9 +5,9 @@
 
 namespace ari
 {
-	bgfx::VertexBufferHandle BoxShape::m_sVBPos;
-	bgfx::VertexBufferHandle BoxShape::m_sVBColor;
-	bgfx::IndexBufferHandle	BoxShape::m_sIB;
+	bgfx::VertexBufferHandle BoxShape::m_sVBPos BGFX_INVALID_HANDLE;
+	bgfx::VertexBufferHandle BoxShape::m_sVBColor BGFX_INVALID_HANDLE;
+	bgfx::IndexBufferHandle	BoxShape::m_sIB BGFX_INVALID_HANDLE;
 
 	static PosVertex s_cubePosVertices[] =
 	{
