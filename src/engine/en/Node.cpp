@@ -16,41 +16,6 @@ namespace ari
 		RemoveChildren();
 	}
 
-	template <class T>
-	void Node::AddChild(T* child)
-	{
-		m_vChilds.push_back(child);
-		child->SetParent(this);
-
-		if (m_eNodeType == Type::Component)
-		{
-			assert(m_pWorld);
-			m_pWorld->emit<events::OnComponentAssigned<T>>({ GetParentEntity(), static_cast<T*>(this) });
-		}
-
-	} // AddChild
-
-	template <class T>
-	void Node::RemoveChild(T* child)
-	{
-		for (tinystl::vector<Node*>::iterator it = m_vChilds.begin();
-			 it != m_vChilds.end(); ++it)
-		{
-			if ((*it) == child)
-			{
-				child->m_pParent = nullptr;
-				m_vChilds.erase(it);
-				if (m_eNodeType == Type::Component)
-				{
-					assert(m_pWorld);
-					m_pWorld->emit<events::OnComponentRemoved<T>>({ GetParentEntity(), static_cast<T*>(this) });
-				}
-				return;
-			}
-		}
-
-	} // RemoveChild
-
 	void Node::RemoveChildren()
 	{
 		//for (auto & node : m_vChilds)

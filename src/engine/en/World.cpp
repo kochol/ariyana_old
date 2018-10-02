@@ -1,5 +1,6 @@
 #include "../../../include/ari/en/World.hpp"
 #include "../../../include/ari/en/System.hpp"
+#include "../../../include/ari/en/Entity.hpp"
 
 namespace ari
 {
@@ -18,6 +19,27 @@ namespace ari
 			{
 				p_system->Unconfigure(this);
 				systems.erase(systems.begin() + c);
+				return;
+			}
+			c++;
+		}
+	}
+
+	void World::AddEntity(Entity * p_entity)
+	{
+		Entities.push_back(p_entity);
+		p_entity->m_pWorld = this;
+	}
+
+	void World::RemoveEntity(Entity* p_entity)
+	{
+		int c = 0;
+		for (auto e: Entities)
+		{
+			if (e == p_entity)
+			{
+				e->m_pWorld = nullptr;
+				Entities.erase(Entities.begin() + c);
 				return;
 			}
 			c++;

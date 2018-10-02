@@ -3,6 +3,7 @@
 #include "../aridef.hpp"
 #include "tinystl/vector.h"
 #include <memory>
+#include <cassert>
 
 namespace ari
 {
@@ -32,13 +33,42 @@ namespace ari
 
 		//! Adds a node as child.
 		template <class T>
-		void AddChild(T* child);
+		void AddChild(T* child)
+		{
+			m_vChilds.push_back(child);
+			child->SetParent(this);
+
+			if (child->m_eNodeType == Type::Component)
+			{
+				assert(m_pWorld);
+				m_pWorld->emit<events::OnComponentAssigned<T>>({ GetParentEntity(), static_cast<T*>(this) });
+			}
+
+		} // AddChild
 
 		/*! Removes a child from this node.
 		\param child The pointer to the child.
 		*/
 		template <class T>
-		void RemoveChild(T* child);
+		void RemoveChild(T* child)
+		{
+			for (tinystl::vector<Node*>::iterator it = m_vChilds.begin();
+				it != m_vChilds.end(); ++it)
+			{
+				if ((*it) == child)
+				{
+					child->m_pParent = nullptr;
+					m_vChilds.erase(it);
+					if (child->m_eNodeType == Type::Component)
+					{
+						assert(m_pWorld);
+						m_pWorld->emit<events::OnComponentRemoved<T>>({ GetParentEntity(), static_cast<T*>(this) });
+					}
+					return;
+				}
+			}
+
+		} // RemoveChild
 
 		//! Removes all children of this node.
 		void RemoveChildren();

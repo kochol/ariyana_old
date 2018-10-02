@@ -1,7 +1,5 @@
 #pragma once
 #include "../aridef.hpp"
-#include "tinystl/allocator.h"
-#include "tinystl/unordered_map.h"
 #include "tinystl/vector.h"
 #include "EventSubscriber.hpp"
 #include <algorithm>
@@ -10,6 +8,7 @@
 namespace ari
 {
 	class System;
+	class Entity;
 
 	class ARI_API World
 	{
@@ -30,6 +29,16 @@ namespace ari
 		 * Removes a system from world
 		 */
 		void RemoveSystem(System* p_system);
+
+		/**
+		 * Adds a new entity to the world
+		 */
+		void AddEntity(Entity* p_entity);
+
+		/**
+		 * Removes an entity from world
+		 */
+		void RemoveEntity(Entity* p_entity);
 
 		/** 
 		 * Updates the world
@@ -113,6 +122,7 @@ namespace ari
 		std::unordered_map<TypeIndex,
 			tinystl::vector<Internal::BaseEventSubscriber*>> subscribers;
 		tinystl::vector<System*> systems;
+		tinystl::vector<Entity*> Entities;
 
 	}; // World
 

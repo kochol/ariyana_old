@@ -76,8 +76,11 @@ namespace ari
 
 	void BoxShape::Shutdown()
 	{
-		bgfx::destroy(m_sVBPos);
-		bgfx::destroy(m_sVBColor);
-		bgfx::destroy(m_sIB);
+		if (bgfx::isValid(m_sVBPos))
+			bgfx::destroy(m_sVBPos);
+		if (bgfx::isValid(m_sVBColor))
+			bgfx::destroy(m_sVBColor);
+		if (bgfx::isValid(m_sIB))
+			bgfx::destroy(m_sIB);
 	}
 }
