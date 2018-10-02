@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../include/ari/Device.hpp"
+#include "../../../include/ari/Engine.hpp"
 #include "bx/handlealloc.h"
 #include "bx/mutex.h"
 

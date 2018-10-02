@@ -1,4 +1,4 @@
-﻿#include "..\..\include\ari\Device.hpp"
+﻿#include "..\..\include\ari\Engine.hpp"
 #include "..\..\include\ari\Program.hpp"
 #include <spdlog/logger.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
@@ -9,17 +9,16 @@
 
 namespace ari
 {
-	Device* g_pDevice = nullptr;
-	bx::Semaphore g_bgfxInitLock;
+	Engine* g_pDevice = nullptr;
 
-	Device::Device() : m_pWindow(nullptr), m_pGfxThread(nullptr)
+	Engine::Engine() : m_pWindow(nullptr), m_pGfxThread(nullptr)
 	{
 		Logger = spdlog::stdout_color_mt("main");
 		g_pDevice = this;
 		m_pTaskMgr = new ftl::TaskScheduler();
 	}
 
-	Device::~Device()
+	Engine::~Engine()
 	{
 		delete m_pWindow;
 		g_pDevice = nullptr;
@@ -28,12 +27,12 @@ namespace ari
 		delete m_pGfxThread;
 	}
 
-	Device & Device::GetSingleton()
+	Engine & Engine::GetSingleton()
 	{
 		return *g_pDevice;
 	}
 
-	bool Device::Init(InitParams params)
+	bool Engine::Init(InitParams params)
 	{
 		// Create a SDL window
 		m_pWindow = new SdlWindow();
@@ -48,19 +47,19 @@ namespace ari
 		m_reset = BGFX_RESET_VSYNC;
 
 		m_pGfxThread = new bx::Thread();
-		m_pGfxThread->init(Device::InitBgfxInThread, this);
+		m_pGfxThread->init(Engine::InitBgfxInThread, this);
 
 		return true;
 	}
 
-	bool Device::Run()
+	bool Engine::Run()
 	{
 		return m_pWindow->Run();
 	}
 
-	int Device::InitBgfxInThread(bx::Thread * _thread, void * _userData)
+	int Engine::InitBgfxInThread(bx::Thread * _thread, void * _userData)
 	{
-		Device* pDev = static_cast<Device*>(_userData);
+		Engine* pDev = static_cast<Engine*>(_userData);
 
 		// Init bgfx
 		bgfx::Init init;

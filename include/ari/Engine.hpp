@@ -33,17 +33,17 @@ namespace ari
 
 	}; // InitParams
 
-	class ARI_API Device
+	class ARI_API Engine
 	{
 	public:
 
 		//! Constructor
-		Device();
+		Engine();
 
 		//! Destructor
-		~Device();
+		~Engine();
 
-		static Device& GetSingleton();
+		static Engine& GetSingleton();
 
 		//! Init the engine device
 		bool Init(InitParams params);
@@ -63,6 +63,6 @@ namespace ari
 		bx::Thread					*	m_pGfxThread;
 		ftl::TaskScheduler			*	m_pTaskMgr;
 
-	}; // Device
+	}; // Engine
 }
 

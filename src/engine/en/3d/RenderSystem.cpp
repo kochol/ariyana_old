@@ -2,7 +2,6 @@
 #include "../../../../include/ari/en/3d/BoxShape.hpp"
 #include "../../../../include/ari/en/World.hpp"
 #include <bgfx/bgfx.h>
-#include "../../gfx/ShadersCode.hpp"
 #include <brtshaderc.h>
 #include "bx/filepath.h"
 #include "tinystl/string.h"
@@ -11,7 +10,23 @@ namespace ari
 {
 	char* g_AssetDir = ASSETS_DIR;
 
-	RenderSystem::RenderSystem()
+	RenderSystem::RenderSystem(): m_pVertexDeclArray(nullptr), m_Program(nullptr)
+	{
+	}
+
+	RenderSystem::~RenderSystem()
+	{
+		delete[] m_pVertexDeclArray;
+		BoxShape::Shutdown();
+		bgfx::destroy(*m_Program);
+		delete m_Program;
+	}
+
+	void RenderSystem::Update(World * p_world, float tick)
+	{
+	} // Update
+
+	void RenderSystem::Configure(World * p_world)
 	{
 		// Create vertex declarations
 		m_pVertexDeclArray = new bgfx::VertexDecl[(int)VertexType::Count];
@@ -39,22 +54,7 @@ namespace ari
 		// build program using shaders
 		m_Program = new bgfx::ProgramHandle();
 		*m_Program = bgfx::createProgram(vsh, fsh, true);
-	}
 
-	RenderSystem::~RenderSystem()
-	{
-		delete[] m_pVertexDeclArray;
-		BoxShape::Shutdown();
-		bgfx::destroy(*m_Program);
-		delete m_Program;
-	}
-
-	void RenderSystem::Update(World * p_world, float tick)
-	{
-	} // Update
-
-	void RenderSystem::Configure(World * p_world)
-	{
 		p_world->subscribe<events::OnComponentAssigned<BoxShape>>(this);
 
 	} // Configure

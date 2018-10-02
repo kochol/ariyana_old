@@ -92,7 +92,7 @@ namespace ari
 		// Init the SDL
 		if (SDL_Init(0 | SDL_INIT_GAMECONTROLLER) < 0)
 		{
-			Device::GetSingleton().GetLogger()->error("Can't Initialize SDL2.");
+			Engine::GetSingleton().GetLogger()->error("Can't Initialize SDL2.");
 			return false;
 		}
 
