@@ -25,6 +25,7 @@ solution "Ariyana"
 	-- startproject "example-00-helloworld"
 
 MODULE_DIR  = path.getabsolute("../")
+ASSETS_DIR  = path.getabsolute("../assets")
 ARIDEPS_DIR = path.getabsolute("../deps/arideps") 
 BGFX_DIR    = path.getabsolute("../deps/bgfx")
 BX_DIR      = os.getenv("BX_DIR")
@@ -72,6 +73,7 @@ bgfxProject("", "StaticLib", {})
 dofile(path.join(BX_DIR,   "scripts/bx.lua"))
 dofile(path.join(BIMG_DIR, "scripts/bimg.lua"))
 dofile(path.join(BIMG_DIR, "scripts/bimg_decode.lua"))
+dofile(path.join(MODULE_DIR, "deps/brtshaderc/scripts/brtshaderc.lua"))
 
 function testProject(...)
 	for _, name in ipairs({...}) do
@@ -86,6 +88,7 @@ function testProject(...)
 
 		includedirs {
 			path.join(MODULE_DIR,   "include"),
+			path.join(BX_DIR,   "include"),			
 		}
 	
 		links {
@@ -98,7 +101,8 @@ end
 if _OPTIONS["with-tests"] then
 	group "tests"
 
-	testProject("00-init")
+	testProject("00-init",
+				"01-cubes")
 end
 
 print(_OPTIONS["with-tests"])

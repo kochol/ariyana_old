@@ -16,3 +16,6 @@
 [submodule "tests"]
 	path = tests
 	url = https://github.com/kochol/ariyana_tests.git
+[submodule "deps/brtshaderc"]
+	path = deps/brtshaderc
+	url = https://github.com/kochol/brtshaderc.git

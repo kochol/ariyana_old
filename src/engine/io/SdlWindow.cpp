@@ -118,7 +118,7 @@ namespace ari
 
 		sdlSetWindow(m_window[0]);
 		// Calling this function before bgfx init makes bgfx single threaded.
-	//	bgfx::renderFrame();
+//		bgfx::renderFrame();
 
 		// Force window resolution...
 		WindowHandle defaultWindow = { 0 };

@@ -8,25 +8,30 @@ project ("ariengine")
 		path.join(ARIDEPS_DIR, "FiberTaskingLib/include"),
 		path.join(ARIDEPS_DIR, "FiberTaskingLib/third_party/boost_context/include"),		
 		path.join(ARIDEPS_DIR, "SDL2/include"),
-		path.join(MODULE_DIR, "deps/spdlog/include")
+		path.join(MODULE_DIR, "deps/spdlog/include"),
+        path.join(MODULE_DIR, "deps/brtshaderc/tools/brtshaderc"),		
 	}
 
 	links {
 		"bx",
 		"bimg",
 		"bgfx",
-		"SDL2"
+		"SDL2",
+		"brtshaderc"
 	}
 
 	files {
 		"../include/ari/**.hpp",
 		"../src/engine/**.cpp",
 		"../src/engine/**.hpp",
-		"../deps/spdlog/include/**.h"
+		"../deps/spdlog/include/**.h",
+		"../assets/shaders/**.sc",
+		"../assets/shaders/**.sh"		
 	}
 
 	defines {
 		"ARI_EXPORT",
+		"ASSETS_DIR=\"" .. ASSETS_DIR .. "\"",
 	}
 
 

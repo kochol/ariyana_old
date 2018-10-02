@@ -1,4 +1,5 @@
 ﻿#include "..\..\include\ari\Device.hpp"
+#include "..\..\include\ari\Program.hpp"
 #include <spdlog/logger.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include "io/SdlWindow.hpp"
@@ -9,6 +10,7 @@
 namespace ari
 {
 	Device* g_pDevice = nullptr;
+	bx::Semaphore g_bgfxInitLock;
 
 	Device::Device() : m_pWindow(nullptr), m_pGfxThread(nullptr)
 	{
@@ -78,10 +80,16 @@ namespace ari
 			, 0
 		);
 
+		if (pDev->m_params.Program)
+			pDev->m_params.Program->Init();
+
 		while (true)
 		{
 			// Set view 0 default viewport.
 			bgfx::setViewRect(0, 0, 0, uint16_t(800), uint16_t(600));
+
+			if (pDev->m_params.Program)
+				pDev->m_params.Program->Update();
 
 			// This dummy draw call is here to make sure that view 0 is cleared
 			// if no other draw calls are submitted to view 0.

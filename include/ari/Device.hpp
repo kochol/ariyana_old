@@ -18,16 +18,18 @@ namespace ftl
 namespace ari
 {
 	class SdlWindow;
+	class IProgram;
 
 	struct InitParams
 	{
-		InitParams(): Height(600), Width(800), FullScreen(false)
+		InitParams(): Height(600), Width(800), FullScreen(false), Program(nullptr)
 		{}
 
 		uint32_t Height,
 				 Width;
 
 		bool FullScreen;
+		IProgram* Program;
 
 	}; // InitParams
 

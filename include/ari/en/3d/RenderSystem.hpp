@@ -5,6 +5,7 @@
 namespace bgfx
 {
 	struct VertexDecl;
+	struct ProgramHandle;
 }
 
 namespace ari
@@ -37,6 +38,7 @@ namespace ari
 	protected:
 
 		bgfx::VertexDecl	*	m_pVertexDeclArray;
+		bgfx::ProgramHandle	*	m_Program;
 	};
 	
 } // ari
