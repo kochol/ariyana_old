@@ -17,6 +17,8 @@ namespace ari
 
 		virtual int Shutdown() = 0;
 
+		tinystl::string GetProgramName() const { return m_sProgramName; }
+
 	protected:
 
 		tinystl::string m_sProgramName;

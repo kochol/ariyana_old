@@ -1,5 +1,5 @@
 #include "SdlWindow.hpp"
-
+#include "../../../include/ari/Program.hpp"
 #include <SDL2/SDL.h>
 #include <string>
 #include <spdlog/logger.h>
@@ -98,9 +98,12 @@ namespace ari
 
 		m_mx = m_my = 0;
 		m_params = params;
+		char* windowName = "Ariyana";
+		if (params.Program)
+			windowName = (char*)params.Program->GetProgramName().c_str();
 
 		m_windowAlloc.alloc();
-		m_window[0] = SDL_CreateWindow("Ariyana"
+		m_window[0] = SDL_CreateWindow(windowName
 			, SDL_WINDOWPOS_UNDEFINED
 			, SDL_WINDOWPOS_UNDEFINED
 			, params.Width
