@@ -5,12 +5,15 @@
 namespace ari
 {
 	class Camera;
+	class BoxShape;
 
 	class ARI_API SceneSystem: public System,
 		public EventSubscriber<events::OnEntityCreated>,
 		public EventSubscriber<events::OnEntityDestroyed>,
 		public EventSubscriber<events::OnComponentAssigned<Camera>>,
-		public EventSubscriber<events::OnComponentRemoved<Camera>>
+		public EventSubscriber<events::OnComponentRemoved<Camera>>,
+		public EventSubscriber<events::OnComponentAssigned<BoxShape>>,
+		public EventSubscriber<events::OnComponentRemoved<BoxShape>>
 	{
 	public:
 
@@ -28,6 +31,8 @@ namespace ari
 		void Receive(World* world, const events::OnEntityDestroyed& event) override;
 		void Receive(World* world, const events::OnComponentAssigned<Camera>& event) override;
 		void Receive(World* world, const events::OnComponentRemoved<Camera>& event) override;
+		void Receive(World* world, const events::OnComponentAssigned<BoxShape>& event) override;
+		void Receive(World* world, const events::OnComponentRemoved<BoxShape>& event) override;
 
 	protected:
 

@@ -13,7 +13,7 @@ namespace ari
 
 		virtual void Init() = 0;
 
-		virtual bool Update() = 0;
+		virtual bool Update(uint32_t frame_number, float elasped) = 0;
 
 		virtual int Shutdown() = 0;
 

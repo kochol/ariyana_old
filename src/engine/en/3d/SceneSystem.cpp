@@ -28,6 +28,8 @@ namespace ari
 		p_world->subscribe<events::OnEntityDestroyed>(this);
 		p_world->subscribe<events::OnComponentAssigned<Camera>>(this);
 		p_world->subscribe<events::OnComponentRemoved<Camera>>(this);
+		p_world->subscribe<events::OnComponentAssigned<BoxShape>>(this);
+		p_world->subscribe<events::OnComponentRemoved<BoxShape>>(this);
 	}
 
 	void SceneSystem::Unconfigure(World * p_world)
@@ -60,4 +62,11 @@ namespace ari
 		}
 	}
 
+	void SceneSystem::Receive(World* world, const events::OnComponentAssigned<BoxShape>& event)
+	{
+	}
+
+	void SceneSystem::Receive(World* world, const events::OnComponentRemoved<BoxShape>& event)
+	{
+	}
 } // ari

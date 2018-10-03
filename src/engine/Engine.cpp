@@ -6,22 +6,23 @@
 #include <bgfx/bgfx.h>
 #include <bx/thread.h>
 #include <ftl/task_scheduler.h>
+#include <bx/timer.h>
 
 namespace ari
 {
-	Engine* g_pDevice = nullptr;
+	Engine* g_pEngine = nullptr;
 
-	Engine::Engine() : m_pWindow(nullptr), m_pGfxThread(nullptr)
+	Engine::Engine() : m_pWindow(nullptr), m_pGfxThread(nullptr), m_frame_number(0)
 	{
 		Logger = spdlog::stdout_color_mt("main");
-		g_pDevice = this;
+		g_pEngine = this;
 		m_pTaskMgr = new ftl::TaskScheduler();
 	}
 
 	Engine::~Engine()
 	{
 		delete m_pWindow;
-		g_pDevice = nullptr;
+		g_pEngine = nullptr;
 		delete m_pTaskMgr;
 		m_pGfxThread->shutdown();
 		delete m_pGfxThread;
@@ -29,7 +30,7 @@ namespace ari
 
 	Engine & Engine::GetSingleton()
 	{
-		return *g_pDevice;
+		return *g_pEngine;
 	}
 
 	bool Engine::Init(InitParams params)
@@ -59,17 +60,15 @@ namespace ari
 
 	int Engine::InitBgfxInThread(bx::Thread * _thread, void * _userData)
 	{
-		Engine* pDev = static_cast<Engine*>(_userData);
-
 		// Init bgfx
 		bgfx::Init init;
-		init.resolution.width = pDev->m_params.Width;
-		init.resolution.height = pDev->m_params.Height;
-		init.resolution.reset = pDev->m_reset;
+		init.resolution.width = g_pEngine->m_params.Width;
+		init.resolution.height = g_pEngine->m_params.Height;
+		init.resolution.reset = g_pEngine->m_reset;
 		bgfx::init(init);
 
 		// Enable debug text.
-		bgfx::setDebug(pDev->m_debug);
+		bgfx::setDebug(g_pEngine->m_debug);
 
 		// Set view 0 clear state.
 		bgfx::setViewClear(0
@@ -79,22 +78,26 @@ namespace ari
 			, 0
 		);
 
-		if (pDev->m_params.Program)
-			pDev->m_params.Program->Init();
+		if (g_pEngine->m_params.Program)
+			g_pEngine->m_params.Program->Init();
+		
+		g_pEngine->m_time_offset = bx::getHPCounter();
 
 		while (true)
 		{
 			// Set view 0 default viewport.
 			bgfx::setViewRect(0, 0, 0, uint16_t(800), uint16_t(600));
 
-			if (pDev->m_params.Program)
-				pDev->m_params.Program->Update();
+			float time = (float)((bx::getHPCounter() - g_pEngine->m_time_offset) / double(bx::getHPFrequency()));
+
+			if (g_pEngine->m_params.Program)
+				g_pEngine->m_params.Program->Update(g_pEngine->m_frame_number, time);
 
 			// This dummy draw call is here to make sure that view 0 is cleared
 			// if no other draw calls are submitted to view 0.
 			bgfx::touch(0);
 
-			bgfx::frame();
+			g_pEngine->m_frame_number = bgfx::frame();
 		}
 		return 0;
 	}

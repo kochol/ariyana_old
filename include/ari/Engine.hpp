@@ -59,10 +59,14 @@ namespace ari
 		std::shared_ptr<spdlog::logger> Logger;
 		SdlWindow	*					m_pWindow;
 		InitParams						m_params;
-		uint32_t						m_debug, m_reset;
+		uint32_t						m_debug, m_reset, m_frame_number;
+		int64_t							m_time_offset;
 		bx::Thread					*	m_pGfxThread;
 		ftl::TaskScheduler			*	m_pTaskMgr;
 
 	}; // Engine
+
+	extern ARI_API Engine* g_pEngine;
+
 }
 

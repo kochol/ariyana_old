@@ -27,17 +27,21 @@ namespace ari
 
 	void World::AddEntity(Entity * p_entity)
 	{
+		assert(p_entity->GetType() == Node::Type::Entity);
 		Entities.push_back(p_entity);
 		p_entity->m_pWorld = this;
+		emit<events::OnEntityCreated>({ p_entity });
 	}
 
 	void World::RemoveEntity(Entity* p_entity)
 	{
+		assert(p_entity->GetType() == Node::Type::Entity);
 		int c = 0;
 		for (auto e: Entities)
 		{
 			if (e == p_entity)
 			{
+				emit<events::OnEntityDestroyed>({ p_entity });
 				e->m_pWorld = nullptr;
 				Entities.erase(Entities.begin() + c);
 				return;
