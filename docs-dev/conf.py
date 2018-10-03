@@ -24,7 +24,7 @@ copyright = u'2018, Ali Akbar Mohammadi'
 author = u'Ali Akbar Mohammadi'
 
 # The short X.Y version
-version = u''
+version = u'0.1'
 # The full version, including alpha/beta/rc tags
 release = u'0.1'
 

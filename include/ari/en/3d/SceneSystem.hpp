@@ -1,6 +1,8 @@
 #pragma once
 #include "../System.hpp"
 #include "../EventSubscriber.hpp"
+#include "tinystl/vector.h"
+#include "../../gfx/FrameData.hpp"
 
 namespace ari
 {
@@ -37,6 +39,9 @@ namespace ari
 	protected:
 
 		Camera * m_pActiveCamera;
+		tinystl::vector<FrameData*>	m_FrameDatasUnused,			// This is the unused frame data pointers
+									m_FrameDatasTransforms,		// This is the transform calculated nodes
+									m_FrameDatasVisible;		// This is the visible nodes that must be rendered.
 
 	}; // SceneSystem
 	

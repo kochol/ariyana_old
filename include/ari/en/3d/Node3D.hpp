@@ -10,7 +10,7 @@ namespace ari
 	public:
 
 		//! Constructor
-		Node3D(): Scale(1.0f, 1.0f, 1.0f) { }
+		Node3D() : Scale(1.0f, 1.0f, 1.0f) { IsFromNode3D = true; }
 
 		//! Destructor
 		virtual ~Node3D() = default;

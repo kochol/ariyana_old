@@ -12,6 +12,8 @@ namespace ari
 
 		//! Destructor
 		virtual ~Component() = default;
+
+		bool IsFromNode3D;
 		
 	}; // Component
 

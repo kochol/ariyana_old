@@ -15,6 +15,9 @@ namespace ari
 
 	void SceneSystem::Update(World* p_world, float tick)
 	{
+		// Get all entities
+		const auto& entities = p_world->GetAllEntities();
+
 		if (m_pActiveCamera)
 		{
 			bx::mtxLookAt(m_pActiveCamera->_view.v, m_pActiveCamera->Position.v,

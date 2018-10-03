@@ -85,6 +85,7 @@ namespace ari
 		//! Returns the parent Entity in the tree
 		Entity* GetParentEntity() const;
 
+		const tinystl::vector<Node*>& GetChildren() const { return m_vChilds; }
 
 	protected:
 
