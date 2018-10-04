@@ -2,6 +2,7 @@
 
 #include "../Component.hpp"
 #include "../../math/Vector.hpp"
+#include "../../math/Matrix.hpp"
 
 namespace ari
 {
@@ -18,6 +19,8 @@ namespace ari
 		Vector3 Position,
 			Rotation,
 			Scale;
+
+		Matrix _finalMat;
 
 	}; // Node3D
 	

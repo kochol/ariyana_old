@@ -1,5 +1,6 @@
 #include "../../../../include/ari/en/3d/SceneSystem.hpp"
 #include "../../../../include/ari/en/World.hpp"
+#include "../../../../include/ari/en/Entity.hpp"
 #include "../../../../include/ari/en/3d/Camera.hpp"
 #include "../../../../deps/bgfx/src/renderer_mtl.h"
 
@@ -15,8 +16,12 @@ namespace ari
 
 	void SceneSystem::Update(World* p_world, float tick)
 	{
-		// Get all entities
+		// Get all entities and calc transforms
 		const auto& entities = p_world->GetAllEntities();
+		for (auto e: entities)
+		{
+			CalcTransform(e, nullptr);
+		}
 
 		if (m_pActiveCamera)
 		{
@@ -71,5 +76,28 @@ namespace ari
 
 	void SceneSystem::Receive(World* world, const events::OnComponentRemoved<BoxShape>& event)
 	{
+	}
+
+	void SceneSystem::CalcTransform(Node* node, Matrix* parentMat)
+	{
+		if (node->GetType() == Node::Type::Component)
+		{
+			Component* c = static_cast<Component*>(node);
+			if (c->IsFromNode3D)
+			{
+				Node3D* n = static_cast<Node3D*>(node);
+				Matrix m;
+				m.SetTransform(n->Position, n->Rotation, n->Scale);
+				if (parentMat)
+					n->_finalMat = (*parentMat) * m;
+				else
+					n->_finalMat = m;
+				parentMat = &n->_finalMat;
+			}
+		}
+		for (auto child: node->GetChildren())
+		{
+			CalcTransform(child, parentMat);
+		}
 	}
 } // ari

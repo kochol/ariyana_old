@@ -43,6 +43,8 @@ namespace ari
 									m_FrameDatasTransforms,		// This is the transform calculated nodes
 									m_FrameDatasVisible;		// This is the visible nodes that must be rendered.
 
+		void CalcTransform(Node* node, Matrix* parentMat);
+
 	}; // SceneSystem
 	
 } // ari
