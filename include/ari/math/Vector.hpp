@@ -8,6 +8,13 @@ namespace ari
 
 		Vector3(const float _x, const float _y, const float _z): x(_x), y(_y), z(_z) { }
 
+		void Set(const float _x, const float _y, const float _z)
+		{
+			x = _x;
+			y = _y;
+			z = _z;
+		}
+
 		union
 		{
 			float v[3];

@@ -41,7 +41,7 @@ namespace ari
 			if (child->m_eNodeType == Type::Component)
 			{
 				assert(m_pWorld);
-				m_pWorld->emit<events::OnComponentAssigned<T>>({ GetParentEntity(), static_cast<T*>(this) });
+				m_pWorld->emit<events::OnComponentAssigned<T>>({ child->GetParentEntity(), static_cast<T*>(child) });
 			}
 
 		} // AddChild

@@ -27,6 +27,7 @@ namespace ari
 		{
 			bx::mtxLookAt(m_pActiveCamera->_view.v, m_pActiveCamera->Position.v,
 				m_pActiveCamera->Target.v, m_pActiveCamera->Up.v);
+			bx::mtxProj(m_pActiveCamera->_proj.v, 0.5f, 640.0f / 480.0f, 1.0f, 1000.0f, false);
 		}
 	}
 
