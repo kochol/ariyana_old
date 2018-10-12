@@ -2,7 +2,7 @@
 #include "../../../../include/ari/en/World.hpp"
 #include "../../../../include/ari/en/Entity.hpp"
 #include "../../../../include/ari/en/3d/Camera.hpp"
-#include "../../../../deps/bgfx/src/renderer_mtl.h"
+#include <bx/math.h>
 
 namespace ari
 {
