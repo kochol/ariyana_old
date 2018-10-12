@@ -12,7 +12,8 @@ namespace ari
 {
 	Engine* g_pEngine = nullptr;
 
-	Engine::Engine() : m_pWindow(nullptr), m_pGfxThread(nullptr), m_frame_number(0)
+	Engine::Engine() : m_pWindow(nullptr), m_debug(0), m_reset(0), 
+		m_frame_number(0), m_time_offset(0), m_pGfxThread(nullptr)
 	{
 		Logger = spdlog::stdout_color_mt("main");
 		g_pEngine = this;

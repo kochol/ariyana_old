@@ -22,7 +22,7 @@ namespace ari
 		delete m_Program;
 	}
 
-	void RenderSystem::Update(World * p_world, float tick)
+	void RenderSystem::Update(World * p_world, UpdateState state)
 	{
 	} // Update
 
@@ -64,6 +64,17 @@ namespace ari
 		p_world->unsubscribeAll(this);
 
 	} // Unconfigure
+
+	bool RenderSystem::NeedUpdateOnState(UpdateState state)
+	{
+		switch (state)
+		{
+		case UpdateState::GameplayState:
+			return true;
+		default:
+			return false;
+		}
+	}
 
 	void RenderSystem::Receive(World * world, const events::OnComponentAssigned<BoxShape>& event)
 	{

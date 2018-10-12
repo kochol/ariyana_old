@@ -14,20 +14,23 @@ namespace ari
 	{
 	}
 
-	void SceneSystem::Update(World* p_world, float tick)
+	void SceneSystem::Update(World* p_world, UpdateState state)
 	{
-		// Get all entities and calc transforms
-		const auto& entities = p_world->GetAllEntities();
-		for (auto e: entities)
+		if (state == UpdateState::SceneManagerState)
 		{
-			CalcTransform(e, nullptr);
-		}
+			// Get all entities and calc transforms
+			const auto& entities = p_world->GetAllEntities();
+			for (auto e : entities)
+			{
+				CalcTransform(e, nullptr);
+			}
 
-		if (m_pActiveCamera)
-		{
-			bx::mtxLookAt(m_pActiveCamera->_view.v, m_pActiveCamera->Position.v,
-				m_pActiveCamera->Target.v, m_pActiveCamera->Up.v);
-			bx::mtxProj(m_pActiveCamera->_proj.v, 0.5f, 640.0f / 480.0f, 1.0f, 1000.0f, false);
+			if (m_pActiveCamera)
+			{
+				bx::mtxLookAt(m_pActiveCamera->_view.v, m_pActiveCamera->Position.v,
+					m_pActiveCamera->Target.v, m_pActiveCamera->Up.v);
+				bx::mtxProj(m_pActiveCamera->_proj.v, 0.5f, 640.0f / 480.0f, 1.0f, 1000.0f, false);
+			}
 		}
 	}
 
@@ -44,6 +47,18 @@ namespace ari
 	void SceneSystem::Unconfigure(World * p_world)
 	{
 		p_world->unsubscribeAll(this);
+	}
+
+	bool SceneSystem::NeedUpdateOnState(UpdateState state)
+	{
+		switch (state)
+		{
+		case UpdateState::GameplayState:
+		case UpdateState::SceneManagerState:
+			return true;
+		default:
+			return false;
+		}
 	}
 
 	void SceneSystem::Receive(World * world, const events::OnEntityCreated & event)

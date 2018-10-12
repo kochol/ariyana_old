@@ -5,6 +5,11 @@
 #include <algorithm>
 #include <unordered_map>
 
+namespace ftl
+{
+	class TaskScheduler;
+}
+
 namespace ari
 {
 	class System;
@@ -15,10 +20,10 @@ namespace ari
 	public:
 
 		//! Constructor
-		World() = default;
+		World();
 
 		//! Destructor
-		~World() = default;
+		~World();
 
 		/**
 		 * Add a new system to the world
@@ -125,6 +130,7 @@ namespace ari
 			tinystl::vector<Internal::BaseEventSubscriber*>> subscribers;
 		tinystl::vector<System*> systems;
 		tinystl::vector<Entity*> Entities;
+		ftl::TaskScheduler	*	m_pTaskScheduler;
 
 	}; // World
 

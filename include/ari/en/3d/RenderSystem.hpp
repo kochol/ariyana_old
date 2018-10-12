@@ -27,9 +27,14 @@ namespace ari
 		RenderSystem();
 		~RenderSystem();
 
-		void Update(World* p_world, float tick) override;
+		void Update(World* p_world, UpdateState state) override;
 		void Configure(World* p_world) override;
 		void Unconfigure(World* p_world) override;
+		Type GetSystemType() override
+		{
+			return Type::RenderSystem;
+		}
+		bool NeedUpdateOnState(UpdateState state) override;
 
 		void Receive(World* world, const events::OnComponentAssigned<BoxShape>& event) override;
 
