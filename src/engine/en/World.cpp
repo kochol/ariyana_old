@@ -87,7 +87,7 @@ namespace ari
 	//   T A S K   F U N C T I O N S
 	//---------------------------------------------------------
 
-	World::World()
+	World::World(): m_UpdateType(UpdateType::Async)
 	{
 		m_pTaskScheduler = new ftl::TaskScheduler();
 
@@ -147,8 +147,20 @@ namespace ari
 
 	void World::Update(float tick)
 	{
-		MainTaskArg arg = { this, systems };
-		m_pTaskScheduler->Run(25, MainTask, &arg);
+		if (m_UpdateType == UpdateType::Sync)
+		{
+			for (auto s : systems)
+				if (s->NeedUpdateOnState(System::UpdateState::GameplayState))
+					s->Update(this, System::UpdateState::GameplayState);
+			for (auto s: systems)
+				if (s->NeedUpdateOnState(System::UpdateState::SceneManagerState))
+					s->Update(this, System::UpdateState::SceneManagerState);
+		}
+		else if (m_UpdateType == UpdateType::Async)
+		{
+			MainTaskArg arg = { this, systems };
+			m_pTaskScheduler->Run(25, MainTask, &arg);
+		}
 	}
 
 } // ari

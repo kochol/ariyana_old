@@ -19,11 +19,21 @@ namespace ari
 	{
 	public:
 
+		enum class UpdateType
+		{
+			Sync,
+			Async
+		};
+
 		//! Constructor
 		World();
 
 		//! Destructor
 		~World();
+
+		void SetUpdateType(UpdateType type) { m_UpdateType = type; }
+
+		UpdateType GetUpdateType() const { return m_UpdateType; }
 
 		/**
 		 * Add a new system to the world
@@ -131,6 +141,7 @@ namespace ari
 		tinystl::vector<System*> systems;
 		tinystl::vector<Entity*> Entities;
 		ftl::TaskScheduler	*	m_pTaskScheduler;
+		UpdateType				m_UpdateType;
 
 	}; // World
 
