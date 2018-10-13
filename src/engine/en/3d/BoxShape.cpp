@@ -49,6 +49,10 @@ namespace ari
 		6, 3, 7,
 	};
 
+	void BoxShape::Render(const Matrix & matrix)
+	{
+	}
+
 	void BoxShape::Init(RenderSystem * render_system)
 	{
 		if (!bgfx::isValid(m_sVBPos))

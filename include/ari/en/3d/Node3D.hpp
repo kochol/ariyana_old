@@ -11,16 +11,20 @@ namespace ari
 	public:
 
 		//! Constructor
-		Node3D() : Scale(1.0f, 1.0f, 1.0f) { IsFromNode3D = true; }
+		Node3D() : Scale(1.0f, 1.0f, 1.0f), _isRenderable(false) { _isFromNode3D = true; }
 
 		//! Destructor
 		virtual ~Node3D() = default;
+
+		//! Render
+		virtual void Render(const Matrix& matrix) { }
 
 		Vector3 Position,
 			Rotation,
 			Scale;
 
 		Matrix _finalMat;
+		bool _isRenderable;
 
 	}; // Node3D
 	

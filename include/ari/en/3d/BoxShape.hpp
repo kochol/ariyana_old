@@ -16,10 +16,13 @@ namespace ari
 	public:
 
 		// Constructor
-		BoxShape() = default;
+		BoxShape() { _isRenderable = true; }
 
 		//! Destructor
 		virtual ~BoxShape() = default;
+
+		//! Render
+		virtual void Render(const Matrix& matrix);
 
 		static void Init(RenderSystem* render_system);
 		static void Shutdown();

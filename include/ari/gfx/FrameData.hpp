@@ -8,11 +8,11 @@ namespace ari
 	class ARI_API FrameData
 	{
 	public:
-		FrameData(): RenderNode(nullptr), FrameNumber(0)
+		FrameData(): FrameNumber(0)
 		{}
 
-		Node3D * RenderNode;
-		Matrix World;
+		tinystl::vector<Node3D*> Nodes;
+		tinystl::vector<Matrix> WorldMatrices;
 		uint32_t FrameNumber;
 		
 	}; // FrameData

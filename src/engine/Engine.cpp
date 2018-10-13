@@ -16,6 +16,7 @@ namespace ari
 		m_frame_number(0), m_time_offset(0), m_pGfxThread(nullptr)
 	{
 		Logger = spdlog::stdout_color_mt("main");
+		Logger->set_level(spdlog::level::trace);
 		g_pEngine = this;
 		m_pTaskMgr = new ftl::TaskScheduler();
 	}
@@ -98,7 +99,8 @@ namespace ari
 			// if no other draw calls are submitted to view 0.
 			bgfx::touch(0);
 
-			g_pEngine->m_frame_number = bgfx::frame();
+			bgfx::frame();
+			g_pEngine->m_frame_number++;
 		}
 		return 0;
 	}

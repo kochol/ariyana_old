@@ -3,6 +3,8 @@
 #include "../../../../include/ari/en/Entity.hpp"
 #include "../../../../include/ari/en/3d/Camera.hpp"
 #include <bx/math.h>
+#include "../../../../include/ari/Engine.hpp"
+#include <spdlog/logger.h>
 
 namespace ari
 {
@@ -18,6 +20,11 @@ namespace ari
 	{
 		if (state == UpdateState::SceneManagerState)
 		{
+			static int cc = 0;
+			m_FrameDatasTransforms = new FrameData;
+			m_FrameDatasTransforms->FrameNumber = g_pEngine->GetCurrentFrameNumber();
+			g_pEngine->GetLogger()->debug("{0} {1}", m_FrameDatasTransforms->FrameNumber, cc);
+			cc++;
 			// Get all entities and calc transforms
 			const auto& entities = p_world->GetAllEntities();
 			for (auto e : entities)
@@ -98,10 +105,10 @@ namespace ari
 	{
 		if (node->GetType() == Node::Type::Component)
 		{
-			Component* c = static_cast<Component*>(node);
-			if (c->IsFromNode3D)
+			Component* c = reinterpret_cast<Component*>(node);
+			if (c->_isFromNode3D)
 			{
-				Node3D* n = static_cast<Node3D*>(node);
+				Node3D* n = reinterpret_cast<Node3D*>(node);
 				Matrix m;
 				m.SetTransform(n->Position, n->Rotation, n->Scale);
 				if (parentMat)
@@ -109,6 +116,13 @@ namespace ari
 				else
 					n->_finalMat = m;
 				parentMat = &n->_finalMat;
+
+				if (n->_isRenderable)
+				{
+					// Add it to frame data
+					m_FrameDatasTransforms->Nodes.push_back(n);
+					m_FrameDatasTransforms->WorldMatrices.push_back(n->_finalMat);
+				}
 			}
 		}
 		for (auto child: node->GetChildren())

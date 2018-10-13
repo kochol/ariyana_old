@@ -44,9 +44,9 @@ namespace ari
 	protected:
 
 		Camera * m_pActiveCamera;
-		tinystl::vector<FrameData*>	m_FrameDatasUnused,			// This is the unused frame data pointers
-									m_FrameDatasTransforms,		// This is the transform calculated nodes
-									m_FrameDatasVisible;		// This is the visible nodes that must be rendered.
+		FrameData	*	m_FrameDatasUnused,			// This is the unused frame data pointers
+					*	m_FrameDatasTransforms,		// This is the transform calculated nodes
+					*	m_FrameDatasVisible;		// This is the visible nodes that must be rendered.
 
 		void CalcTransform(Node* node, Matrix* parentMat);
 

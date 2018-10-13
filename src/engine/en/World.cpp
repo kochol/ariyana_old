@@ -35,7 +35,9 @@ namespace ari
 			reinterpret_cast<MainTaskArg*>(arg);
 
 		// Start the Gameplay state tasks
-		ftl::AtomicCounter gameplayCounter(taskScheduler);
+		ftl::AtomicCounter gameplayCounter(taskScheduler),
+			inCounter(taskScheduler),
+			sceneCounter(taskScheduler);
 		tinystl::vector<ftl::Task> gameplay_tasks,
 			independent_tasks,
 			scene_tasks;
@@ -70,12 +72,15 @@ namespace ari
 		if (!gameplay_tasks.empty())
 			taskScheduler->AddTasks(gameplay_tasks.size(), &gameplay_tasks[0], &gameplayCounter);
 		if (!independent_tasks.empty())
-			taskScheduler->AddTasks(independent_tasks.size(), &independent_tasks[0]);
+			taskScheduler->AddTasks(independent_tasks.size(), &independent_tasks[0], &inCounter);
 
 		// Wait for gameplay tasks to start scene manager tasks
 		taskScheduler->WaitForCounter(&gameplayCounter, 0);
 		if (!scene_tasks.empty())
-			taskScheduler->AddTasks(scene_tasks.size(), &scene_tasks[0]);
+			taskScheduler->AddTasks(scene_tasks.size(), &scene_tasks[0], &sceneCounter);
+
+		taskScheduler->WaitForCounter(&sceneCounter, 0);
+		taskScheduler->WaitForCounter(&inCounter, 0);
 
 	}
 

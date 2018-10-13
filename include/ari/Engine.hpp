@@ -50,6 +50,8 @@ namespace ari
 
 		bool Run();
 
+		uint32_t GetCurrentFrameNumber() const { return m_frame_number; }
+
 		std::shared_ptr<spdlog::logger> GetLogger() const { return  Logger; }
 
 	protected:
