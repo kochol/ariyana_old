@@ -13,7 +13,8 @@ namespace ari
 	class BoxShape;
 
 	class ARI_API RenderSystem: public System,
-		public EventSubscriber<events::OnComponentAssigned<BoxShape>>
+		public EventSubscriber<events::OnComponentAssigned<BoxShape>>,
+		public EventSubscriber<events::OnFrameData>
 	{
 	public:
 
@@ -37,13 +38,18 @@ namespace ari
 		bool NeedUpdateOnState(UpdateState state) override;
 
 		void Receive(World* world, const events::OnComponentAssigned<BoxShape>& event) override;
+		void Receive(World* world, const events::OnFrameData& event) override;
 
 		bgfx::VertexDecl* GetVertexDecl(VertexType vertex_type) const;
 
+		bgfx::ProgramHandle* GetProgram() const { return m_Program; }
+		
 	protected:
 
 		bgfx::VertexDecl	*	m_pVertexDeclArray;
 		bgfx::ProgramHandle	*	m_Program;
+		FrameData			*	m_pFrameDataCurrent,
+							*	m_pFrameDataNext;
 	};
 	
 } // ari

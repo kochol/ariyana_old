@@ -1,13 +1,13 @@
 #pragma once
 #include "../System.hpp"
 #include "../EventSubscriber.hpp"
-#include "tinystl/vector.h"
 #include "../../gfx/FrameData.hpp"
 
 namespace ari
 {
 	class Camera;
 	class BoxShape;
+	class Node;
 
 	class ARI_API SceneSystem: public System,
 		public EventSubscriber<events::OnEntityCreated>,

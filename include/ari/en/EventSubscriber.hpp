@@ -7,6 +7,7 @@ namespace ari
 	class World;
 	class Entity;
 	class Component;
+	class FrameData;
 
 	namespace Internal
 	{
@@ -75,6 +76,15 @@ namespace ari
 			Entity* entity;
 			T* component;
 		};
+
+		struct OnFrameData
+		{
+			ARI_DECLARE_TYPE;
+
+			FrameData* frame_data;
+
+		};
+
 	} // events
 
 } // ari

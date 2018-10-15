@@ -8,6 +8,7 @@ namespace ari
 	bgfx::VertexBufferHandle BoxShape::m_sVBPos BGFX_INVALID_HANDLE;
 	bgfx::VertexBufferHandle BoxShape::m_sVBColor BGFX_INVALID_HANDLE;
 	bgfx::IndexBufferHandle	BoxShape::m_sIB BGFX_INVALID_HANDLE;
+	bgfx::ProgramHandle BoxShape::m_sProgram BGFX_INVALID_HANDLE;
 
 	static PosVertex s_cubePosVertices[] =
 	{
@@ -51,6 +52,11 @@ namespace ari
 
 	void BoxShape::Render(const Matrix & matrix)
 	{
+		bgfx::setTransform(matrix.v);
+		bgfx::setVertexBuffer(0, m_sVBPos);
+		bgfx::setVertexBuffer(1, m_sVBColor);
+		bgfx::setIndexBuffer(m_sIB);
+		bgfx::submit(0, m_sProgram);
 	}
 
 	void BoxShape::Init(RenderSystem * render_system)
@@ -75,6 +81,8 @@ namespace ari
 				// Static data can be passed with bgfx::makeRef
 				bgfx::makeRef(s_cubeTriList, sizeof(s_cubeTriList))
 			);
+
+			m_sProgram = *render_system->GetProgram();
 		}
 	}
 

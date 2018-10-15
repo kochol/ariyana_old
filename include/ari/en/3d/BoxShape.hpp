@@ -5,6 +5,7 @@ namespace bgfx
 {
 	struct VertexBufferHandle;
 	struct IndexBufferHandle;
+	struct ProgramHandle;
 }
 
 namespace ari
@@ -30,6 +31,7 @@ namespace ari
 		static bgfx::VertexBufferHandle m_sVBPos;
 		static bgfx::VertexBufferHandle m_sVBColor;
 		static bgfx::IndexBufferHandle	m_sIB;
+		static bgfx::ProgramHandle		m_sProgram;
 
 	}; // BoxShape
 }

@@ -5,10 +5,12 @@
 #include <bx/math.h>
 #include "../../../../include/ari/Engine.hpp"
 #include <spdlog/logger.h>
+#include "bgfx/bgfx.h"
 
 namespace ari
 {
-	SceneSystem::SceneSystem(): m_pActiveCamera(nullptr)
+	SceneSystem::SceneSystem(): m_pActiveCamera(nullptr), m_FrameDatasUnused(nullptr), m_FrameDatasTransforms(nullptr),
+	                            m_FrameDatasVisible(nullptr)
 	{
 	}
 
@@ -21,8 +23,14 @@ namespace ari
 		if (state == UpdateState::SceneManagerState)
 		{
 			static int cc = 0;
+			if (m_FrameDatasTransforms)
+			{
+				events::OnFrameData frame_data = { m_FrameDatasTransforms };
+				p_world->emit(frame_data);
+			}
 			m_FrameDatasTransforms = new FrameData;
 			m_FrameDatasTransforms->FrameNumber = g_pEngine->GetCurrentFrameNumber();
+			m_FrameDatasTransforms->Camera = m_pActiveCamera;
 			g_pEngine->GetLogger()->debug("{0} {1}", m_FrameDatasTransforms->FrameNumber, cc);
 			cc++;
 			// Get all entities and calc transforms
@@ -36,7 +44,7 @@ namespace ari
 			{
 				bx::mtxLookAt(m_pActiveCamera->_view.v, m_pActiveCamera->Position.v,
 					m_pActiveCamera->Target.v, m_pActiveCamera->Up.v);
-				bx::mtxProj(m_pActiveCamera->_proj.v, 0.5f, 640.0f / 480.0f, 1.0f, 1000.0f, false);
+				bx::mtxProj(m_pActiveCamera->_proj.v, 60.0f, 800.0f / 600.0f, 1.0f, 1000.0f, bgfx::getCaps()->homogeneousDepth);
 			}
 		}
 	}

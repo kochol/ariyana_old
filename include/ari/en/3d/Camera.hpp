@@ -10,7 +10,7 @@ namespace ari
 	public:
 
 		//! Constructor
-		Camera() : _isActive(false) { }
+		Camera() : _isActive(false), Up(0.0f, 1.0f, 0.0f) { }
 
 		//! Destructor
 		virtual ~Camera() = default;

@@ -75,7 +75,7 @@ namespace ari
 		// Set view 0 clear state.
 		bgfx::setViewClear(0
 			, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH
-			, 0xff3030ff
+			, 0x00000000
 			, 1.0f
 			, 0
 		);
@@ -90,14 +90,14 @@ namespace ari
 			// Set view 0 default viewport.
 			bgfx::setViewRect(0, 0, 0, uint16_t(800), uint16_t(600));
 
+			// This dummy draw call is here to make sure that view 0 is cleared
+			// if no other draw calls are submitted to view 0.
+			bgfx::touch(0);
+
 			float time = (float)((bx::getHPCounter() - g_pEngine->m_time_offset) / double(bx::getHPFrequency()));
 
 			if (g_pEngine->m_params.Program)
 				g_pEngine->m_params.Program->Update(g_pEngine->m_frame_number, time);
-
-			// This dummy draw call is here to make sure that view 0 is cleared
-			// if no other draw calls are submitted to view 0.
-			bgfx::touch(0);
 
 			bgfx::frame();
 			g_pEngine->m_frame_number++;

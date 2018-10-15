@@ -1,16 +1,18 @@
 #include "../../../../include/ari/en/3d/RenderSystem.hpp"
 #include "../../../../include/ari/en/3d/BoxShape.hpp"
+#include "../../../../include/ari/en/3d/Camera.hpp"
 #include "../../../../include/ari/en/World.hpp"
+#include "../../../../include/ari/gfx/FrameData.hpp"
 #include <bgfx/bgfx.h>
 #include <brtshaderc.h>
-#include "bx/filepath.h"
 #include "tinystl/string.h"
 
 namespace ari
 {
 	char* g_AssetDir = ASSETS_DIR;
 
-	RenderSystem::RenderSystem(): m_pVertexDeclArray(nullptr), m_Program(nullptr)
+	RenderSystem::RenderSystem(): m_pVertexDeclArray(nullptr), m_Program(nullptr), m_pFrameDataCurrent(nullptr),
+	                              m_pFrameDataNext(nullptr)
 	{
 	}
 
@@ -24,6 +26,21 @@ namespace ari
 
 	void RenderSystem::Update(World * p_world, UpdateState state)
 	{
+		m_pFrameDataCurrent = m_pFrameDataNext;
+		if (m_pFrameDataCurrent)
+		{
+			// Set the camera
+			if (m_pFrameDataCurrent->Camera)
+			{
+				bgfx::setViewTransform(0, m_pFrameDataCurrent->Camera->_view.v, 
+					m_pFrameDataCurrent->Camera->_proj.v);
+			}
+			for (size_t i = 0; i < m_pFrameDataCurrent->Nodes.size(); i++)
+			{
+				m_pFrameDataCurrent->Nodes[i]->Render(m_pFrameDataCurrent->WorldMatrices[i]);
+			}
+			delete m_pFrameDataCurrent;
+		}
 	} // Update
 
 	void RenderSystem::Configure(World * p_world)
@@ -56,6 +73,7 @@ namespace ari
 		*m_Program = bgfx::createProgram(vsh, fsh, true);
 
 		p_world->subscribe<events::OnComponentAssigned<BoxShape>>(this);
+		p_world->subscribe<events::OnFrameData>(this);
 
 	} // Configure
 
@@ -79,6 +97,11 @@ namespace ari
 	void RenderSystem::Receive(World * world, const events::OnComponentAssigned<BoxShape>& event)
 	{
 		BoxShape::Init(this);
+	}
+
+	void RenderSystem::Receive(World * world, const events::OnFrameData & event)
+	{	
+		m_pFrameDataNext = event.frame_data;		
 	}
 
 	bgfx::VertexDecl * RenderSystem::GetVertexDecl(VertexType vertex_type) const

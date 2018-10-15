@@ -1,10 +1,13 @@
 #pragma once
 #include "../aridef.hpp"
 #include "../math/Matrix.hpp"
-#include "../en/3d/Node3D.hpp"
+#include <tinystl/vector.h>
 
 namespace ari
 {
+	class Node3D;
+	class Camera;
+
 	class ARI_API FrameData
 	{
 	public:
@@ -14,6 +17,7 @@ namespace ari
 		tinystl::vector<Node3D*> Nodes;
 		tinystl::vector<Matrix> WorldMatrices;
 		uint32_t FrameNumber;
+		Camera* Camera;
 		
 	}; // FrameData
 
