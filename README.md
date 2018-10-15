@@ -1,7 +1,7 @@
 # Ariyana
 
-[![Contribute!](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/amerkoleci/alimer/issues)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/amerkoleci/alimer/blob/master/LICENSE)
+[![Contribute!](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/kochol/ariyana/issues)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/kochol/ariyana/blob/master/LICENSE)
 
 Ariyana is a WIP game engine that is planned to include these features.
 
