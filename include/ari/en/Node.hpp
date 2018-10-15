@@ -33,9 +33,10 @@ namespace ari
 
 		//! Adds a node as child.
 		template <class T>
-		void AddChild(T* child)
+		T* AddChild(T* child)
 		{
 			m_vChilds.push_back(child);
+			child->m_pWorld = m_pWorld;
 			child->SetParent(this);
 
 			if (child->m_eNodeType == Type::Component)
@@ -43,6 +44,8 @@ namespace ari
 				assert(m_pWorld);
 				m_pWorld->emit<events::OnComponentAssigned<T>>({ child->GetParentEntity(), static_cast<T*>(child) });
 			}
+
+			return child;
 
 		} // AddChild
 

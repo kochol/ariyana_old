@@ -22,7 +22,6 @@ namespace ari
 	{
 		if (state == UpdateState::SceneManagerState)
 		{
-			static int cc = 0;
 			if (m_FrameDatasTransforms)
 			{
 				events::OnFrameData frame_data = { m_FrameDatasTransforms };
@@ -31,8 +30,6 @@ namespace ari
 			m_FrameDatasTransforms = new FrameData;
 			m_FrameDatasTransforms->FrameNumber = g_pEngine->GetCurrentFrameNumber();
 			m_FrameDatasTransforms->Camera = m_pActiveCamera;
-			g_pEngine->GetLogger()->debug("{0} {1}", m_FrameDatasTransforms->FrameNumber, cc);
-			cc++;
 			// Get all entities and calc transforms
 			const auto& entities = p_world->GetAllEntities();
 			for (auto e : entities)
@@ -120,7 +117,7 @@ namespace ari
 				Matrix m;
 				m.SetTransform(n->Position, n->Rotation, n->Scale);
 				if (parentMat)
-					n->_finalMat = (*parentMat) * m;
+					n->_finalMat = m * (*parentMat);
 				else
 					n->_finalMat = m;
 				parentMat = &n->_finalMat;
