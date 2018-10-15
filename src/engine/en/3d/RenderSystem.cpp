@@ -58,13 +58,13 @@ namespace ari
 
 		// compile vertex shader, with default arguments.
 		tinystl::string shaderFile = g_AssetDir;
-		shaderFile.append("/shaders/basic/vs_basic.sc");
+		shaderFile.append("/shaders/basic/vs_basic.glsl");
 		const bgfx::Memory* memVsh = shaderc::compileShader(shaderc::ST_VERTEX, shaderFile.c_str());
 		bgfx::ShaderHandle vsh = bgfx::createShader(memVsh);
 
 		// compile fragment shader, with specific arguments for defines, varying def file, shader profile.
 		shaderFile = g_AssetDir;
-		shaderFile.append("/shaders/basic/fs_basic.sc");
+		shaderFile.append("/shaders/basic/fs_basic.glsl");
 		const bgfx::Memory* memFsh = shaderc::compileShader(shaderc::ST_FRAGMENT, shaderFile.c_str());
 		bgfx::ShaderHandle fsh = bgfx::createShader(memFsh);
 

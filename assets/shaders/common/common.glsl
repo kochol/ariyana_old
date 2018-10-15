@@ -3,5 +3,5 @@
  * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
  */
 
-#include "bgfx_shader.sh"
-#include "shaderlib.sh"
+#include "bgfx_shader.glsl"
+#include "shaderlib.glsl"
