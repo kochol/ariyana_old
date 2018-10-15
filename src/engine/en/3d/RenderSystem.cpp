@@ -26,20 +26,36 @@ namespace ari
 
 	void RenderSystem::Update(World * p_world, UpdateState state)
 	{
-		m_pFrameDataCurrent = m_pFrameDataNext;
-		if (m_pFrameDataCurrent)
+		if (state == UpdateState::MainThreadState)
 		{
-			// Set the camera
-			if (m_pFrameDataCurrent->Camera)
+			m_pFrameDataCurrent = m_pFrameDataNext;
+			if (m_pFrameDataCurrent)
+				// Set the camera
+				if (m_pFrameDataCurrent->Camera)
+				{
+					bgfx::setViewTransform(0, m_pFrameDataCurrent->Camera->_view.v,
+						m_pFrameDataCurrent->Camera->_proj.v);
+				}
+		}
+		else if (state == UpdateState::GameplayState)
+		{
+			bgfx::Encoder* encoder = nullptr;
+			if (p_world->GetUpdateType() == World::UpdateType::Async)
 			{
-				bgfx::setViewTransform(0, m_pFrameDataCurrent->Camera->_view.v, 
-					m_pFrameDataCurrent->Camera->_proj.v);
+				encoder = bgfx::begin();
 			}
-			for (size_t i = 0; i < m_pFrameDataCurrent->Nodes.size(); i++)
+			if (m_pFrameDataCurrent)
 			{
-				m_pFrameDataCurrent->Nodes[i]->Render(m_pFrameDataCurrent->WorldMatrices[i]);
+				for (size_t i = 0; i < m_pFrameDataCurrent->Nodes.size(); i++)
+				{
+					m_pFrameDataCurrent->Nodes[i]->Render(m_pFrameDataCurrent->WorldMatrices[i], encoder);
+				}
+				delete m_pFrameDataCurrent;
 			}
-			delete m_pFrameDataCurrent;
+			if (p_world->GetUpdateType() == World::UpdateType::Async)
+			{
+				bgfx::end(encoder);
+			}
 		}
 	} // Update
 
@@ -88,6 +104,7 @@ namespace ari
 		switch (state)
 		{
 		case UpdateState::GameplayState:
+		case UpdateState::MainThreadState:
 			return true;
 		default:
 			return false;

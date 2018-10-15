@@ -19,7 +19,8 @@ namespace ari
 		enum class UpdateState
 		{
 			GameplayState,
-			SceneManagerState
+			SceneManagerState,
+			MainThreadState
 		};
 
 		//! Constructor

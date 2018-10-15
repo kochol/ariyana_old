@@ -134,6 +134,8 @@ namespace ari
 
 		const tinystl::vector<Entity*>& GetAllEntities() const { return Entities; }
 
+		ftl::TaskScheduler* GetTaskScheduler() const { return m_pTaskScheduler; }
+
 	protected:
 
 		std::unordered_map<TypeIndex,

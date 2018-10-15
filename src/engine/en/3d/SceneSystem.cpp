@@ -134,5 +134,6 @@ namespace ari
 		{
 			CalcTransform(child, parentMat);
 		}
-	}
+	} // CalcTransform
+	
 } // ari

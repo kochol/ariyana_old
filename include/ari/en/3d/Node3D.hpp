@@ -4,6 +4,10 @@
 #include "../../math/Vector.hpp"
 #include "../../math/Matrix.hpp"
 
+namespace bgfx
+{
+	struct Encoder;
+}
 namespace ari
 {
 	class ARI_API Node3D: public Component
@@ -17,7 +21,7 @@ namespace ari
 		virtual ~Node3D() = default;
 
 		//! Render
-		virtual void Render(const Matrix& matrix) { }
+		virtual void Render(const Matrix& matrix, bgfx::Encoder* encoder) { }
 
 		Vector3 Position,
 			Rotation,

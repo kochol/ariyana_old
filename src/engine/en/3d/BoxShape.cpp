@@ -50,13 +50,24 @@ namespace ari
 		6, 3, 7,
 	};
 
-	void BoxShape::Render(const Matrix & matrix)
+	void BoxShape::Render(const Matrix & matrix, bgfx::Encoder* encoder)
 	{
-		bgfx::setTransform(matrix.v);
-		bgfx::setVertexBuffer(0, m_sVBPos);
-		bgfx::setVertexBuffer(1, m_sVBColor);
-		bgfx::setIndexBuffer(m_sIB);
-		bgfx::submit(0, m_sProgram);
+		if (encoder)
+		{
+			encoder->setTransform(matrix.v);
+			encoder->setVertexBuffer(0, m_sVBPos);
+			encoder->setVertexBuffer(1, m_sVBColor);
+			encoder->setIndexBuffer(m_sIB);
+			encoder->submit(0, m_sProgram);
+		}
+		else
+		{
+			bgfx::setTransform(matrix.v);
+			bgfx::setVertexBuffer(0, m_sVBPos);
+			bgfx::setVertexBuffer(1, m_sVBColor);
+			bgfx::setIndexBuffer(m_sIB);
+			bgfx::submit(0, m_sProgram);
+		}
 	}
 
 	void BoxShape::Init(RenderSystem * render_system)

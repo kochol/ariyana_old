@@ -147,6 +147,9 @@ namespace ari
 
 	void World::Update(float tick)
 	{
+		for (auto s : systems)
+			if (s->NeedUpdateOnState(System::UpdateState::MainThreadState))
+				s->Update(this, System::UpdateState::MainThreadState);
 		if (m_UpdateType == UpdateType::Sync)
 		{
 			for (auto s : systems)
