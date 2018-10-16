@@ -3,13 +3,14 @@ project ("ariengine")
 
 	includedirs {
 		path.join(BGFX_DIR, "include"),
+		path.join(BGFX_DIR, "3rdparty"),
 		path.join(BX_DIR,   "include"),
 		path.join(BIMG_DIR, "include"),
 		path.join(ARIDEPS_DIR, "FiberTaskingLib/include"),
 		path.join(ARIDEPS_DIR, "FiberTaskingLib/third_party/boost_context/include"),		
 		path.join(ARIDEPS_DIR, "SDL2/include"),
 		path.join(MODULE_DIR, "deps/spdlog/include"),
-        path.join(MODULE_DIR, "deps/brtshaderc/tools/brtshaderc"),		
+		path.join(MODULE_DIR, "deps/brtshaderc/tools/brtshaderc"),	
 	}
 
 	links {
@@ -26,7 +27,12 @@ project ("ariengine")
 		"../src/engine/**.hpp",
 		"../deps/spdlog/include/**.h",
 		"../assets/shaders/**.sc",
-		"../assets/shaders/**.sh"		
+		"../assets/shaders/**.sh",
+		"../deps/bgfx/3rdparty/dear-imgui/**.h",
+		"../deps/bgfx/3rdparty/dear-imgui/**.inl",
+		"../deps/bgfx/3rdparty/dear-imgui/*.cpp",
+		"../deps/bgfx/examples/common/imgui/*.h",
+		"../deps/bgfx/examples/common/imgui/*.cpp",				
 	}
 
 	defines {
