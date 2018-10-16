@@ -19,3 +19,6 @@
 [submodule "deps/brtshaderc"]
 	path = deps/brtshaderc
 	url = https://github.com/kochol/brtshaderc.git
+[submodule "deps/imgui"]
+	path = deps/imgui
+	url = https://github.com/kochol/imgui.git
