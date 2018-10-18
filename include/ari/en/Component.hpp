@@ -14,6 +14,7 @@ namespace ari
 		virtual ~Component() = default;
 
 		bool _isFromNode3D;
+		bool _isFromGui;
 		
 	}; // Component
 

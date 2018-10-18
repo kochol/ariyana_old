@@ -2,7 +2,7 @@
 
 namespace ari
 {
-	Component::Component(): _isFromNode3D(false)
+	Component::Component(): _isFromNode3D(false), _isFromGui(false)
 	{
 		m_eNodeType = Type::Component;
 	}
