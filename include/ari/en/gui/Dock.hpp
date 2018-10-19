@@ -1,5 +1,6 @@
 #pragma once
 #include "Gui.hpp"
+#include "dear-imgui/imgui.h"
 
 namespace ari
 {
@@ -7,7 +8,19 @@ namespace ari
 	{
 	public:
 
-		void Render() override;
+		Dock();
+
+		~Dock() = default;
+
+		void BeginRender() override;
+
+		void EndRender() override;
+
+		bool	isOpened;
+		char*	Label;
+		ImVec2	Pos,
+				Size;
+		bool	_root;
 
 	}; // Dock
 

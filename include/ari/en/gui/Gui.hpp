@@ -12,7 +12,9 @@ namespace ari
 
 		virtual ~Gui() = default;
 
-		virtual void Render() { }
+		virtual void BeginRender() { }
+
+		virtual void EndRender() { }
 
 	};
 } // ari

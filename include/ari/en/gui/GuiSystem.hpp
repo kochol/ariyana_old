@@ -4,6 +4,7 @@
 
 namespace ari
 {
+	class Node;
 	class Dock;
 
 	class ARI_API GuiSystem: public System,
@@ -24,5 +25,7 @@ namespace ari
 		
 	protected:
 		bool	m_bIsDockCreated;
+
+		void RenderGui(Node* node);
 	};
 }

@@ -102,7 +102,8 @@ if _OPTIONS["with-tests"] then
 	group "tests"
 
 	testProject("00-init",
-				"01-cubes")
+				"01-cubes",
+				"02-gui")
 end
 
 print(_OPTIONS["with-tests"])
