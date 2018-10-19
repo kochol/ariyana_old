@@ -7,7 +7,7 @@ namespace ari
 	class ARI_API Window: public Gui
 	{
 	public:
-		Window(char* name);
+		Window();
 
 		~Window() = default;
 

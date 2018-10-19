@@ -1,7 +1,8 @@
-#include "..\..\..\..\include\ari\en\gui\Window.hpp"
+#include "../../../../include/ari/en/gui/Window.hpp"
+
 namespace ari
 {
-	Window::Window(char * name): Name(name), CloseButton(false), isOpen(true)
+	Window::Window(): Name(nullptr), CloseButton(false), isOpen(true)
 	{
 	}
 

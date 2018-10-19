@@ -88,7 +88,8 @@ function testProject(...)
 
 		includedirs {
 			path.join(MODULE_DIR,   "include"),
-			path.join(BX_DIR,   "include"),			
+			path.join(BX_DIR,   "include"),	
+			path.join(BGFX_DIR, "3rdparty"),		
 		}
 	
 		links {
