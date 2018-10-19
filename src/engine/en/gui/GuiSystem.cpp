@@ -41,14 +41,14 @@ namespace ari
 
 	void GuiSystem::Configure(World * p_world)
 	{
-		BX_UNUSED(p_world);
 		imguiCreate();
+		p_world->subscribe<events::OnComponentAssigned<Dock>>(this);
 	}
 
 	void GuiSystem::Unconfigure(World * p_world)
 	{
-		BX_UNUSED(p_world);
 		imguiDestroy();
+		p_world->unsubscribeAll(this);
 	}
 
 	System::Type GuiSystem::GetSystemType()

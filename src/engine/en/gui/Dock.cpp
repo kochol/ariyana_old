@@ -1,20 +1,23 @@
 #include "..\..\..\..\include\ari\en\gui\Dock.hpp"
 namespace ari
 {
-	Dock::Dock(): isOpened(false), Label(nullptr), _root(false)
+	Dock::Dock(): isOpened(true), Label(nullptr), _root(false)
 	{
 	}
 
 	void Dock::BeginRender()
 	{
-		if (_root)
-			ImGui::RootDock(Pos, Size);
-
 		ImGui::BeginDock(Label, &isOpened);
+		if (_root)
+		{
+			ImGui::RootDock(Pos, Size);
+		}
 	}
 
 	void Dock::EndRender()
 	{
-		ImGui::EndDock();
+		if (isOpened)
+			ImGui::EndDock();
 	}
+
 } // ari
