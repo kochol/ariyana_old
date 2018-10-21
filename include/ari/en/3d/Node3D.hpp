@@ -21,7 +21,7 @@ namespace ari
 		virtual ~Node3D() = default;
 
 		//! Render
-		virtual void Render(const Matrix& matrix, bgfx::Encoder* encoder) { }
+		virtual void Render(const Matrix& matrix, bgfx::Encoder* encoder) { BX_UNUSED(matrix, encoder); }
 
 		Vector3 Position,
 			Rotation,

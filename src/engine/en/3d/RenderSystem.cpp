@@ -113,11 +113,13 @@ namespace ari
 
 	void RenderSystem::Receive(World * world, const events::OnComponentAssigned<BoxShape>& event)
 	{
+		BX_UNUSED(world, event);
 		BoxShape::Init(this);
 	}
 
 	void RenderSystem::Receive(World * world, const events::OnFrameData & event)
 	{	
+		BX_UNUSED(world);
 		m_pFrameDataNext = event.frame_data;		
 	}
 
