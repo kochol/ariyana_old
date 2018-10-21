@@ -210,6 +210,21 @@ namespace ari
 		SDL_USER_WINDOW_MOUSE_LOCK,
 	};
 
+	static void sdlPostEvent(SDL_USER_WINDOW _type, WindowHandle _handle, Msg* _msg = NULL, uint32_t _code = 0)
+	{
+		SDL_Event event;
+		SDL_UserEvent& uev = event.user;
+		uev.type = s_userEventStart + _type;
+
+		union { void* p; WindowHandle h; } cast;
+		cast.h = _handle;
+		uev.data1 = cast.p;
+
+		uev.data2 = _msg;
+		uev.code = _code;
+		SDL_PushEvent(&event);
+	}
+
 	bool SdlWindow::Init(InitParams & params)
 	{
 		// Init the SDL
@@ -723,6 +738,11 @@ namespace ari
 		return !exit;
 
 	} // Run
+
+	void SdlWindow::setMouseLock(WindowHandle _handle, bool _lock)
+	{
+		sdlPostEvent(SDL_USER_WINDOW_MOUSE_LOCK, _handle, NULL, _lock);
+	}
 
 	GamepadSDL::GamepadSDL()
 		: m_controller(NULL)

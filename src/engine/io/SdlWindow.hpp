@@ -40,6 +40,8 @@ namespace ari
 
 		bool Run();
 
+		static void setMouseLock(WindowHandle _handle, bool _lock);
+
 	protected:
 
 
