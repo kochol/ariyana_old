@@ -1,6 +1,5 @@
 #include "SdlWindow.hpp"
 #include "../../../include/ari/Program.hpp"
-#include <SDL2/SDL.h>
 #include <string>
 #include <spdlog/logger.h>
 
@@ -34,6 +33,109 @@ struct Msg
 
 namespace ari
 {
+	static uint8_t translateKeyModifiers(uint16_t _sdl)
+	{
+		uint8_t modifiers = 0;
+		modifiers |= _sdl & KMOD_LALT ? Modifier::LeftAlt : 0;
+		modifiers |= _sdl & KMOD_RALT ? Modifier::RightAlt : 0;
+		modifiers |= _sdl & KMOD_LCTRL ? Modifier::LeftCtrl : 0;
+		modifiers |= _sdl & KMOD_RCTRL ? Modifier::RightCtrl : 0;
+		modifiers |= _sdl & KMOD_LSHIFT ? Modifier::LeftShift : 0;
+		modifiers |= _sdl & KMOD_RSHIFT ? Modifier::RightShift : 0;
+		modifiers |= _sdl & KMOD_LGUI ? Modifier::LeftMeta : 0;
+		modifiers |= _sdl & KMOD_RGUI ? Modifier::RightMeta : 0;
+		return modifiers;
+	}
+
+	static uint8_t translateKeyModifierPress(uint16_t _key)
+	{
+		uint8_t modifier;
+		switch (_key)
+		{
+		case SDL_SCANCODE_LALT: { modifier = Modifier::LeftAlt;    } break;
+		case SDL_SCANCODE_RALT: { modifier = Modifier::RightAlt;   } break;
+		case SDL_SCANCODE_LCTRL: { modifier = Modifier::LeftCtrl;   } break;
+		case SDL_SCANCODE_RCTRL: { modifier = Modifier::RightCtrl;  } break;
+		case SDL_SCANCODE_LSHIFT: { modifier = Modifier::LeftShift;  } break;
+		case SDL_SCANCODE_RSHIFT: { modifier = Modifier::RightShift; } break;
+		case SDL_SCANCODE_LGUI: { modifier = Modifier::LeftMeta;   } break;
+		case SDL_SCANCODE_RGUI: { modifier = Modifier::RightMeta;  } break;
+		default: { modifier = 0;                    } break;
+		}
+
+		return modifier;
+	}
+
+	static uint8_t s_translateKey[256];
+
+	static void initTranslateKey(uint16_t _sdl, Key::Enum _key)
+	{
+		BX_CHECK(_sdl < BX_COUNTOF(s_translateKey), "Out of bounds %d.", _sdl);
+		s_translateKey[_sdl & 0xff] = (uint8_t)_key;
+	}
+
+	static Key::Enum translateKey(SDL_Scancode _sdl)
+	{
+		return (Key::Enum)s_translateKey[_sdl & 0xff];
+	}
+
+	static uint8_t s_translateGamepad[256];
+
+	static void initTranslateGamepad(uint8_t _sdl, Key::Enum _button)
+	{
+		s_translateGamepad[_sdl] = _button;
+	}
+
+	static Key::Enum translateGamepad(uint8_t _sdl)
+	{
+		return Key::Enum(s_translateGamepad[_sdl]);
+	}
+
+	static uint8_t s_translateGamepadAxis[256];
+
+	static void initTranslateGamepadAxis(uint8_t _sdl, GamepadAxis::Enum _axis)
+	{
+		s_translateGamepadAxis[_sdl] = uint8_t(_axis);
+	}
+
+	static GamepadAxis::Enum translateGamepadAxis(uint8_t _sdl)
+	{
+		return GamepadAxis::Enum(s_translateGamepadAxis[_sdl]);
+	}
+
+	struct AxisDpadRemap
+	{
+		Key::Enum first;
+		Key::Enum second;
+	};
+
+	static AxisDpadRemap s_axisDpad[] =
+	{
+		{ Key::GamepadLeft, Key::GamepadRight },
+	{ Key::GamepadUp,   Key::GamepadDown },
+	{ Key::None,        Key::None },
+	{ Key::GamepadLeft, Key::GamepadRight },
+	{ Key::GamepadUp,   Key::GamepadDown },
+	{ Key::None,        Key::None },
+	};
+
+	GamepadHandle SdlWindow::findGamepad(int _jid)
+	{
+		for (uint32_t ii = 0, num = m_gamepadAlloc.getNumHandles(); ii < num; ++ii)
+		{
+			uint16_t idx = m_gamepadAlloc.getHandleAt(ii);
+			if (_jid == m_gamepad[idx].m_jid)
+			{
+				GamepadHandle handle = { idx };
+				return handle;
+			}
+		}
+
+		GamepadHandle invalid = { UINT16_MAX };
+		return invalid;
+	}
+
+
 	inline bool sdlSetWindow(SDL_Window* _window)
 	{
 		SDL_SysWMinfo wmi;
@@ -64,6 +166,27 @@ namespace ari
 
 		return true;
 	}
+
+	static void* sdlNativeWindowHandle(SDL_Window* _window)
+	{
+		SDL_SysWMinfo wmi;
+		SDL_VERSION(&wmi.version);
+		if (!SDL_GetWindowWMInfo(_window, &wmi))
+		{
+			return NULL;
+		}
+
+#	if BX_PLATFORM_LINUX || BX_PLATFORM_BSD
+		return (void*)wmi.info.x11.window;
+#	elif BX_PLATFORM_OSX
+		return wmi.info.cocoa.window;
+#	elif BX_PLATFORM_WINDOWS
+		return wmi.info.win.window;
+#	elif BX_PLATFORM_STEAMLINK
+		return wmi.info.vivante.window;
+#	endif // BX_PLATFORM_
+	}
+
 
 	static WindowHandle getWindowHandle(const SDL_UserEvent& _uev)
 	{
@@ -96,7 +219,7 @@ namespace ari
 			return false;
 		}
 
-		m_mx = m_my = 0;
+		m_mx = m_my = m_mz = 0;
 		m_params = params;
 		char* windowName = "Ariyana";
 		if (params.Program)
@@ -124,7 +247,7 @@ namespace ari
 //		bgfx::renderFrame();
 
 		// Force window resolution...
-		WindowHandle defaultWindow = { 0 };
+		defaultWindow.idx = 0;
 		setWindowSize(defaultWindow, params.Width, params.Height, true);
 
 		SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
@@ -166,7 +289,7 @@ namespace ari
 			m_params.Height = _height;
 
 			SDL_SetWindowSize(m_window[_handle.idx], _width, _height);
-			//m_eventQueue.postSizeEvent(_handle, _width, _height);
+			m_eventQueue.postSizeEvent(_handle, _width, _height);
 		}
 	} // setWindowSize
 
@@ -181,7 +304,7 @@ namespace ari
 			switch (event.type)
 			{
 			case SDL_QUIT:
-//				m_eventQueue.postExitEvent();
+				m_eventQueue.postExitEvent();
 				exit = true;
 				break;
 
@@ -194,123 +317,115 @@ namespace ari
 				WindowHandle handle = findHandle(mev.windowID);
 				if (isValid(handle))
 				{
-//					m_eventQueue.postMouseEvent(handle, m_mx, m_my, m_mz);
+					m_eventQueue.postMouseEvent(handle, m_mx, m_my, m_mz);
 				}
 			}
 			break;
 
-//			case SDL_MOUSEBUTTONDOWN:
-//			case SDL_MOUSEBUTTONUP:
-//			{
-//				//const SDL_MouseButtonEvent& mev = event.button;
-//				//WindowHandle handle = findHandle(mev.windowID);
-//				//if (isValid(handle))
-//				//{
-//				//	MouseButton::Enum button;
-//				//	switch (mev.button)
-//				//	{
-//				//	default:
-//				//	case SDL_BUTTON_LEFT:   button = MouseButton::Left;   break;
-//				//	case SDL_BUTTON_MIDDLE: button = MouseButton::Middle; break;
-//				//	case SDL_BUTTON_RIGHT:  button = MouseButton::Right;  break;
-//				//	}
-//
-//					//m_eventQueue.postMouseEvent(handle
-//					//	, mev.x
-//					//	, mev.y
-//					//	, m_mz
-//					//	, button
-//					//	, mev.type == SDL_MOUSEBUTTONDOWN
-//					//);
-//				}
-//			}
-//			break;
-//
-//			case SDL_MOUSEWHEEL:
-//			{
-//				const SDL_MouseWheelEvent& mev = event.wheel;
-//				m_mz += mev.y;
-//
-//				WindowHandle handle = findHandle(mev.windowID);
-//				if (isValid(handle))
-//				{
-//					//m_eventQueue.postMouseEvent(handle, m_mx, m_my, m_mz);
-//				}
-//			}
-//			break;
-//
-//			case SDL_TEXTINPUT:
-//			{
-//				const SDL_TextInputEvent& tev = event.text;
-//				WindowHandle handle = findHandle(tev.windowID);
-//				if (isValid(handle))
-//				{
-//					//m_eventQueue.postCharEvent(handle, 1, (const uint8_t*)tev.text);
-//				}
-//			}
-//			break;
-//
-//			case SDL_KEYDOWN:
-//			{
-//				const SDL_KeyboardEvent& kev = event.key;
-//				WindowHandle handle = findHandle(kev.windowID);
-//				if (isValid(handle))
-//				{
-//					uint8_t modifiers = translateKeyModifiers(kev.keysym.mod);
-//					Key::Enum key = translateKey(kev.keysym.scancode);
-//
-//#if 0
-//					DBG("SDL scancode %d, key %d, name %s, key name %s"
-//						, kev.keysym.scancode
-//						, key
-//						, SDL_GetScancodeName(kev.keysym.scancode)
-//						, SDL_GetKeyName(kev.keysym.scancode)
-//					);
-//#endif // 0
-//
-//					/// If you only press (e.g.) 'shift' and nothing else, then key == 'shift', modifier == 0.
-//					/// Further along, pressing 'shift' + 'ctrl' would be: key == 'shift', modifier == 'ctrl.
-//					if (0 == key && 0 == modifiers)
-//					{
-//						modifiers = translateKeyModifierPress(kev.keysym.scancode);
-//					}
-//
-//					if (Key::Esc == key)
-//					{
-//						uint8_t pressedChar[4];
-//						pressedChar[0] = 0x1b;
-//						//m_eventQueue.postCharEvent(handle, 1, pressedChar);
-//					}
-//					else if (Key::Return == key)
-//					{
-//						uint8_t pressedChar[4];
-//						pressedChar[0] = 0x0d;
-//						//m_eventQueue.postCharEvent(handle, 1, pressedChar);
-//					}
-//					else if (Key::Backspace == key)
-//					{
-//						uint8_t pressedChar[4];
-//						pressedChar[0] = 0x08;
-//						//m_eventQueue.postCharEvent(handle, 1, pressedChar);
-//					}
-//
-//					//m_eventQueue.postKeyEvent(handle, key, modifiers, kev.state == SDL_PRESSED);
-//				}
-//			}
-//			break;
-//
-//			case SDL_KEYUP:
-//			{
-//				const SDL_KeyboardEvent& kev = event.key;
-//				WindowHandle handle = findHandle(kev.windowID);
-//				if (isValid(handle))
-//				{
-//					uint8_t modifiers = translateKeyModifiers(kev.keysym.mod);
-//					Key::Enum key = translateKey(kev.keysym.scancode);
-//					//m_eventQueue.postKeyEvent(handle, key, modifiers, kev.state == SDL_PRESSED);
-//				}
-//			}
-//			break;
+			case SDL_MOUSEBUTTONDOWN:
+			case SDL_MOUSEBUTTONUP:
+			{
+				const SDL_MouseButtonEvent& mev = event.button;
+				WindowHandle handle = findHandle(mev.windowID);
+				if (isValid(handle))
+				{
+					MouseButton::Enum button;
+					switch (mev.button)
+					{
+					default:
+					case SDL_BUTTON_LEFT:   button = MouseButton::Left;   break;
+					case SDL_BUTTON_MIDDLE: button = MouseButton::Middle; break;
+					case SDL_BUTTON_RIGHT:  button = MouseButton::Right;  break;
+					}
+
+					m_eventQueue.postMouseEvent(handle
+						, mev.x
+						, mev.y
+						, m_mz
+						, button
+						, mev.type == SDL_MOUSEBUTTONDOWN
+					);
+				}
+			}
+			break;
+
+			case SDL_MOUSEWHEEL:
+			{
+				const SDL_MouseWheelEvent& mev = event.wheel;
+				m_mz += mev.y;
+
+				WindowHandle handle = findHandle(mev.windowID);
+				if (isValid(handle))
+				{
+					m_eventQueue.postMouseEvent(handle, m_mx, m_my, m_mz);
+				}
+			}
+			break;
+
+			case SDL_TEXTINPUT:
+			{
+				const SDL_TextInputEvent& tev = event.text;
+				WindowHandle handle = findHandle(tev.windowID);
+				if (isValid(handle))
+				{
+					m_eventQueue.postCharEvent(handle, 1, (const uint8_t*)tev.text);
+				}
+			}
+			break;
+
+			case SDL_KEYDOWN:
+			{
+				const SDL_KeyboardEvent& kev = event.key;
+				WindowHandle handle = findHandle(kev.windowID);
+				if (isValid(handle))
+				{
+					uint8_t modifiers = translateKeyModifiers(kev.keysym.mod);
+					Key::Enum key = translateKey(kev.keysym.scancode);
+
+
+					/// If you only press (e.g.) 'shift' and nothing else, then key == 'shift', modifier == 0.
+					/// Further along, pressing 'shift' + 'ctrl' would be: key == 'shift', modifier == 'ctrl.
+					if (0 == key && 0 == modifiers)
+					{
+						modifiers = translateKeyModifierPress(kev.keysym.scancode);
+					}
+
+					if (Key::Esc == key)
+					{
+						uint8_t pressedChar[4];
+						pressedChar[0] = 0x1b;
+						m_eventQueue.postCharEvent(handle, 1, pressedChar);
+					}
+					else if (Key::Return == key)
+					{
+						uint8_t pressedChar[4];
+						pressedChar[0] = 0x0d;
+						m_eventQueue.postCharEvent(handle, 1, pressedChar);
+					}
+					else if (Key::Backspace == key)
+					{
+						uint8_t pressedChar[4];
+						pressedChar[0] = 0x08;
+						m_eventQueue.postCharEvent(handle, 1, pressedChar);
+					}
+
+					m_eventQueue.postKeyEvent(handle, key, modifiers, kev.state == SDL_PRESSED);
+				}
+			}
+			break;
+
+			case SDL_KEYUP:
+			{
+				const SDL_KeyboardEvent& kev = event.key;
+				WindowHandle handle = findHandle(kev.windowID);
+				if (isValid(handle))
+				{
+					uint8_t modifiers = translateKeyModifiers(kev.keysym.mod);
+					Key::Enum key = translateKey(kev.keysym.scancode);
+					m_eventQueue.postKeyEvent(handle, key, modifiers, kev.state == SDL_PRESSED);
+				}
+			}
+			break;
 
 			case SDL_WINDOWEVENT:
 			{
@@ -343,7 +458,7 @@ namespace ari
 					WindowHandle handle = findHandle(wev.windowID);
 					if (0 == handle.idx)
 					{
-						//m_eventQueue.postExitEvent();
+						m_eventQueue.postExitEvent();
 						exit = true;
 					}
 				}
@@ -352,130 +467,130 @@ namespace ari
 			}
 			break;
 
-			//case SDL_JOYAXISMOTION:
-			//{
-			//	const SDL_JoyAxisEvent& jev = event.jaxis;
-			//	GamepadHandle handle = findGamepad(jev.which);
-			//	if (isValid(handle))
-			//	{
-			//		GamepadAxis::Enum axis = translateGamepadAxis(jev.axis);
-			//		m_gamepad[handle.idx].update(m_eventQueue, defaultWindow, handle, axis, jev.value);
-			//	}
-			//}
-			//break;
+			case SDL_JOYAXISMOTION:
+			{
+				const SDL_JoyAxisEvent& jev = event.jaxis;
+				GamepadHandle handle = findGamepad(jev.which);
+				if (isValid(handle))
+				{
+					GamepadAxis::Enum axis = translateGamepadAxis(jev.axis);
+					m_gamepad[handle.idx].update(m_eventQueue, defaultWindow, handle, axis, jev.value);
+				}
+			}
+			break;
 
-			//case SDL_CONTROLLERAXISMOTION:
-			//{
-			//	const SDL_ControllerAxisEvent& aev = event.caxis;
-			//	GamepadHandle handle = findGamepad(aev.which);
-			//	if (isValid(handle))
-			//	{
-			//		GamepadAxis::Enum axis = translateGamepadAxis(aev.axis);
-			//		m_gamepad[handle.idx].update(m_eventQueue, defaultWindow, handle, axis, aev.value);
-			//	}
-			//}
-			//break;
+			case SDL_CONTROLLERAXISMOTION:
+			{
+				const SDL_ControllerAxisEvent& aev = event.caxis;
+				GamepadHandle handle = findGamepad(aev.which);
+				if (isValid(handle))
+				{
+					GamepadAxis::Enum axis = translateGamepadAxis(aev.axis);
+					m_gamepad[handle.idx].update(m_eventQueue, defaultWindow, handle, axis, aev.value);
+				}
+			}
+			break;
 
-			//case SDL_JOYBUTTONDOWN:
-			//case SDL_JOYBUTTONUP:
-			//{
-			//	const SDL_JoyButtonEvent& bev = event.jbutton;
-			//	GamepadHandle handle = findGamepad(bev.which);
+			case SDL_JOYBUTTONDOWN:
+			case SDL_JOYBUTTONUP:
+			{
+				const SDL_JoyButtonEvent& bev = event.jbutton;
+				GamepadHandle handle = findGamepad(bev.which);
 
-			//	if (isValid(handle))
-			//	{
-			//		Key::Enum key = translateGamepad(bev.button);
-			//		if (Key::Count != key)
-			//		{
-			//			m_eventQueue.postKeyEvent(defaultWindow, key, 0, event.type == SDL_JOYBUTTONDOWN);
-			//		}
-			//	}
-			//}
-			//break;
+				if (isValid(handle))
+				{
+					Key::Enum key = translateGamepad(bev.button);
+					if (Key::Count != key)
+					{
+						m_eventQueue.postKeyEvent(defaultWindow, key, 0, event.type == SDL_JOYBUTTONDOWN);
+					}
+				}
+			}
+			break;
 
-			//case SDL_CONTROLLERBUTTONDOWN:
-			//case SDL_CONTROLLERBUTTONUP:
-			//{
-			//	const SDL_ControllerButtonEvent& bev = event.cbutton;
-			//	GamepadHandle handle = findGamepad(bev.which);
-			//	if (isValid(handle))
-			//	{
-			//		Key::Enum key = translateGamepad(bev.button);
-			//		if (Key::Count != key)
-			//		{
-			//			m_eventQueue.postKeyEvent(defaultWindow, key, 0, event.type == SDL_CONTROLLERBUTTONDOWN);
-			//		}
-			//	}
-			//}
-			//break;
+			case SDL_CONTROLLERBUTTONDOWN:
+			case SDL_CONTROLLERBUTTONUP:
+			{
+				const SDL_ControllerButtonEvent& bev = event.cbutton;
+				GamepadHandle handle = findGamepad(bev.which);
+				if (isValid(handle))
+				{
+					Key::Enum key = translateGamepad(bev.button);
+					if (Key::Count != key)
+					{
+						m_eventQueue.postKeyEvent(defaultWindow, key, 0, event.type == SDL_CONTROLLERBUTTONDOWN);
+					}
+				}
+			}
+			break;
 
-			//case SDL_JOYDEVICEADDED:
-			//{
-			//	GamepadHandle handle = { m_gamepadAlloc.alloc() };
-			//	if (isValid(handle))
-			//	{
-			//		const SDL_JoyDeviceEvent& jev = event.jdevice;
-			//		m_gamepad[handle.idx].create(jev);
-			//		m_eventQueue.postGamepadEvent(defaultWindow, handle, true);
-			//	}
-			//}
-			//break;
+			case SDL_JOYDEVICEADDED:
+			{
+				GamepadHandle handle = { m_gamepadAlloc.alloc() };
+				if (isValid(handle))
+				{
+					const SDL_JoyDeviceEvent& jev = event.jdevice;
+					m_gamepad[handle.idx].create(jev);
+					m_eventQueue.postGamepadEvent(defaultWindow, handle, true);
+				}
+			}
+			break;
 
-			//case SDL_JOYDEVICEREMOVED:
-			//{
-			//	const SDL_JoyDeviceEvent& jev = event.jdevice;
-			//	GamepadHandle handle = findGamepad(jev.which);
-			//	if (isValid(handle))
-			//	{
-			//		m_gamepad[handle.idx].destroy();
-			//		m_gamepadAlloc.free(handle.idx);
-			//		m_eventQueue.postGamepadEvent(defaultWindow, handle, false);
-			//	}
-			//}
-			//break;
+			case SDL_JOYDEVICEREMOVED:
+			{
+				const SDL_JoyDeviceEvent& jev = event.jdevice;
+				GamepadHandle handle = findGamepad(jev.which);
+				if (isValid(handle))
+				{
+					m_gamepad[handle.idx].destroy();
+					m_gamepadAlloc.free(handle.idx);
+					m_eventQueue.postGamepadEvent(defaultWindow, handle, false);
+				}
+			}
+			break;
 
-			//case SDL_CONTROLLERDEVICEADDED:
-			//{
-			//	GamepadHandle handle = { m_gamepadAlloc.alloc() };
-			//	if (isValid(handle))
-			//	{
-			//		const SDL_ControllerDeviceEvent& cev = event.cdevice;
-			//		m_gamepad[handle.idx].create(cev);
-			//		m_eventQueue.postGamepadEvent(defaultWindow, handle, true);
-			//	}
-			//}
-			//break;
+			case SDL_CONTROLLERDEVICEADDED:
+			{
+				GamepadHandle handle = { m_gamepadAlloc.alloc() };
+				if (isValid(handle))
+				{
+					const SDL_ControllerDeviceEvent& cev = event.cdevice;
+					m_gamepad[handle.idx].create(cev);
+					m_eventQueue.postGamepadEvent(defaultWindow, handle, true);
+				}
+			}
+			break;
 
-			//case SDL_CONTROLLERDEVICEREMAPPED:
-			//{
+			case SDL_CONTROLLERDEVICEREMAPPED:
+			{
 
-			//}
-			//break;
+			}
+			break;
 
-			//case SDL_CONTROLLERDEVICEREMOVED:
-			//{
-			//	const SDL_ControllerDeviceEvent& cev = event.cdevice;
-			//	GamepadHandle handle = findGamepad(cev.which);
-			//	if (isValid(handle))
-			//	{
-			//		m_gamepad[handle.idx].destroy();
-			//		m_gamepadAlloc.free(handle.idx);
-			//		m_eventQueue.postGamepadEvent(defaultWindow, handle, false);
-			//	}
-			//}
-			//break;
+			case SDL_CONTROLLERDEVICEREMOVED:
+			{
+				const SDL_ControllerDeviceEvent& cev = event.cdevice;
+				GamepadHandle handle = findGamepad(cev.which);
+				if (isValid(handle))
+				{
+					m_gamepad[handle.idx].destroy();
+					m_gamepadAlloc.free(handle.idx);
+					m_eventQueue.postGamepadEvent(defaultWindow, handle, false);
+				}
+			}
+			break;
 
-			//case SDL_DROPFILE:
-			//{
-			//	const SDL_DropEvent& dev = event.drop;
-			//	WindowHandle handle = defaultWindow; //findHandle(dev.windowID);
-			//	if (isValid(handle))
-			//	{
-			//		m_eventQueue.postDropFileEvent(handle, dev.file);
-			//		SDL_free(dev.file);
-			//	}
-			//}
-			//break;
+			case SDL_DROPFILE:
+			{
+				const SDL_DropEvent& dev = event.drop;
+				WindowHandle handle = defaultWindow; //findHandle(dev.windowID);
+				if (isValid(handle))
+				{
+					m_eventQueue.postDropFileEvent(handle, dev.file);
+					SDL_free(dev.file);
+				}
+			}
+			break;
 
 			default:
 			{
@@ -498,12 +613,12 @@ namespace ari
 
 					m_flags[handle.idx] = msg->m_flags;
 
-					//void* nwh = sdlNativeWindowHandle(m_window[handle.idx]);
-					//if (NULL != nwh)
-					//{
-						//m_eventQueue.postSizeEvent(handle, msg->m_width, msg->m_height);
-						//m_eventQueue.postWindowEvent(handle, nwh);
-					//}
+					void* nwh = sdlNativeWindowHandle(m_window[handle.idx]);
+					if (NULL != nwh)
+					{
+						m_eventQueue.postSizeEvent(handle, msg->m_width, msg->m_height);
+						m_eventQueue.postWindowEvent(handle, nwh);
+					}
 
 					delete msg;
 				}
@@ -608,5 +723,87 @@ namespace ari
 		return !exit;
 
 	} // Run
+
+	GamepadSDL::GamepadSDL()
+		: m_controller(NULL)
+		, m_jid(INT32_MAX)
+	{
+		bx::memSet(m_value, 0, sizeof(m_value));
+
+		// Deadzone values from xinput.h
+		m_deadzone[GamepadAxis::LeftX] =
+			m_deadzone[GamepadAxis::LeftY] = 7849;
+		m_deadzone[GamepadAxis::RightX] =
+			m_deadzone[GamepadAxis::RightY] = 8689;
+		m_deadzone[GamepadAxis::LeftZ] =
+			m_deadzone[GamepadAxis::RightZ] = 30;
+	}
+
+	void GamepadSDL::create(const SDL_JoyDeviceEvent & _jev)
+	{
+		m_joystick = SDL_JoystickOpen(_jev.which);
+		SDL_Joystick* joystick = m_joystick;
+		m_jid = SDL_JoystickInstanceID(joystick);
+	}
+
+	void GamepadSDL::create(const SDL_ControllerDeviceEvent & _cev)
+	{
+		m_controller = SDL_GameControllerOpen(_cev.which);
+		SDL_Joystick* joystick = SDL_GameControllerGetJoystick(m_controller);
+		m_jid = SDL_JoystickInstanceID(joystick);
+	}
+
+	void GamepadSDL::update(EventQueue & _eventQueue, WindowHandle _handle, GamepadHandle _gamepad, GamepadAxis::Enum _axis, int32_t _value)
+	{
+		if (filter(_axis, &_value))
+		{
+			_eventQueue.postAxisEvent(_handle, _gamepad, _axis, _value);
+
+			if (Key::None != s_axisDpad[_axis].first)
+			{
+				if (_value == 0)
+				{
+					_eventQueue.postKeyEvent(_handle, s_axisDpad[_axis].first, 0, false);
+					_eventQueue.postKeyEvent(_handle, s_axisDpad[_axis].second, 0, false);
+				}
+				else
+				{
+					_eventQueue.postKeyEvent(_handle
+						, 0 > _value ? s_axisDpad[_axis].first : s_axisDpad[_axis].second
+						, 0
+						, true
+					);
+				}
+			}
+		}
+	}
+
+	void GamepadSDL::destroy()
+	{
+		if (NULL != m_controller)
+		{
+			SDL_GameControllerClose(m_controller);
+			m_controller = NULL;
+		}
+
+		if (NULL != m_joystick)
+		{
+			SDL_JoystickClose(m_joystick);
+			m_joystick = NULL;
+		}
+
+		m_jid = INT32_MAX;
+	}
+
+	bool GamepadSDL::filter(GamepadAxis::Enum _axis, int32_t * _value)
+	{
+		const int32_t old = m_value[_axis];
+		const int32_t deadzone = m_deadzone[_axis];
+		int32_t value = *_value;
+		value = value > deadzone || value < -deadzone ? value : 0;
+		m_value[_axis] = value;
+		*_value = value;
+		return old != value;
+	}
 
 } // ari

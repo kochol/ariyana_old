@@ -8,6 +8,8 @@
 #include <ftl/task_scheduler.h>
 #include <bx/timer.h>
 
+extern bx::AllocatorI* g_allocator;
+
 namespace ari
 {
 	Engine* g_pEngine = nullptr;
