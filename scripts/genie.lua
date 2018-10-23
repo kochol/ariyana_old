@@ -64,6 +64,7 @@ function copyLib()
 end
 
 dofile("ariengine.lua")
+dofile("shivaeditor.lua")
 
 dofile(path.join(BGFX_DIR, "scripts/bgfx.lua"))
 
@@ -106,5 +107,3 @@ if _OPTIONS["with-tests"] then
 				"01-cubes",
 				"02-gui")
 end
-
-print(_OPTIONS["with-tests"])
