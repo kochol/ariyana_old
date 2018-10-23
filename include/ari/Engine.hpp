@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "aridef.hpp"
 #include <memory>
+#include "io/IoEnums.hpp"
 
 namespace bx
 {
@@ -19,6 +20,7 @@ namespace ari
 {
 	class SdlWindow;
 	class IProgram;
+	struct Event;
 
 	struct InitParams
 	{
@@ -35,6 +37,8 @@ namespace ari
 
 	class ARI_API Engine
 	{
+		friend class SdlWindow;
+		friend class GuiSystem;
 	public:
 
 		//! Constructor
@@ -49,6 +53,10 @@ namespace ari
 		bool Init(InitParams params);
 
 		bool Run();
+
+		Event* Poll();
+
+		void Release(const Event * _event);
 
 		uint32_t GetCurrentFrameNumber() const { return m_frame_number; }
 
@@ -65,6 +73,8 @@ namespace ari
 		int64_t							m_time_offset;
 		bx::Thread					*	m_pGfxThread;
 		ftl::TaskScheduler			*	m_pTaskMgr;
+		MouseState						m_MouseState;
+		bool							m_bRun;
 
 	}; // Engine
 

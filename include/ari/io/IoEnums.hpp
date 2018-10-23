@@ -1,5 +1,6 @@
 #pragma once
 #include "bx/bx.h"
+#include "bx/filepath.h"
 
 namespace ari
 {
@@ -207,5 +208,24 @@ namespace ari
 
 		int32_t m_axis[GamepadAxis::Count];
 	};
+
+	struct WindowState
+	{
+		WindowState()
+			: m_width(0)
+			, m_height(0)
+			, m_nwh(NULL)
+		{
+			m_handle.idx = UINT16_MAX;
+		}
+
+		WindowHandle m_handle;
+		uint32_t     m_width;
+		uint32_t     m_height;
+		MouseState   m_mouse;
+		void*        m_nwh;
+		bx::FilePath m_dropFile;
+	};
+
 
 } // ari

@@ -5,6 +5,7 @@
 #include "../../../../deps/bgfx/examples/common/imgui/imgui.h"
 #include "../../../../include/ari/en/gui/Gui.hpp"
 #include "bx/macros.h"
+#include "../../../../include/ari/Engine.hpp"
 
 namespace ari
 {
@@ -22,13 +23,15 @@ namespace ari
 	{
 		if (state == UpdateState::MainThreadState)
 		{
-			imguiBeginFrame(
-				0,
-				0,
-				0,
-				0,
-				800,
-				600);
+			imguiBeginFrame(g_pEngine->m_MouseState.m_mx
+				, g_pEngine->m_MouseState.m_my
+				, (g_pEngine->m_MouseState.m_buttons[MouseButton::Left] ? IMGUI_MBUT_LEFT : 0)
+				| (g_pEngine->m_MouseState.m_buttons[MouseButton::Right] ? IMGUI_MBUT_RIGHT : 0)
+				| (g_pEngine->m_MouseState.m_buttons[MouseButton::Middle] ? IMGUI_MBUT_MIDDLE : 0)
+				, g_pEngine->m_MouseState.m_mz
+				, uint16_t(g_pEngine->m_params.Width)
+				, uint16_t(g_pEngine->m_params.Height)
+			);
 
 			for (auto e: p_world->GetAllEntities())
 			{

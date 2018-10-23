@@ -32,6 +32,8 @@ namespace ari
 
 	class SdlWindow
 	{
+		friend class Engine;
+
 	public:
 
 		bool Init(InitParams& params);
@@ -41,6 +43,9 @@ namespace ari
 		bool Run();
 
 		static void setMouseLock(WindowHandle _handle, bool _lock);
+
+		bool processEvents(uint32_t& _width, uint32_t& _height, uint32_t& _debug, uint32_t& _reset,
+			MouseState* _mouse);
 
 	protected:
 

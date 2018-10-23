@@ -7,6 +7,8 @@
 #include <bx/thread.h>
 #include <ftl/task_scheduler.h>
 #include <bx/timer.h>
+#include "../../include/ari/io/Input.hpp"
+#include "../../deps/bgfx/src/renderer.h"
 
 extern bx::AllocatorI* g_allocator;
 
@@ -15,7 +17,8 @@ namespace ari
 	Engine* g_pEngine = nullptr;
 
 	Engine::Engine() : m_pWindow(nullptr), m_debug(0), m_reset(0), 
-		m_frame_number(0), m_time_offset(0), m_pGfxThread(nullptr)
+		m_frame_number(0), m_time_offset(0), m_pGfxThread(nullptr),
+		m_bRun(true)
 	{
 		Logger = spdlog::stdout_color_mt("main");
 		Logger->set_level(spdlog::level::trace);
@@ -25,11 +28,15 @@ namespace ari
 
 	Engine::~Engine()
 	{
+		m_bRun = false;
+		// 
+		bgfx::renderFrame();
+		m_pGfxThread->shutdown();
+		delete m_pGfxThread;
+
 		delete m_pWindow;
 		g_pEngine = nullptr;
 		delete m_pTaskMgr;
-		m_pGfxThread->shutdown();
-		delete m_pGfxThread;
 	}
 
 	Engine & Engine::GetSingleton()
@@ -51,6 +58,8 @@ namespace ari
 		m_debug = BGFX_DEBUG_TEXT;
 		m_reset = BGFX_RESET_VSYNC;
 
+		inputInit();
+
 		m_pGfxThread = new bx::Thread();
 		m_pGfxThread->init(Engine::InitBgfxInThread, this);
 
@@ -59,11 +68,25 @@ namespace ari
 
 	bool Engine::Run()
 	{
-		return m_pWindow->Run();
+	    m_bRun = m_pWindow->Run();
+		m_bRun &= m_pWindow->processEvents(m_params.Width, m_params.Height, m_debug, m_reset, &m_MouseState);
+		return m_bRun;
+	}
+
+	Event * Engine::Poll()
+	{
+		return const_cast<Event*>(m_pWindow->m_eventQueue.poll());
+	}
+
+	void Engine::Release(const Event * _event)
+	{
+		m_pWindow->m_eventQueue.release(_event);
 	}
 
 	int Engine::InitBgfxInThread(bx::Thread * _thread, void * _userData)
 	{
+		BX_UNUSED(_thread, _userData);
+
 		// Init bgfx
 		bgfx::Init init;
 		init.resolution.width = g_pEngine->m_params.Width;
@@ -87,10 +110,10 @@ namespace ari
 		
 		g_pEngine->m_time_offset = bx::getHPCounter();
 
-		while (true)
+		while (g_pEngine->m_bRun)
 		{
 			// Set view 0 default viewport.
-			bgfx::setViewRect(0, 0, 0, uint16_t(800), uint16_t(600));
+			bgfx::setViewRect(0, 0, 0, uint16_t(g_pEngine->m_params.Width), uint16_t(g_pEngine->m_params.Height));
 
 			// This dummy draw call is here to make sure that view 0 is cleared
 			// if no other draw calls are submitted to view 0.
