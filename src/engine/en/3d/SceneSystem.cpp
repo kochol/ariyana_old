@@ -75,14 +75,17 @@ namespace ari
 
 	void SceneSystem::Receive(World * world, const events::OnEntityCreated & event)
 	{
+		BX_UNUSED(world, event);
 	}
 
 	void SceneSystem::Receive(World * world, const events::OnEntityDestroyed & event)
 	{
+		BX_UNUSED(world, event);
 	}
 
 	void SceneSystem::Receive(World * world, const events::OnComponentAssigned<Camera>& event)
 	{
+		BX_UNUSED(world);
 		if (!m_pActiveCamera)
 		{
 			m_pActiveCamera = event.component;
@@ -92,6 +95,7 @@ namespace ari
 
 	void SceneSystem::Receive(World * world, const events::OnComponentRemoved<Camera>& event)
 	{
+		BX_UNUSED(world);
 		if (m_pActiveCamera == event.component)
 		{
 			m_pActiveCamera = nullptr;
@@ -100,10 +104,12 @@ namespace ari
 
 	void SceneSystem::Receive(World* world, const events::OnComponentAssigned<BoxShape>& event)
 	{
+		BX_UNUSED(world, event);
 	}
 
 	void SceneSystem::Receive(World* world, const events::OnComponentRemoved<BoxShape>& event)
 	{
+		BX_UNUSED(world, event);
 	}
 
 	void SceneSystem::CalcTransform(Node* node, Matrix* parentMat)

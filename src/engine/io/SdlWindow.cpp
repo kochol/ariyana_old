@@ -865,7 +865,7 @@ namespace ari
 			&& _reset != g_pEngine->m_reset)
 		{
 			_reset = g_pEngine->m_reset;
-//			bgfx::reset(_width, _height, _reset);
+			g_pEngine->m_bNeedReset = true;
 			inputSetMouseResolution(uint16_t(_width), uint16_t(_height));
 		}
 

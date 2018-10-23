@@ -10,7 +10,7 @@ namespace ari
 
 	const Event * poll(WindowHandle _handle)
 	{
-		
+		BX_UNUSED(_handle);
 		return nullptr;
 	}
 

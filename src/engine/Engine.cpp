@@ -18,7 +18,7 @@ namespace ari
 
 	Engine::Engine() : m_pWindow(nullptr), m_debug(0), m_reset(0), 
 		m_frame_number(0), m_time_offset(0), m_pGfxThread(nullptr),
-		m_bRun(true)
+		m_bRun(true), m_bNeedReset(false)
 	{
 		Logger = spdlog::stdout_color_mt("main");
 		Logger->set_level(spdlog::level::trace);
@@ -69,7 +69,8 @@ namespace ari
 	bool Engine::Run()
 	{
 	    m_bRun = m_pWindow->Run();
-		m_bRun &= m_pWindow->processEvents(m_params.Width, m_params.Height, m_debug, m_reset, &m_MouseState);
+		uint32_t reset = m_reset;
+		m_bRun &= m_pWindow->processEvents(m_params.Width, m_params.Height, m_debug, reset, &m_MouseState);
 		return m_bRun;
 	}
 
@@ -112,6 +113,11 @@ namespace ari
 
 		while (g_pEngine->m_bRun)
 		{
+			if (g_pEngine->m_bNeedReset)
+			{
+				bgfx::reset(g_pEngine->m_params.Width, g_pEngine->m_params.Height, g_pEngine->m_reset);
+				g_pEngine->m_bNeedReset = false;
+			}
 			// Set view 0 default viewport.
 			bgfx::setViewRect(0, 0, 0, uint16_t(g_pEngine->m_params.Width), uint16_t(g_pEngine->m_params.Height));
 

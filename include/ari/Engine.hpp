@@ -75,6 +75,7 @@ namespace ari
 		ftl::TaskScheduler			*	m_pTaskMgr;
 		MouseState						m_MouseState;
 		bool							m_bRun;
+		bool							m_bNeedReset;
 
 	}; // Engine
 
