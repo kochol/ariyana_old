@@ -6,7 +6,7 @@ namespace ari
 	{
 	}
 
-	void Window::BeginRender()
+	bool Window::BeginRender()
 	{
 		ImGui::SetNextWindowPos(
 			Pos
@@ -17,12 +17,12 @@ namespace ari
 			, ImGuiCond_FirstUseEver
 		);
 		if (CloseButton)
-			ImGui::Begin(Name
+			return ImGui::Begin(Name
 				, &isOpen
 				, 0
 			);
 		else
-			ImGui::Begin(Name
+			return ImGui::Begin(Name
 				, nullptr
 				, 0
 			);

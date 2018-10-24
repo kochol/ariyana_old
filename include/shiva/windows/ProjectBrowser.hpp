@@ -1,12 +1,31 @@
 #pragma once
+#include "shiva/shivadef.hpp"
+#include "ari/en/Entity.hpp"
 
-#include "DockWindow.hpp"
+namespace ari
+{
+	class Window;
+	class World;
+
+} // ari
 
 namespace shiva
 {
-	class ProjectBrowser: public DockWindow
+	
+	class SHIVA_API ProjectBrowser
 	{
+	public:
+		ProjectBrowser();
+
+		~ProjectBrowser();
+
+		void Init(ari::World* p_world);
 		
+	protected:
+
+		ari::Window		*	m_pWindow;
+		ari::Entity			m_Entity;
+
 	}; // ProjectBrowser
 
 } // shiva

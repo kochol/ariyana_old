@@ -11,7 +11,7 @@ namespace ari
 
 		~Window() = default;
 
-		void BeginRender() override;
+		bool BeginRender() override;
 		void EndRender() override;
 
 		char	*	Name;

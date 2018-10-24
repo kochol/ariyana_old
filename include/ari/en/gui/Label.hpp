@@ -12,7 +12,7 @@ namespace ari
 
 		~Label() = default;
 
-		void BeginRender() override;
+		bool BeginRender() override;
 
 		char	*	Text;
 	};

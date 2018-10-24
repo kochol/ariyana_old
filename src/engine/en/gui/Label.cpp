@@ -7,9 +7,10 @@ namespace ari
 	{
 	}
 
-	void Label::BeginRender()
+	bool Label::BeginRender()
 	{
 		ImGui::Text(Text);
+		return true;
 	}
 
 } // ari

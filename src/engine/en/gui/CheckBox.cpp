@@ -7,8 +7,9 @@ namespace ari
 	{
 	}
 
-	void CheckBox::BeginRender()
+	bool CheckBox::BeginRender()
 	{
 		ImGui::Checkbox(Label, &Checked);
+		return true;
 	}
 }

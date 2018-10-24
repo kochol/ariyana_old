@@ -12,7 +12,7 @@ namespace ari
 
 		virtual ~Gui() = default;
 
-		virtual void BeginRender() { }
+		virtual bool BeginRender() { return true; }
 
 		virtual void EndRender() { }
 

@@ -12,7 +12,7 @@ namespace ari
 
 		~Dock() = default;
 
-		void BeginRender() override;
+		bool BeginRender() override;
 
 		void EndRender() override;
 

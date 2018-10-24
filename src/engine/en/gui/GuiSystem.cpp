@@ -77,19 +77,21 @@ namespace ari
 	void GuiSystem::RenderGui(Node * node)
 	{
 		Gui* gui = nullptr;
+		bool renderChilds = true;
 		if (node->GetType() == Node::Type::Component)
 		{
 			Component* cmp = reinterpret_cast<Component*>(node);
 			if (cmp->_isFromGui)
 			{
 				gui = reinterpret_cast<Gui*>(cmp);
-				gui->BeginRender();
+				renderChilds = gui->BeginRender();
 			}
 		}
-		for (auto child : node->GetChildren())
-		{
-			RenderGui(child);
-		}
+		if (renderChilds)
+			for (auto child : node->GetChildren())
+			{
+				RenderGui(child);
+			}
 		if (gui)
 			gui->EndRender();
 	}

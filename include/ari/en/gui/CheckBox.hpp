@@ -11,7 +11,7 @@ namespace ari
 
 		~CheckBox() = default;
 
-		void BeginRender() override;
+		bool BeginRender() override;
 
 		bool		Checked;
 		char	*	Label;

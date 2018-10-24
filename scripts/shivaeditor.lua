@@ -3,6 +3,7 @@ project ("shivaeditor")
 
 	includedirs {
 		path.join(BX_DIR,   "include"),
+		path.join(BGFX_DIR, "3rdparty"),
 		"../include"
 	}
 
@@ -30,11 +31,13 @@ project ("Shiva")
 
 	includedirs {
 		path.join(BX_DIR,   "include"),
+		path.join(BGFX_DIR, "3rdparty"),
 		"../include"
 	}
 
 	links {
 		"bx",
+		"ariengine",
 		"shivaeditor",
 	}
 
