@@ -2,7 +2,7 @@
 
 namespace ari
 {
-	Window::Window(): Name(nullptr), CloseButton(false), isOpen(true)
+	Window::Window(): Name(nullptr), CloseButton(false), isOpen(true), Flags(0)
 	{
 	}
 
@@ -19,13 +19,12 @@ namespace ari
 		if (CloseButton)
 			return ImGui::Begin(Name
 				, &isOpen
-				, 0
+				, Flags
 			);
-		else
-			return ImGui::Begin(Name
-				, nullptr
-				, 0
-			);
+		return ImGui::Begin(Name
+			, nullptr
+			, Flags
+		);
 	}
 
 	void Window::EndRender()

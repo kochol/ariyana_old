@@ -21,6 +21,7 @@ namespace shiva
 		m_pWindow->Name = "Project Browser";
 		m_pWindow->Size.x = 800;
 		m_pWindow->Size.y = 600;
+		m_pWindow->Flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
 		m_Entity.AddChild(m_pWindow);
 	}
 

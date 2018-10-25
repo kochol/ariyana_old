@@ -19,6 +19,7 @@ namespace ari
 					isOpen;
 		ImVec2		Pos,
 					Size;
+		ImGuiWindowFlags	Flags;
 
 	}; // Window
 
