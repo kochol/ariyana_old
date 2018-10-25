@@ -1,6 +1,7 @@
 #pragma once
 #include "shiva/shivadef.hpp"
 #include "ari/en/Entity.hpp"
+#include "ari/en/gui/Gui.hpp"
 
 namespace ari
 {
@@ -11,7 +12,17 @@ namespace ari
 
 namespace shiva
 {
-	
+	/*!
+	 * Custom GUI component to show a project in the list.
+	 */
+	class ProjectGui: public ari::Gui
+	{
+	public:
+		bool BeginRender() override;
+		void EndRender() override;
+
+	}; // ProjectGui
+
 	class SHIVA_API ProjectBrowser
 	{
 	public:
