@@ -24,7 +24,9 @@ namespace shiva
 		m_pWindow->Flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
 		m_Entity.AddChild(m_pWindow);
 		ProjectGui* pPG = new ProjectGui();
+		ProjectGui* pPG2 = new ProjectGui();
 		m_pWindow->AddChild(pPG);
+		m_pWindow->AddChild(pPG2);
 	}
 
 	bool ProjectGui::BeginRender()

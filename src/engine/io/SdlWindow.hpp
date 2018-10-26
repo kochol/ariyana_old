@@ -36,7 +36,7 @@ namespace ari
 
 	public:
 
-		bool Init(InitParams& params);
+		bool Init(std::shared_ptr<InitParams> params);
 
 		void setWindowSize(WindowHandle _handle, uint32_t _width, uint32_t _height, bool _force);
 
@@ -61,7 +61,7 @@ namespace ari
 		uint32_t m_flags[ARI_CONFIG_MAX_WINDOW];
 		bx::HandleAllocT<ENTRY_CONFIG_MAX_GAMEPADS> m_gamepadAlloc;
 		GamepadSDL m_gamepad[ENTRY_CONFIG_MAX_GAMEPADS];
-		InitParams m_params;
+		std::shared_ptr<InitParams> m_params;
 		bx::Mutex m_lock;
 		int m_mx, m_my, m_mz;
 		EventQueue	m_eventQueue;

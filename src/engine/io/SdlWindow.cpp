@@ -84,7 +84,7 @@ namespace ari
 
 	static void initTranslateGamepad(uint8_t _sdl, Key::Enum _button)
 	{
-		s_translateGamepad[_sdl] = _button;
+		s_translateGamepad[_sdl] = static_cast<uint8_t>(_button);
 	}
 
 	static Key::Enum translateGamepad(uint8_t _sdl)
@@ -124,7 +124,7 @@ namespace ari
 	{
 		for (uint32_t ii = 0, num = m_gamepadAlloc.getNumHandles(); ii < num; ++ii)
 		{
-			uint16_t idx = m_gamepadAlloc.getHandleAt(ii);
+			uint16_t idx = static_cast<uint16_t>(m_gamepadAlloc.getHandleAt(ii));
 			if (_jid == m_gamepad[idx].m_jid)
 			{
 				GamepadHandle handle = { idx };
@@ -226,7 +226,7 @@ namespace ari
 		SDL_PushEvent(&event);
 	}
 
-	bool SdlWindow::Init(InitParams & params)
+	bool SdlWindow::Init(std::shared_ptr<InitParams> params)
 	{
 		// Init the SDL
 		if (SDL_Init(0 | SDL_INIT_GAMECONTROLLER) < 0)
@@ -238,15 +238,15 @@ namespace ari
 		m_mx = m_my = m_mz = 0;
 		m_params = params;
 		char* windowName = "Ariyana";
-		if (params.Program)
-			windowName = (char*)params.Program->GetProgramName().c_str();
+		if (params->Program)
+			windowName = (char*)params->Program->GetProgramName().c_str();
 
 		m_windowAlloc.alloc();
 		m_window[0] = SDL_CreateWindow(windowName
 			, SDL_WINDOWPOS_UNDEFINED
 			, SDL_WINDOWPOS_UNDEFINED
-			, params.Width
-			, params.Height
+			, params->Width
+			, params->Height
 			, SDL_WINDOW_SHOWN
 			| SDL_WINDOW_RESIZABLE
 		);
@@ -264,7 +264,7 @@ namespace ari
 
 		// Force window resolution...
 		defaultWindow.idx = 0;
-		setWindowSize(defaultWindow, params.Width, params.Height, true);
+		setWindowSize(defaultWindow, params->Width, params->Height, true);
 
 		SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
 
@@ -297,12 +297,12 @@ namespace ari
 
 	void SdlWindow::setWindowSize(WindowHandle _handle, uint32_t _width, uint32_t _height, bool _force = false)
 	{
-		if (_width != m_params.Width
-			|| _height != m_params.Height
+		if (_width != m_params->Width
+			|| _height != m_params->Height
 			|| _force)
 		{
-			m_params.Width  = _width;
-			m_params.Height = _height;
+			m_params->Width  = _width;
+			m_params->Height = _height;
 
 			SDL_SetWindowSize(m_window[_handle.idx], _width, _height);
 			m_eventQueue.postSizeEvent(_handle, _width, _height);
@@ -403,7 +403,7 @@ namespace ari
 					/// Further along, pressing 'shift' + 'ctrl' would be: key == 'shift', modifier == 'ctrl.
 					if (0 == key && 0 == modifiers)
 					{
-						modifiers = translateKeyModifierPress(kev.keysym.scancode);
+						modifiers = static_cast<uint8_t>(translateKeyModifierPress(kev.keysym.scancode));
 					}
 
 					if (Key::Esc == key)
@@ -717,8 +717,8 @@ namespace ari
 				case SDL_USER_WINDOW_TOGGLE_FULL_SCREEN:
 				{
 					WindowHandle handle = getWindowHandle(uev);
-					m_params.FullScreen = !m_params.FullScreen;
-					SDL_SetWindowFullscreen(m_window[handle.idx], m_params.FullScreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
+					m_params->FullScreen = !m_params->FullScreen;
+					SDL_SetWindowFullscreen(m_window[handle.idx], m_params->FullScreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
 				}
 				break;
 
@@ -847,7 +847,7 @@ namespace ari
 
 				case Event::DropFile:
 				{
-					const DropFileEvent* drop = static_cast<const DropFileEvent*>(ev);
+//					const DropFileEvent* drop = static_cast<const DropFileEvent*>(ev);
 					//DBG("%s", drop->m_filePath.get());
 				}
 				break;
@@ -871,8 +871,8 @@ namespace ari
 
 		_debug = g_pEngine->m_debug;
 
-		g_pEngine->m_params.Width = m_params.Width = _width;
-		g_pEngine->m_params.Height = m_params.Height = _height;
+		m_params->Width = _width;
+		m_params->Height = _height;
 		
 
 		return true; // s_exit

@@ -29,8 +29,8 @@ namespace ari
 				| (g_pEngine->m_MouseState.m_buttons[MouseButton::Right] ? IMGUI_MBUT_RIGHT : 0)
 				| (g_pEngine->m_MouseState.m_buttons[MouseButton::Middle] ? IMGUI_MBUT_MIDDLE : 0)
 				, g_pEngine->m_MouseState.m_mz
-				, uint16_t(g_pEngine->m_params.Width)
-				, uint16_t(g_pEngine->m_params.Height)
+				, uint16_t(g_pEngine->m_params->Width)
+				, uint16_t(g_pEngine->m_params->Height)
 			);
 
 			for (auto e: p_world->GetAllEntities())

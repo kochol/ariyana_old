@@ -44,7 +44,7 @@ namespace ari
 		return *g_pEngine;
 	}
 
-	bool Engine::Init(InitParams params)
+	bool Engine::Init(std::shared_ptr<InitParams> params)
 	{
 		// Create a SDL window
 		m_pWindow = new SdlWindow();
@@ -70,7 +70,7 @@ namespace ari
 	{
 	    m_bRun = m_pWindow->Run();
 		uint32_t reset = m_reset;
-		m_bRun &= m_pWindow->processEvents(m_params.Width, m_params.Height, m_debug, reset, &m_MouseState);
+		m_bRun &= m_pWindow->processEvents(m_params->Width, m_params->Height, m_debug, reset, &m_MouseState);
 		return m_bRun;
 	}
 
@@ -90,8 +90,8 @@ namespace ari
 
 		// Init bgfx
 		bgfx::Init init;
-		init.resolution.width = g_pEngine->m_params.Width;
-		init.resolution.height = g_pEngine->m_params.Height;
+		init.resolution.width = g_pEngine->m_params->Width;
+		init.resolution.height = g_pEngine->m_params->Height;
 		init.resolution.reset = g_pEngine->m_reset;
 		bgfx::init(init);
 
@@ -106,8 +106,8 @@ namespace ari
 			, 0
 		);
 
-		if (g_pEngine->m_params.Program)
-			g_pEngine->m_params.Program->Init();
+		if (g_pEngine->m_params->Program)
+			g_pEngine->m_params->Program->Init();
 		
 		g_pEngine->m_time_offset = bx::getHPCounter();
 
@@ -115,11 +115,11 @@ namespace ari
 		{
 			if (g_pEngine->m_bNeedReset)
 			{
-				bgfx::reset(g_pEngine->m_params.Width, g_pEngine->m_params.Height, g_pEngine->m_reset);
+				bgfx::reset(g_pEngine->m_params->Width, g_pEngine->m_params->Height, g_pEngine->m_reset);
 				g_pEngine->m_bNeedReset = false;
 			}
 			// Set view 0 default viewport.
-			bgfx::setViewRect(0, 0, 0, uint16_t(g_pEngine->m_params.Width), uint16_t(g_pEngine->m_params.Height));
+			bgfx::setViewRect(0, 0, 0, uint16_t(g_pEngine->m_params->Width), uint16_t(g_pEngine->m_params->Height));
 
 			// This dummy draw call is here to make sure that view 0 is cleared
 			// if no other draw calls are submitted to view 0.
@@ -127,8 +127,8 @@ namespace ari
 
 			float time = (float)((bx::getHPCounter() - g_pEngine->m_time_offset) / double(bx::getHPFrequency()));
 
-			if (g_pEngine->m_params.Program)
-				g_pEngine->m_params.Program->Update(g_pEngine->m_frame_number, time);
+			if (g_pEngine->m_params->Program)
+				g_pEngine->m_params->Program->Update(g_pEngine->m_frame_number, time);
 
 			bgfx::frame();
 			g_pEngine->m_frame_number++;

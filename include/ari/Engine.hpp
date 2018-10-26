@@ -2,6 +2,7 @@
 #include "aridef.hpp"
 #include <memory>
 #include "io/IoEnums.hpp"
+#include "Program.hpp"
 
 namespace bx
 {
@@ -19,19 +20,18 @@ namespace ftl
 namespace ari
 {
 	class SdlWindow;
-	class IProgram;
 	struct Event;
 
 	struct InitParams
 	{
-		InitParams(): Height(600), Width(800), FullScreen(false), Program(nullptr)
+		InitParams(): Height(600), Width(800), FullScreen(false)
 		{}
 
 		uint32_t Height,
 				 Width;
 
 		bool FullScreen;
-		IProgram* Program;
+		std::unique_ptr<IProgram> Program;
 
 	}; // InitParams
 
@@ -50,7 +50,7 @@ namespace ari
 		static Engine& GetSingleton();
 
 		//! Init the engine device
-		bool Init(InitParams params);
+		bool Init(std::shared_ptr<InitParams> params);
 
 		bool Run();
 
@@ -68,7 +68,7 @@ namespace ari
 
 		std::shared_ptr<spdlog::logger> Logger;
 		SdlWindow	*					m_pWindow;
-		InitParams						m_params;
+		std::shared_ptr<InitParams>		m_params;
 		uint32_t						m_debug, m_reset, m_frame_number;
 		int64_t							m_time_offset;
 		bx::Thread					*	m_pGfxThread;
