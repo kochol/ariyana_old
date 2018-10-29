@@ -11,6 +11,8 @@ project ("ariengine")
 		path.join(ARIDEPS_DIR, "SDL2/include"),
 		path.join(MODULE_DIR, "deps/spdlog/include"),
 		path.join(MODULE_DIR, "deps/brtshaderc/tools/brtshaderc"),	
+		path.join(MODULE_DIR, "deps/MetaStuff/include"),	
+		path.join(MODULE_DIR, "deps/MetaStuff/example/nlohmann_json"),					
 	}
 
 	links {
@@ -23,6 +25,7 @@ project ("ariengine")
 
 	files {
 		"../include/ari/**.hpp",
+		"../include/ari/**.inl",
 		"../src/engine/**.cpp",
 		"../src/engine/**.hpp",
 		"../deps/spdlog/include/**.h",

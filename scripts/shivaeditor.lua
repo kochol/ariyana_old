@@ -4,7 +4,9 @@ project ("shivaeditor")
 	includedirs {
 		path.join(BX_DIR,   "include"),
 		path.join(BGFX_DIR, "3rdparty"),
-		"../include"
+		path.join(MODULE_DIR, "deps/MetaStuff/include"),	
+		path.join(MODULE_DIR, "deps/MetaStuff/example/nlohmann_json"),					
+		"../include",
 	}
 
 	links {

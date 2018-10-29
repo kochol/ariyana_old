@@ -19,3 +19,6 @@
 [submodule "deps/brtshaderc"]
 	path = deps/brtshaderc
 	url = https://github.com/kochol/brtshaderc.git
+[submodule "deps/MetaStuff"]
+	path = deps/MetaStuff
+	url = https://github.com/eliasdaler/MetaStuff.git
