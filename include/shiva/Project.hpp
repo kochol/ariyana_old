@@ -1,32 +1,31 @@
 #pragma once
 #include "bx/filepath.h"
 #include <string>
+#include <Meta.h>
 
 namespace shiva
 {
 	class Project
 	{
-		Project();
-
+		friend auto meta::registerMembers<Project>();
 	public:
+		Project();
 
 		~Project();
 
-		static Project* New(bx::FilePath projectPath);
+		static Project* New(bx::FilePath projectPath, std::string name);
 
-		const std::string& GetProjectPath() const;
-
-		void SetProjectPath(const std::string& path);
+		void Save();
+		void Load();
 
 	private:
 
 		bx::FilePath	m_ProjectPath;
+		std::string		m_ProjectName;
 
 	}; // Project
 
 } // shiva
-
-#include <Meta.h>
 
 namespace meta {
 
@@ -34,7 +33,7 @@ namespace meta {
 	inline auto registerMembers<shiva::Project>()
 	{
 		return members(
-			member("path", &shiva::Project::GetProjectPath, &shiva::Project::SetProjectPath)
+			member("name", &shiva::Project::m_ProjectName)
 		);
 	}
 
