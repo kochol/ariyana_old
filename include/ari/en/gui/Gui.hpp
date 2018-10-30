@@ -16,5 +16,7 @@ namespace ari
 
 		virtual void EndRender() { }
 
+		bool SameLine = false;
+
 	};
 } // ari

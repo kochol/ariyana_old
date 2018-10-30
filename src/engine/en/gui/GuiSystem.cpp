@@ -84,6 +84,8 @@ namespace ari
 			if (cmp->_isFromGui)
 			{
 				gui = reinterpret_cast<Gui*>(cmp);
+				if (gui->SameLine)
+					ImGui::SameLine();
 				renderChilds = gui->BeginRender();
 			}
 		}
