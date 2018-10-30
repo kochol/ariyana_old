@@ -20,4 +20,5 @@ namespace ari
 		size_t m_MaxLength;
 
 	};
+
 } // ari

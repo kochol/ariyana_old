@@ -1,6 +1,8 @@
 #include "..\..\..\include\shiva\windows\ProjectBrowser.hpp"
 #include "ari/en/gui/Window.hpp"
 #include "ari/en/World.hpp"
+#include "ari/en/gui/TextBox.hpp"
+#include "bx/string.h"
 
 namespace shiva
 {
@@ -10,8 +12,8 @@ namespace shiva
 
 	ProjectBrowser::~ProjectBrowser()
 	{
-		if (m_pWindow)
-			delete m_pWindow;
+		delete m_pWindow;
+		delete m_pNewProjectName;
 	}
 
 	void ProjectBrowser::Init(ari::World* p_world)
@@ -23,10 +25,14 @@ namespace shiva
 		m_pWindow->Size.y = 600;
 		m_pWindow->Flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
 		m_Entity.AddChild(m_pWindow);
-		ProjectGui* pPG = new ProjectGui();
-		ProjectGui* pPG2 = new ProjectGui();
-		m_pWindow->AddChild(pPG);
-		m_pWindow->AddChild(pPG2);
+		//ProjectGui* pPG = new ProjectGui();
+		//ProjectGui* pPG2 = new ProjectGui();
+		//m_pWindow->AddChild(pPG);
+		//m_pWindow->AddChild(pPG2);
+		m_pNewProjectName = new ari::TextBox(32);
+		m_pNewProjectName->Label = "Project name";
+		bx::strCopy(m_pNewProjectName->Text, sizeof(m_pNewProjectName->Text), "Test");
+		m_pWindow->AddChild(m_pNewProjectName);
 	}
 
 	bool ProjectGui::BeginRender()

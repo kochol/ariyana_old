@@ -7,6 +7,7 @@ namespace ari
 {
 	class Window;
 	class World;
+	class TextBox;
 
 } // ari
 
@@ -36,6 +37,7 @@ namespace shiva
 
 		ari::Window		*	m_pWindow;
 		ari::Entity			m_Entity;
+		ari::TextBox	*	m_pNewProjectName;
 
 	}; // ProjectBrowser
 
