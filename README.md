@@ -16,6 +16,10 @@ Ariyana is a WIP game engine that is planned to include these features.
   - Using fibers to jobify the engine
   - Using frame buffers that is introduced in GDC talk by Christian Gyrling in his 2015 GDC Talk 'Parallelizing the Naughty Dog Engine Using Fibers'
 - Entity component system
-
+- Editor
+  - Easy to use
+  - Animate every thing
+  - Json save and load for easy team support and Git.
+  
 ## How to build
 https://github.com/kochol/ariyana/blob/master/docs/building.rst
