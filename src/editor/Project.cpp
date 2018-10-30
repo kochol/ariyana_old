@@ -3,6 +3,7 @@
 #include <ari/JsonCast.h>
 #include <iostream>
 #include <fstream>
+#include "bx/file.h"
 
 namespace shiva
 {
@@ -43,8 +44,24 @@ namespace shiva
 		out << std::setw(4) << root << std::endl;
 	}
 
-	void Project::Load()
+	Project * Project::Load(bx::FilePath path)
 	{
+		bx::FileReader file;
+		bx::Error err;
+		if (!file.open(path, &err))
+		{
+			return nullptr;
+		}
+		const int32_t size = static_cast<int32_t>(file.seek(0, bx::Whence::End));
+		file.seek(0, bx::Whence::Begin);
+		char* data = new char[size + 1];
+		file.read(data, size, &err);
+		data[size] = 0;
+		json root = json::parse(data);
+		Project* p = new Project();
+		from_json(root, *p);
+		p->m_ProjectPath = path;
+		return p;
 	}
 
 } // shiva

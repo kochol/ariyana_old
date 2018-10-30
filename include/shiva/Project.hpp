@@ -16,7 +16,7 @@ namespace shiva
 		static Project* New(bx::FilePath projectPath, std::string name);
 
 		void Save();
-		void Load();
+		static Project* Load(bx::FilePath path);
 
 	private:
 
