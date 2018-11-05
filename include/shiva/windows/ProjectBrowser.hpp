@@ -2,6 +2,7 @@
 #include "shiva/shivadef.hpp"
 #include "ari/en/Entity.hpp"
 #include "ari/en/gui/Gui.hpp"
+#include "ari/en/gui/Button.hpp"
 
 namespace ari
 {
@@ -38,6 +39,10 @@ namespace shiva
 		ari::Window		*	m_pWindow;
 		ari::Entity			m_Entity;
 		ari::TextBox	*	m_pNewProjectName;
+		ari::TextBox	*	m_pNewProjectPath;
+		ari::Button		*	m_pNewProjectBtn;
+
+		void testClick();
 
 	}; // ProjectBrowser
 

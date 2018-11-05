@@ -3,10 +3,17 @@
 #include "ari/en/World.hpp"
 #include "ari/en/gui/TextBox.hpp"
 #include "bx/string.h"
+#include "bx/filepath.h"
+
+void testOnClick()
+{
+	printf("new project button clicked\n");
+}
 
 namespace shiva
 {
-	ProjectBrowser::ProjectBrowser(): m_pWindow(nullptr)
+	ProjectBrowser::ProjectBrowser(): m_pWindow(nullptr), m_pNewProjectName(nullptr), m_pNewProjectPath(nullptr),
+	                                  m_pNewProjectBtn(nullptr)
 	{
 	}
 
@@ -14,6 +21,8 @@ namespace shiva
 	{
 		delete m_pWindow;
 		delete m_pNewProjectName;
+		delete m_pNewProjectPath;
+		delete m_pNewProjectBtn;
 	}
 
 	void ProjectBrowser::Init(ari::World* p_world)
@@ -31,8 +40,21 @@ namespace shiva
 		//m_pWindow->AddChild(pPG2);
 		m_pNewProjectName = new ari::TextBox(32);
 		m_pNewProjectName->Label = "Project name";
-		bx::strCopy(m_pNewProjectName->Text, sizeof(m_pNewProjectName->Text), "Test");
+		m_pNewProjectName->SetText("New project");
 		m_pWindow->AddChild(m_pNewProjectName);
+		m_pNewProjectPath = new ari::TextBox(512);
+		m_pNewProjectPath->Label = "Project path";
+		m_pNewProjectPath->SetText(bx::FilePath(bx::Dir::Home).get());
+		m_pWindow->AddChild(m_pNewProjectPath);
+		m_pNewProjectBtn = new ari::Button();
+		m_pNewProjectBtn->Label = "New project";
+		m_pNewProjectBtn->OnClick.Bound(this, &ProjectBrowser::testClick);
+		m_pWindow->AddChild(m_pNewProjectBtn);
+	}
+
+	void ProjectBrowser::testClick()
+	{
+		printf("mem to fn btn clicked.\n");
 	}
 
 	bool ProjectGui::BeginRender()

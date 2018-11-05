@@ -32,7 +32,7 @@ project ("ariengine")
 		"../assets/shaders/**.glsl",
 		"../deps/bgfx/3rdparty/dear-imgui/**.h",
 		"../deps/bgfx/3rdparty/dear-imgui/**.inl",
-		"../deps/bgfx/3rdparty/dear-imgui/*.cpp",
+		"../deps/bgfx/3rdparty/dear-imgui/**.cpp",
 		"../deps/bgfx/examples/common/imgui/*.h",
 		"../deps/bgfx/examples/common/imgui/*.cpp",				
 	}

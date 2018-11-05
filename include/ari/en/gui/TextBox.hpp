@@ -13,6 +13,8 @@ namespace ari
 
 		bool BeginRender() override;
 
+		void SetText(const char* _text) const;
+
 		char* Text;
 		char* Label;
 
