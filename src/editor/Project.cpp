@@ -19,6 +19,14 @@ namespace shiva
 	{
 		projectPath.join(name.c_str());
 
+		// check the folder is empty
+		bx::FileInfo fi;
+		if (bx::stat(projectPath, fi))
+		{
+			BX_ERROR_SET(err, SH_ERROR_NOT_EMPTY_DIRECTPRY, "The directory must not exist.");
+			return nullptr;
+		}	
+
 		// 1st Create the folders
 		if (!bx::makeAll(projectPath, err))
 		{

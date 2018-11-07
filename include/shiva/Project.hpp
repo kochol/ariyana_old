@@ -2,6 +2,9 @@
 #include "bx/filepath.h"
 #include <string>
 #include <Meta.h>
+#include <bx/error.h>
+
+BX_ERROR_RESULT(SH_ERROR_NOT_EMPTY_DIRECTPRY, BX_MAKEFOURCC('s', 'h', 0, 0));
 
 namespace shiva
 {
