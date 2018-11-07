@@ -226,6 +226,118 @@ namespace ari
 		SDL_PushEvent(&event);
 	}
 
+	static void InitKeys()
+	{
+		bx::memSet(s_translateKey, 0, sizeof(s_translateKey));
+		initTranslateKey(SDL_SCANCODE_ESCAPE, Key::Esc);
+		initTranslateKey(SDL_SCANCODE_RETURN, Key::Return);
+		initTranslateKey(SDL_SCANCODE_TAB, Key::Tab);
+		initTranslateKey(SDL_SCANCODE_BACKSPACE, Key::Backspace);
+		initTranslateKey(SDL_SCANCODE_SPACE, Key::Space);
+		initTranslateKey(SDL_SCANCODE_UP, Key::Up);
+		initTranslateKey(SDL_SCANCODE_DOWN, Key::Down);
+		initTranslateKey(SDL_SCANCODE_LEFT, Key::Left);
+		initTranslateKey(SDL_SCANCODE_RIGHT, Key::Right);
+		initTranslateKey(SDL_SCANCODE_PAGEUP, Key::PageUp);
+		initTranslateKey(SDL_SCANCODE_PAGEDOWN, Key::PageDown);
+		initTranslateKey(SDL_SCANCODE_HOME, Key::Home);
+		initTranslateKey(SDL_SCANCODE_END, Key::End);
+		initTranslateKey(SDL_SCANCODE_PRINTSCREEN, Key::Print);
+		initTranslateKey(SDL_SCANCODE_KP_PLUS, Key::Plus);
+		initTranslateKey(SDL_SCANCODE_EQUALS, Key::Plus);
+		initTranslateKey(SDL_SCANCODE_KP_MINUS, Key::Minus);
+		initTranslateKey(SDL_SCANCODE_MINUS, Key::Minus);
+		initTranslateKey(SDL_SCANCODE_GRAVE, Key::Tilde);
+		initTranslateKey(SDL_SCANCODE_KP_COMMA, Key::Comma);
+		initTranslateKey(SDL_SCANCODE_COMMA, Key::Comma);
+		initTranslateKey(SDL_SCANCODE_KP_PERIOD, Key::Period);
+		initTranslateKey(SDL_SCANCODE_PERIOD, Key::Period);
+		initTranslateKey(SDL_SCANCODE_SLASH, Key::Slash);
+		initTranslateKey(SDL_SCANCODE_F1, Key::F1);
+		initTranslateKey(SDL_SCANCODE_F2, Key::F2);
+		initTranslateKey(SDL_SCANCODE_F3, Key::F3);
+		initTranslateKey(SDL_SCANCODE_F4, Key::F4);
+		initTranslateKey(SDL_SCANCODE_F5, Key::F5);
+		initTranslateKey(SDL_SCANCODE_F6, Key::F6);
+		initTranslateKey(SDL_SCANCODE_F7, Key::F7);
+		initTranslateKey(SDL_SCANCODE_F8, Key::F8);
+		initTranslateKey(SDL_SCANCODE_F9, Key::F9);
+		initTranslateKey(SDL_SCANCODE_F10, Key::F10);
+		initTranslateKey(SDL_SCANCODE_F11, Key::F11);
+		initTranslateKey(SDL_SCANCODE_F12, Key::F12);
+		initTranslateKey(SDL_SCANCODE_KP_0, Key::NumPad0);
+		initTranslateKey(SDL_SCANCODE_KP_1, Key::NumPad1);
+		initTranslateKey(SDL_SCANCODE_KP_2, Key::NumPad2);
+		initTranslateKey(SDL_SCANCODE_KP_3, Key::NumPad3);
+		initTranslateKey(SDL_SCANCODE_KP_4, Key::NumPad4);
+		initTranslateKey(SDL_SCANCODE_KP_5, Key::NumPad5);
+		initTranslateKey(SDL_SCANCODE_KP_6, Key::NumPad6);
+		initTranslateKey(SDL_SCANCODE_KP_7, Key::NumPad7);
+		initTranslateKey(SDL_SCANCODE_KP_8, Key::NumPad8);
+		initTranslateKey(SDL_SCANCODE_KP_9, Key::NumPad9);
+		initTranslateKey(SDL_SCANCODE_0, Key::Key0);
+		initTranslateKey(SDL_SCANCODE_1, Key::Key1);
+		initTranslateKey(SDL_SCANCODE_2, Key::Key2);
+		initTranslateKey(SDL_SCANCODE_3, Key::Key3);
+		initTranslateKey(SDL_SCANCODE_4, Key::Key4);
+		initTranslateKey(SDL_SCANCODE_5, Key::Key5);
+		initTranslateKey(SDL_SCANCODE_6, Key::Key6);
+		initTranslateKey(SDL_SCANCODE_7, Key::Key7);
+		initTranslateKey(SDL_SCANCODE_8, Key::Key8);
+		initTranslateKey(SDL_SCANCODE_9, Key::Key9);
+		initTranslateKey(SDL_SCANCODE_A, Key::KeyA);
+		initTranslateKey(SDL_SCANCODE_B, Key::KeyB);
+		initTranslateKey(SDL_SCANCODE_C, Key::KeyC);
+		initTranslateKey(SDL_SCANCODE_D, Key::KeyD);
+		initTranslateKey(SDL_SCANCODE_E, Key::KeyE);
+		initTranslateKey(SDL_SCANCODE_F, Key::KeyF);
+		initTranslateKey(SDL_SCANCODE_G, Key::KeyG);
+		initTranslateKey(SDL_SCANCODE_H, Key::KeyH);
+		initTranslateKey(SDL_SCANCODE_I, Key::KeyI);
+		initTranslateKey(SDL_SCANCODE_J, Key::KeyJ);
+		initTranslateKey(SDL_SCANCODE_K, Key::KeyK);
+		initTranslateKey(SDL_SCANCODE_L, Key::KeyL);
+		initTranslateKey(SDL_SCANCODE_M, Key::KeyM);
+		initTranslateKey(SDL_SCANCODE_N, Key::KeyN);
+		initTranslateKey(SDL_SCANCODE_O, Key::KeyO);
+		initTranslateKey(SDL_SCANCODE_P, Key::KeyP);
+		initTranslateKey(SDL_SCANCODE_Q, Key::KeyQ);
+		initTranslateKey(SDL_SCANCODE_R, Key::KeyR);
+		initTranslateKey(SDL_SCANCODE_S, Key::KeyS);
+		initTranslateKey(SDL_SCANCODE_T, Key::KeyT);
+		initTranslateKey(SDL_SCANCODE_U, Key::KeyU);
+		initTranslateKey(SDL_SCANCODE_V, Key::KeyV);
+		initTranslateKey(SDL_SCANCODE_W, Key::KeyW);
+		initTranslateKey(SDL_SCANCODE_X, Key::KeyX);
+		initTranslateKey(SDL_SCANCODE_Y, Key::KeyY);
+		initTranslateKey(SDL_SCANCODE_Z, Key::KeyZ);
+
+		bx::memSet(s_translateGamepad, uint8_t(Key::Count), sizeof(s_translateGamepad));
+		initTranslateGamepad(SDL_CONTROLLER_BUTTON_A, Key::GamepadA);
+		initTranslateGamepad(SDL_CONTROLLER_BUTTON_B, Key::GamepadB);
+		initTranslateGamepad(SDL_CONTROLLER_BUTTON_X, Key::GamepadX);
+		initTranslateGamepad(SDL_CONTROLLER_BUTTON_Y, Key::GamepadY);
+		initTranslateGamepad(SDL_CONTROLLER_BUTTON_LEFTSTICK, Key::GamepadThumbL);
+		initTranslateGamepad(SDL_CONTROLLER_BUTTON_RIGHTSTICK, Key::GamepadThumbR);
+		initTranslateGamepad(SDL_CONTROLLER_BUTTON_LEFTSHOULDER, Key::GamepadShoulderL);
+		initTranslateGamepad(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER, Key::GamepadShoulderR);
+		initTranslateGamepad(SDL_CONTROLLER_BUTTON_DPAD_UP, Key::GamepadUp);
+		initTranslateGamepad(SDL_CONTROLLER_BUTTON_DPAD_DOWN, Key::GamepadDown);
+		initTranslateGamepad(SDL_CONTROLLER_BUTTON_DPAD_LEFT, Key::GamepadLeft);
+		initTranslateGamepad(SDL_CONTROLLER_BUTTON_DPAD_RIGHT, Key::GamepadRight);
+		initTranslateGamepad(SDL_CONTROLLER_BUTTON_BACK, Key::GamepadBack);
+		initTranslateGamepad(SDL_CONTROLLER_BUTTON_START, Key::GamepadStart);
+		initTranslateGamepad(SDL_CONTROLLER_BUTTON_GUIDE, Key::GamepadGuide);
+
+		bx::memSet(s_translateGamepadAxis, uint8_t(GamepadAxis::Count), sizeof(s_translateGamepadAxis));
+		initTranslateGamepadAxis(SDL_CONTROLLER_AXIS_LEFTX, GamepadAxis::LeftX);
+		initTranslateGamepadAxis(SDL_CONTROLLER_AXIS_LEFTY, GamepadAxis::LeftY);
+		initTranslateGamepadAxis(SDL_CONTROLLER_AXIS_TRIGGERLEFT, GamepadAxis::LeftZ);
+		initTranslateGamepadAxis(SDL_CONTROLLER_AXIS_RIGHTX, GamepadAxis::RightX);
+		initTranslateGamepadAxis(SDL_CONTROLLER_AXIS_RIGHTY, GamepadAxis::RightY);
+		initTranslateGamepadAxis(SDL_CONTROLLER_AXIS_TRIGGERRIGHT, GamepadAxis::RightZ);
+	}
+
 	bool SdlWindow::Init(std::shared_ptr<InitParams> params)
 	{
 		// Init the SDL
@@ -267,6 +379,8 @@ namespace ari
 		setWindowSize(defaultWindow, params->Width, params->Height, true);
 
 		SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
+
+		InitKeys();
 
 		return true;
 
@@ -410,18 +524,21 @@ namespace ari
 					{
 						uint8_t pressedChar[4];
 						pressedChar[0] = 0x1b;
+						pressedChar[1] = pressedChar[2] = pressedChar[3] = 0;
 						m_eventQueue.postCharEvent(handle, 1, pressedChar);
 					}
 					else if (Key::Return == key)
 					{
 						uint8_t pressedChar[4];
 						pressedChar[0] = 0x0d;
+						pressedChar[1] = pressedChar[2] = pressedChar[3] = 0;
 						m_eventQueue.postCharEvent(handle, 1, pressedChar);
 					}
 					else if (Key::Backspace == key)
 					{
 						uint8_t pressedChar[4];
 						pressedChar[0] = 0x08;
+						pressedChar[1] = pressedChar[2] = pressedChar[3] = 0;
 						m_eventQueue.postCharEvent(handle, 1, pressedChar);
 					}
 
