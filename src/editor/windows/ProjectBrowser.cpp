@@ -6,6 +6,7 @@
 #include "bx/filepath.h"
 #include "shiva/Project.hpp"
 #include "ari/en/gui/Popup.hpp"
+#include "shiva/Editor.hpp"
 
 void testOnClick()
 {
@@ -21,10 +22,7 @@ namespace shiva
 
 	ProjectBrowser::~ProjectBrowser()
 	{
-		delete m_pWindow;
-		delete m_pNewProjectName;
-		delete m_pNewProjectPath;
-		delete m_pNewProjectBtn;
+		Shutdown();
 	}
 
 	void ProjectBrowser::Init(ari::World* p_world)
@@ -61,12 +59,24 @@ namespace shiva
 		m_pMessageBox->AddChild(&m_MbOkBtn);
 	}
 
+	void ProjectBrowser::Shutdown()
+	{
+		m_Entity.GetWorld()->RemoveEntity(&m_Entity);
+		delete m_pWindow;
+		delete m_pNewProjectName;
+		delete m_pNewProjectPath;
+		delete m_pNewProjectBtn;
+		delete m_pMessageBox;
+	}
+
 	void ProjectBrowser::OnNewProjectClick()
 	{
 		bx::Error err;
 		Project* p = Project::New(bx::FilePath(m_pNewProjectPath->Text), m_pNewProjectName->Text, &err);
 		if (p)
-			printf("Project created succsesfuly.\n");
+		{
+			ProjectOpened(p);
+		}
 		else
 		{
 			m_MbLabel.Text = err.getMessage().getPtr();
@@ -77,6 +87,12 @@ namespace shiva
 	void ProjectBrowser::OnClickMbOk()
 	{
 		m_pMessageBox->Hide();
+	}
+
+	void ProjectBrowser::ProjectOpened(Project* project)
+	{
+		g_pEditor->LoadProject(project);
+		Shutdown();
 	}
 
 	bool ProjectGui::BeginRender()

@@ -16,6 +16,8 @@ namespace ari
 
 namespace shiva
 {
+	class Project;
+
 	/*!
 	 * Custom GUI component to show a project in the list.
 	 */
@@ -35,6 +37,8 @@ namespace shiva
 		~ProjectBrowser();
 
 		void Init(ari::World* p_world);
+
+		void Shutdown();
 		
 	protected:
 
@@ -48,7 +52,10 @@ namespace shiva
 		ari::Button			m_MbOkBtn;
 
 		void OnNewProjectClick();
+
 		void OnClickMbOk();
+
+		void ProjectOpened(Project* project);		
 
 	}; // ProjectBrowser
 

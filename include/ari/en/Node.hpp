@@ -90,6 +90,8 @@ namespace ari
 
 		const tinystl::vector<Node*>& GetChildren() const { return m_vChilds; }
 
+		World* GetWorld() const { return m_pWorld; }
+
 	protected:
 
 		Node* m_pParent;
