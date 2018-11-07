@@ -14,7 +14,7 @@ namespace ari
 
 		bool BeginRender() override;
 
-		char	*	Text;
+		const char	*	Text;
 	};
 	
 }

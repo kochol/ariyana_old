@@ -18,5 +18,8 @@ namespace ari
 
 		bool SameLine = false;
 
-	};
+		bool Visible = true;
+
+	}; // Gui
+
 } // ari

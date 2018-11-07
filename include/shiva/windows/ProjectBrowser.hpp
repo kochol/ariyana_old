@@ -3,12 +3,14 @@
 #include "ari/en/Entity.hpp"
 #include "ari/en/gui/Gui.hpp"
 #include "ari/en/gui/Button.hpp"
+#include "ari/en/gui/Label.hpp"
 
 namespace ari
 {
 	class Window;
 	class World;
 	class TextBox;
+	class Popup;
 
 } // ari
 
@@ -41,8 +43,12 @@ namespace shiva
 		ari::TextBox	*	m_pNewProjectName;
 		ari::TextBox	*	m_pNewProjectPath;
 		ari::Button		*	m_pNewProjectBtn;
+		ari::Popup		*	m_pMessageBox;
+		ari::Label			m_MbLabel;
+		ari::Button			m_MbOkBtn;
 
-		void testClick();
+		void OnNewProjectClick();
+		void OnClickMbOk();
 
 	}; // ProjectBrowser
 

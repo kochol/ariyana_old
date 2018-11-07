@@ -15,12 +15,12 @@ namespace shiva
 	{
 	}
 
-	Project * Project::New(bx::FilePath projectPath, std::string name)
+	Project * Project::New(bx::FilePath projectPath, std::string name, bx::Error* err)
 	{
 		projectPath.join(name.c_str());
 
 		// 1st Create the folders
-		if (!bx::makeAll(projectPath))
+		if (!bx::makeAll(projectPath, err))
 		{
 			//ari::g_pEngine->GetLogger()->
 			return nullptr;
@@ -44,20 +44,20 @@ namespace shiva
 		out << std::setw(4) << root << std::endl;
 	}
 
-	Project * Project::Load(bx::FilePath path)
+	Project * Project::Load(bx::FilePath path, bx::Error* err)
 	{
 		bx::FileReader file;
-		bx::Error err;
-		if (!file.open(path, &err))
+		if (!file.open(path, err))
 		{
 			return nullptr;
 		}
 		const int32_t size = static_cast<int32_t>(file.seek(0, bx::Whence::End));
 		file.seek(0, bx::Whence::Begin);
 		char* data = new char[size + 1];
-		file.read(data, size, &err);
+		file.read(data, size, err);
 		data[size] = 0;
 		json root = json::parse(data);
+		delete[] data;
 		Project* p = new Project();
 		from_json(root, *p);
 		p->m_ProjectPath = path;

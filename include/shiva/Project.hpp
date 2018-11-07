@@ -13,10 +13,10 @@ namespace shiva
 
 		~Project();
 
-		static Project* New(bx::FilePath projectPath, std::string name);
+		static Project* New(bx::FilePath projectPath, std::string name, bx::Error* err);
 
 		void Save();
-		static Project* Load(bx::FilePath path);
+		static Project* Load(bx::FilePath path, bx::Error* err);
 
 	private:
 

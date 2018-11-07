@@ -4,6 +4,8 @@
 #include "ari/en/gui/TextBox.hpp"
 #include "bx/string.h"
 #include "bx/filepath.h"
+#include "shiva/Project.hpp"
+#include "ari/en/gui/Popup.hpp"
 
 void testOnClick()
 {
@@ -28,16 +30,14 @@ namespace shiva
 	void ProjectBrowser::Init(ari::World* p_world)
 	{
 		p_world->AddEntity(&m_Entity);
+
+		// Init Project browser window.
 		m_pWindow = new ari::Window();
 		m_pWindow->Name = "Project Browser";
 		m_pWindow->Size.x = 800;
 		m_pWindow->Size.y = 600;
-		m_pWindow->Flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
+		m_pWindow->Flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 		m_Entity.AddChild(m_pWindow);
-		//ProjectGui* pPG = new ProjectGui();
-		//ProjectGui* pPG2 = new ProjectGui();
-		//m_pWindow->AddChild(pPG);
-		//m_pWindow->AddChild(pPG2);
 		m_pNewProjectName = new ari::TextBox(32);
 		m_pNewProjectName->Label = "Project name";
 		m_pNewProjectName->SetText("New project");
@@ -48,13 +48,35 @@ namespace shiva
 		m_pWindow->AddChild(m_pNewProjectPath);
 		m_pNewProjectBtn = new ari::Button();
 		m_pNewProjectBtn->Label = "New project";
-		m_pNewProjectBtn->OnClick.Bound(this, &ProjectBrowser::testClick);
+		m_pNewProjectBtn->OnClick.Bind(this, &ProjectBrowser::OnNewProjectClick);
 		m_pWindow->AddChild(m_pNewProjectBtn);
+
+		// Init message window
+		m_pMessageBox = new ari::Popup;
+		m_pMessageBox->Name = "MessageBox";
+		m_Entity.AddChild(m_pMessageBox);
+		m_pMessageBox->AddChild(&m_MbLabel);
+		m_MbOkBtn.Label = "OK";
+		m_MbOkBtn.OnClick.Bind(this, &ProjectBrowser::OnClickMbOk);
+		m_pMessageBox->AddChild(&m_MbOkBtn);
 	}
 
-	void ProjectBrowser::testClick()
+	void ProjectBrowser::OnNewProjectClick()
 	{
-		printf("mem to fn btn clicked.\n");
+		bx::Error err;
+		Project* p = Project::New(bx::FilePath(m_pNewProjectPath->Text), m_pNewProjectName->Text, &err);
+		if (p)
+			printf("Project created succsesfuly.\n");
+		else
+		{
+			m_MbLabel.Text = err.getMessage().getPtr();
+			m_pMessageBox->Show();
+		}
+	}
+
+	void ProjectBrowser::OnClickMbOk()
+	{
+		m_pMessageBox->Hide();
 	}
 
 	bool ProjectGui::BeginRender()

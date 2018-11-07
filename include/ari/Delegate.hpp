@@ -40,10 +40,10 @@ namespace ari
 			delete m_pMemFun;
 		}
 
-		void Bound(Treturn(*_fun)()) { m_pFun = _fun; }
+		void Bind(Treturn(*_fun)()) { m_pFun = _fun; }
 
 		template <class Tclass>
-		void Bound(Tclass* _obj, Treturn(Tclass::*_fun)())
+		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)())
 		{
 			m_pMemFun = new MemFuncNoParam<Tclass, Treturn>(_obj, _fun);
 		}
@@ -103,10 +103,10 @@ namespace ari
 			delete m_pMemFun;
 		}
 
-		void Bound(Treturn(*_fun)(Targ1)) { m_pFun = _fun; }
+		void Bind(Treturn(*_fun)(Targ1)) { m_pFun = _fun; }
 
 		template <class Tclass>
-		void Bound(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1))
+		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1))
 		{
 			m_pMemFun = new MemFuncOneParam<Tclass, Treturn, Targ1>(_obj, _fun);
 		}
@@ -166,10 +166,10 @@ namespace ari
 			delete m_pMemFun;
 		}
 
-		void Bound(Treturn(*_fun)(Targ1, Targ2)) { m_pFun = _fun; }
+		void Bind(Treturn(*_fun)(Targ1, Targ2)) { m_pFun = _fun; }
 
 		template <class Tclass>
-		void Bound(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2))
+		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2))
 		{
 			m_pMemFun = new MemFuncTwoParam<Tclass, Treturn, Targ1, Targ2>(_obj, _fun);
 		}
@@ -229,10 +229,10 @@ namespace ari
 			delete m_pMemFun;
 		}
 
-		void Bound(Treturn(*_fun)(Targ1, Targ2, Targ3)) { m_pFun = _fun; }
+		void Bind(Treturn(*_fun)(Targ1, Targ2, Targ3)) { m_pFun = _fun; }
 
 		template <class Tclass>
-		void Bound(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3))
+		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3))
 		{
 			m_pMemFun = new MemFuncThreeParam<Tclass, Treturn, Targ1, Targ2, Targ3>(_obj, _fun);
 		}
@@ -292,10 +292,10 @@ namespace ari
 			delete m_pMemFun;
 		}
 
-		void Bound(Treturn(*_fun)(Targ1, Targ2, Targ3, Targ4)) { m_pFun = _fun; }
+		void Bind(Treturn(*_fun)(Targ1, Targ2, Targ3, Targ4)) { m_pFun = _fun; }
 
 		template <class Tclass>
-		void Bound(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3, Targ4))
+		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3, Targ4))
 		{
 			m_pMemFun = new MemFuncFourParam<Tclass, Treturn, Targ1, Targ2, Targ3, Targ4>(_obj, _fun);
 		}
@@ -355,10 +355,10 @@ namespace ari
 			delete m_pMemFun;
 		}
 
-		void Bound(Treturn(*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5)) { m_pFun = _fun; }
+		void Bind(Treturn(*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5)) { m_pFun = _fun; }
 
 		template <class Tclass>
-		void Bound(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5))
+		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5))
 		{
 			m_pMemFun = new MemFuncFiveParam<Tclass, Treturn, Targ1, Targ2, Targ3, Targ4, Targ5>(_obj, _fun);
 		}
@@ -418,10 +418,10 @@ namespace ari
 			delete m_pMemFun;
 		}
 
-		void Bound(Treturn(*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6)) { m_pFun = _fun; }
+		void Bind(Treturn(*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6)) { m_pFun = _fun; }
 
 		template <class Tclass>
-		void Bound(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6))
+		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6))
 		{
 			m_pMemFun = new MemFuncSixParam<Tclass, Treturn, Targ1, Targ2, Targ3, Targ4, Targ5, Targ6>(_obj, _fun);
 		}
@@ -481,10 +481,10 @@ namespace ari
 			delete m_pMemFun;
 		}
 
-		void Bound(Treturn(*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7)) { m_pFun = _fun; }
+		void Bind(Treturn(*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7)) { m_pFun = _fun; }
 
 		template <class Tclass>
-		void Bound(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7))
+		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7))
 		{
 			m_pMemFun = new MemFuncSevenParam<Tclass, Treturn, Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7>(_obj, _fun);
 		}
@@ -544,10 +544,10 @@ namespace ari
 			delete m_pMemFun;
 		}
 
-		void Bound(Treturn(*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8)) { m_pFun = _fun; }
+		void Bind(Treturn(*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8)) { m_pFun = _fun; }
 
 		template <class Tclass>
-		void Bound(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8))
+		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8))
 		{
 			m_pMemFun = new MemFuncEightParam<Tclass, Treturn, Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8>(_obj, _fun);
 		}
@@ -607,10 +607,10 @@ namespace ari
 			delete m_pMemFun;
 		}
 
-		void Bound(Treturn(*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8, Targ9)) { m_pFun = _fun; }
+		void Bind(Treturn(*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8, Targ9)) { m_pFun = _fun; }
 
 		template <class Tclass>
-		void Bound(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8, Targ9))
+		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8, Targ9))
 		{
 			m_pMemFun = new MemFuncNineParam<Tclass, Treturn, Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8, Targ9>(_obj, _fun);
 		}
@@ -670,10 +670,10 @@ namespace ari
 			delete m_pMemFun;
 		}
 
-		void Bound(Treturn(*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8, Targ9, Targ10)) { m_pFun = _fun; }
+		void Bind(Treturn(*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8, Targ9, Targ10)) { m_pFun = _fun; }
 
 		template <class Tclass>
-		void Bound(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8, Targ9, Targ10))
+		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8, Targ9, Targ10))
 		{
 			m_pMemFun = new MemFuncTenParam<Tclass, Treturn, Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8, Targ9, Targ10>(_obj, _fun);
 		}
