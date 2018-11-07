@@ -5,16 +5,16 @@ namespace ari
 	template <class Treturn>
 	class DelegateNoParam
 	{
-		template <class Treturn>
 		class BaseFuncNoParam
 		{
 		public:
+			virtual ~BaseFuncNoParam() = default;
 
 			virtual Treturn Call() = 0;
 		};
 
-		template <class Tclass, class Treturn>
-		class MemFuncNoParam : public BaseFuncNoParam<Treturn>
+		template <class Tclass>
+		class MemFuncNoParam : public BaseFuncNoParam
 		{
 		public:
 
@@ -45,7 +45,7 @@ namespace ari
 		template <class Tclass>
 		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)())
 		{
-			m_pMemFun = new MemFuncNoParam<Tclass, Treturn>(_obj, _fun);
+			m_pMemFun = new MemFuncNoParam<Tclass>(_obj, _fun);
 		}
 
 		bool IsBound() { return m_pFun || m_pMemFun; }
@@ -60,7 +60,7 @@ namespace ari
 
 	protected:
 		Treturn(*m_pFun)();
-		BaseFuncNoParam<Treturn>	*	m_pMemFun;
+		BaseFuncNoParam	*	m_pMemFun;
 	};
 
 
@@ -68,16 +68,16 @@ namespace ari
 	template <class Treturn, class Targ1>
 	class DelegateOneParam
 	{
-		template <class Treturn, class Targ1>
 		class BaseFuncOneParam
 		{
 		public:
+			virtual ~BaseFuncOneParam() = default;
 
 			virtual Treturn Call(Targ1 arg1) = 0;
 		};
 
-		template <class Tclass, class Treturn, class Targ1>
-		class MemFuncOneParam : public BaseFuncOneParam<Treturn, Targ1>
+		template <class Tclass>
+		class MemFuncOneParam : public BaseFuncOneParam
 		{
 		public:
 
@@ -108,7 +108,7 @@ namespace ari
 		template <class Tclass>
 		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1))
 		{
-			m_pMemFun = new MemFuncOneParam<Tclass, Treturn, Targ1>(_obj, _fun);
+			m_pMemFun = new MemFuncOneParam<Tclass>(_obj, _fun);
 		}
 
 		bool IsBound() { return m_pFun || m_pMemFun; }
@@ -123,7 +123,7 @@ namespace ari
 
 	protected:
 		Treturn(*m_pFun)(Targ1);
-		BaseFuncOneParam<Treturn, Targ1>	*	m_pMemFun;
+		BaseFuncOneParam	*	m_pMemFun;
 	};
 
 
@@ -131,16 +131,16 @@ namespace ari
 	template <class Treturn, class Targ1, class Targ2>
 	class DelegateTwoParam
 	{
-		template <class Treturn, class Targ1, class Targ2>
 		class BaseFuncTwoParam
 		{
 		public:
+			virtual ~BaseFuncTwoParam() = default;
 
 			virtual Treturn Call(Targ1 arg1, Targ2 arg2) = 0;
 		};
 
-		template <class Tclass, class Treturn, class Targ1, class Targ2>
-		class MemFuncTwoParam : public BaseFuncTwoParam<Treturn, Targ1, Targ2>
+		template <class Tclass>
+		class MemFuncTwoParam : public BaseFuncTwoParam
 		{
 		public:
 
@@ -171,7 +171,7 @@ namespace ari
 		template <class Tclass>
 		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2))
 		{
-			m_pMemFun = new MemFuncTwoParam<Tclass, Treturn, Targ1, Targ2>(_obj, _fun);
+			m_pMemFun = new MemFuncTwoParam<Tclass>(_obj, _fun);
 		}
 
 		bool IsBound() { return m_pFun || m_pMemFun; }
@@ -186,7 +186,7 @@ namespace ari
 
 	protected:
 		Treturn(*m_pFun)(Targ1, Targ2);
-		BaseFuncTwoParam<Treturn, Targ1, Targ2>	*	m_pMemFun;
+		BaseFuncTwoParam	*	m_pMemFun;
 	};
 
 
@@ -194,16 +194,16 @@ namespace ari
 	template <class Treturn, class Targ1, class Targ2, class Targ3>
 	class DelegateThreeParam
 	{
-		template <class Treturn, class Targ1, class Targ2, class Targ3>
 		class BaseFuncThreeParam
 		{
 		public:
+			virtual ~BaseFuncThreeParam() = default;
 
 			virtual Treturn Call(Targ1 arg1, Targ2 arg2, Targ3 arg3) = 0;
 		};
 
-		template <class Tclass, class Treturn, class Targ1, class Targ2, class Targ3>
-		class MemFuncThreeParam : public BaseFuncThreeParam<Treturn, Targ1, Targ2, Targ3>
+		template <class Tclass>
+		class MemFuncThreeParam : public BaseFuncThreeParam
 		{
 		public:
 
@@ -234,7 +234,7 @@ namespace ari
 		template <class Tclass>
 		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3))
 		{
-			m_pMemFun = new MemFuncThreeParam<Tclass, Treturn, Targ1, Targ2, Targ3>(_obj, _fun);
+			m_pMemFun = new MemFuncThreeParam<Tclass>(_obj, _fun);
 		}
 
 		bool IsBound() { return m_pFun || m_pMemFun; }
@@ -249,7 +249,7 @@ namespace ari
 
 	protected:
 		Treturn(*m_pFun)(Targ1, Targ2, Targ3);
-		BaseFuncThreeParam<Treturn, Targ1, Targ2, Targ3>	*	m_pMemFun;
+		BaseFuncThreeParam	*	m_pMemFun;
 	};
 
 
@@ -257,16 +257,16 @@ namespace ari
 	template <class Treturn, class Targ1, class Targ2, class Targ3, class Targ4>
 	class DelegateFourParam
 	{
-		template <class Treturn, class Targ1, class Targ2, class Targ3, class Targ4>
 		class BaseFuncFourParam
 		{
 		public:
+			virtual ~BaseFuncFourParam() = default;
 
 			virtual Treturn Call(Targ1 arg1, Targ2 arg2, Targ3 arg3, Targ4 arg4) = 0;
 		};
 
-		template <class Tclass, class Treturn, class Targ1, class Targ2, class Targ3, class Targ4>
-		class MemFuncFourParam : public BaseFuncFourParam<Treturn, Targ1, Targ2, Targ3, Targ4>
+		template <class Tclass>
+		class MemFuncFourParam : public BaseFuncFourParam
 		{
 		public:
 
@@ -297,7 +297,7 @@ namespace ari
 		template <class Tclass>
 		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3, Targ4))
 		{
-			m_pMemFun = new MemFuncFourParam<Tclass, Treturn, Targ1, Targ2, Targ3, Targ4>(_obj, _fun);
+			m_pMemFun = new MemFuncFourParam<Tclass>(_obj, _fun);
 		}
 
 		bool IsBound() { return m_pFun || m_pMemFun; }
@@ -312,7 +312,7 @@ namespace ari
 
 	protected:
 		Treturn(*m_pFun)(Targ1, Targ2, Targ3, Targ4);
-		BaseFuncFourParam<Treturn, Targ1, Targ2, Targ3, Targ4>	*	m_pMemFun;
+		BaseFuncFourParam	*	m_pMemFun;
 	};
 
 
@@ -320,16 +320,16 @@ namespace ari
 	template <class Treturn, class Targ1, class Targ2, class Targ3, class Targ4, class Targ5>
 	class DelegateFiveParam
 	{
-		template <class Treturn, class Targ1, class Targ2, class Targ3, class Targ4, class Targ5>
 		class BaseFuncFiveParam
 		{
 		public:
+			virtual ~BaseFuncFiveParam() = default;
 
 			virtual Treturn Call(Targ1 arg1, Targ2 arg2, Targ3 arg3, Targ4 arg4, Targ5 arg5) = 0;
 		};
 
-		template <class Tclass, class Treturn, class Targ1, class Targ2, class Targ3, class Targ4, class Targ5>
-		class MemFuncFiveParam : public BaseFuncFiveParam<Treturn, Targ1, Targ2, Targ3, Targ4, Targ5>
+		template <class Tclass>
+		class MemFuncFiveParam : public BaseFuncFiveParam
 		{
 		public:
 
@@ -360,7 +360,7 @@ namespace ari
 		template <class Tclass>
 		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5))
 		{
-			m_pMemFun = new MemFuncFiveParam<Tclass, Treturn, Targ1, Targ2, Targ3, Targ4, Targ5>(_obj, _fun);
+			m_pMemFun = new MemFuncFiveParam<Tclass>(_obj, _fun);
 		}
 
 		bool IsBound() { return m_pFun || m_pMemFun; }
@@ -375,7 +375,7 @@ namespace ari
 
 	protected:
 		Treturn(*m_pFun)(Targ1, Targ2, Targ3, Targ4, Targ5);
-		BaseFuncFiveParam<Treturn, Targ1, Targ2, Targ3, Targ4, Targ5>	*	m_pMemFun;
+		BaseFuncFiveParam	*	m_pMemFun;
 	};
 
 
@@ -383,16 +383,16 @@ namespace ari
 	template <class Treturn, class Targ1, class Targ2, class Targ3, class Targ4, class Targ5, class Targ6>
 	class DelegateSixParam
 	{
-		template <class Treturn, class Targ1, class Targ2, class Targ3, class Targ4, class Targ5, class Targ6>
 		class BaseFuncSixParam
 		{
 		public:
+			virtual ~BaseFuncSixParam() = default;
 
 			virtual Treturn Call(Targ1 arg1, Targ2 arg2, Targ3 arg3, Targ4 arg4, Targ5 arg5, Targ6 arg6) = 0;
 		};
 
-		template <class Tclass, class Treturn, class Targ1, class Targ2, class Targ3, class Targ4, class Targ5, class Targ6>
-		class MemFuncSixParam : public BaseFuncSixParam<Treturn, Targ1, Targ2, Targ3, Targ4, Targ5, Targ6>
+		template <class Tclass>
+		class MemFuncSixParam : public BaseFuncSixParam
 		{
 		public:
 
@@ -423,7 +423,7 @@ namespace ari
 		template <class Tclass>
 		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6))
 		{
-			m_pMemFun = new MemFuncSixParam<Tclass, Treturn, Targ1, Targ2, Targ3, Targ4, Targ5, Targ6>(_obj, _fun);
+			m_pMemFun = new MemFuncSixParam<Tclass>(_obj, _fun);
 		}
 
 		bool IsBound() { return m_pFun || m_pMemFun; }
@@ -438,7 +438,7 @@ namespace ari
 
 	protected:
 		Treturn(*m_pFun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6);
-		BaseFuncSixParam<Treturn, Targ1, Targ2, Targ3, Targ4, Targ5, Targ6>	*	m_pMemFun;
+		BaseFuncSixParam	*	m_pMemFun;
 	};
 
 
@@ -446,16 +446,16 @@ namespace ari
 	template <class Treturn, class Targ1, class Targ2, class Targ3, class Targ4, class Targ5, class Targ6, class Targ7>
 	class DelegateSevenParam
 	{
-		template <class Treturn, class Targ1, class Targ2, class Targ3, class Targ4, class Targ5, class Targ6, class Targ7>
 		class BaseFuncSevenParam
 		{
 		public:
+			virtual ~BaseFuncSevenParam() = default;
 
 			virtual Treturn Call(Targ1 arg1, Targ2 arg2, Targ3 arg3, Targ4 arg4, Targ5 arg5, Targ6 arg6, Targ7 arg7) = 0;
 		};
 
-		template <class Tclass, class Treturn, class Targ1, class Targ2, class Targ3, class Targ4, class Targ5, class Targ6, class Targ7>
-		class MemFuncSevenParam : public BaseFuncSevenParam<Treturn, Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7>
+		template <class Tclass>
+		class MemFuncSevenParam : public BaseFuncSevenParam
 		{
 		public:
 
@@ -486,7 +486,7 @@ namespace ari
 		template <class Tclass>
 		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7))
 		{
-			m_pMemFun = new MemFuncSevenParam<Tclass, Treturn, Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7>(_obj, _fun);
+			m_pMemFun = new MemFuncSevenParam<Tclass>(_obj, _fun);
 		}
 
 		bool IsBound() { return m_pFun || m_pMemFun; }
@@ -501,7 +501,7 @@ namespace ari
 
 	protected:
 		Treturn(*m_pFun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7);
-		BaseFuncSevenParam<Treturn, Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7>	*	m_pMemFun;
+		BaseFuncSevenParam	*	m_pMemFun;
 	};
 
 
@@ -509,16 +509,16 @@ namespace ari
 	template <class Treturn, class Targ1, class Targ2, class Targ3, class Targ4, class Targ5, class Targ6, class Targ7, class Targ8>
 	class DelegateEightParam
 	{
-		template <class Treturn, class Targ1, class Targ2, class Targ3, class Targ4, class Targ5, class Targ6, class Targ7, class Targ8>
 		class BaseFuncEightParam
 		{
 		public:
+			virtual ~BaseFuncEightParam() = default;
 
 			virtual Treturn Call(Targ1 arg1, Targ2 arg2, Targ3 arg3, Targ4 arg4, Targ5 arg5, Targ6 arg6, Targ7 arg7, Targ8 arg8) = 0;
 		};
 
-		template <class Tclass, class Treturn, class Targ1, class Targ2, class Targ3, class Targ4, class Targ5, class Targ6, class Targ7, class Targ8>
-		class MemFuncEightParam : public BaseFuncEightParam<Treturn, Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8>
+		template <class Tclass>
+		class MemFuncEightParam : public BaseFuncEightParam
 		{
 		public:
 
@@ -549,7 +549,7 @@ namespace ari
 		template <class Tclass>
 		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8))
 		{
-			m_pMemFun = new MemFuncEightParam<Tclass, Treturn, Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8>(_obj, _fun);
+			m_pMemFun = new MemFuncEightParam<Tclass>(_obj, _fun);
 		}
 
 		bool IsBound() { return m_pFun || m_pMemFun; }
@@ -564,7 +564,7 @@ namespace ari
 
 	protected:
 		Treturn(*m_pFun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8);
-		BaseFuncEightParam<Treturn, Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8>	*	m_pMemFun;
+		BaseFuncEightParam	*	m_pMemFun;
 	};
 
 
@@ -572,16 +572,16 @@ namespace ari
 	template <class Treturn, class Targ1, class Targ2, class Targ3, class Targ4, class Targ5, class Targ6, class Targ7, class Targ8, class Targ9>
 	class DelegateNineParam
 	{
-		template <class Treturn, class Targ1, class Targ2, class Targ3, class Targ4, class Targ5, class Targ6, class Targ7, class Targ8, class Targ9>
 		class BaseFuncNineParam
 		{
 		public:
+			virtual ~BaseFuncNineParam() = default;
 
 			virtual Treturn Call(Targ1 arg1, Targ2 arg2, Targ3 arg3, Targ4 arg4, Targ5 arg5, Targ6 arg6, Targ7 arg7, Targ8 arg8, Targ9 arg9) = 0;
 		};
 
-		template <class Tclass, class Treturn, class Targ1, class Targ2, class Targ3, class Targ4, class Targ5, class Targ6, class Targ7, class Targ8, class Targ9>
-		class MemFuncNineParam : public BaseFuncNineParam<Treturn, Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8, Targ9>
+		template <class Tclass>
+		class MemFuncNineParam : public BaseFuncNineParam
 		{
 		public:
 
@@ -612,7 +612,7 @@ namespace ari
 		template <class Tclass>
 		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8, Targ9))
 		{
-			m_pMemFun = new MemFuncNineParam<Tclass, Treturn, Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8, Targ9>(_obj, _fun);
+			m_pMemFun = new MemFuncNineParam<Tclass>(_obj, _fun);
 		}
 
 		bool IsBound() { return m_pFun || m_pMemFun; }
@@ -627,7 +627,7 @@ namespace ari
 
 	protected:
 		Treturn(*m_pFun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8, Targ9);
-		BaseFuncNineParam<Treturn, Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8, Targ9>	*	m_pMemFun;
+		BaseFuncNineParam	*	m_pMemFun;
 	};
 
 
@@ -635,16 +635,16 @@ namespace ari
 	template <class Treturn, class Targ1, class Targ2, class Targ3, class Targ4, class Targ5, class Targ6, class Targ7, class Targ8, class Targ9, class Targ10>
 	class DelegateTenParam
 	{
-		template <class Treturn, class Targ1, class Targ2, class Targ3, class Targ4, class Targ5, class Targ6, class Targ7, class Targ8, class Targ9, class Targ10>
 		class BaseFuncTenParam
 		{
 		public:
+			virtual ~BaseFuncTenParam() = default;
 
 			virtual Treturn Call(Targ1 arg1, Targ2 arg2, Targ3 arg3, Targ4 arg4, Targ5 arg5, Targ6 arg6, Targ7 arg7, Targ8 arg8, Targ9 arg9, Targ10 arg10) = 0;
 		};
 
-		template <class Tclass, class Treturn, class Targ1, class Targ2, class Targ3, class Targ4, class Targ5, class Targ6, class Targ7, class Targ8, class Targ9, class Targ10>
-		class MemFuncTenParam : public BaseFuncTenParam<Treturn, Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8, Targ9, Targ10>
+		template <class Tclass>
+		class MemFuncTenParam : public BaseFuncTenParam
 		{
 		public:
 
@@ -675,7 +675,7 @@ namespace ari
 		template <class Tclass>
 		void Bind(Tclass* _obj, Treturn(Tclass::*_fun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8, Targ9, Targ10))
 		{
-			m_pMemFun = new MemFuncTenParam<Tclass, Treturn, Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8, Targ9, Targ10>(_obj, _fun);
+			m_pMemFun = new MemFuncTenParam<Tclass>(_obj, _fun);
 		}
 
 		bool IsBound() { return m_pFun || m_pMemFun; }
@@ -690,7 +690,7 @@ namespace ari
 
 	protected:
 		Treturn(*m_pFun)(Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8, Targ9, Targ10);
-		BaseFuncTenParam<Treturn, Targ1, Targ2, Targ3, Targ4, Targ5, Targ6, Targ7, Targ8, Targ9, Targ10>	*	m_pMemFun;
+		BaseFuncTenParam	*	m_pMemFun;
 	};
 
 
