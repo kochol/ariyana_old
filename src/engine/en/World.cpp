@@ -3,6 +3,9 @@
 #include "../../../include/ari/en/Entity.hpp"
 #include <ftl/task_scheduler.h>
 #include <ftl/atomic_counter.h>
+#include "../../../include/ari/Engine.hpp"
+
+extern bx::AllocatorI* g_allocator;
 
 namespace ari
 {
@@ -87,7 +90,7 @@ namespace ari
 	//   T A S K   F U N C T I O N S
 	//---------------------------------------------------------
 
-	World::World(): m_UpdateType(UpdateType::Async)
+	World::World(): m_UpdateType(UpdateType::Async), m_qDestroyQueue(g_allocator)
 	{
 		m_pTaskScheduler = new ftl::TaskScheduler();
 
@@ -147,6 +150,7 @@ namespace ari
 
 	void World::Update(float tick)
 	{
+		CheckDestroyQueue();
 		for (auto s : systems)
 			if (s->NeedUpdateOnState(System::UpdateState::MainThreadState))
 				s->Update(this, System::UpdateState::MainThreadState);
@@ -164,6 +168,34 @@ namespace ari
 			MainTaskArg arg = { this, systems };
 			m_pTaskScheduler->Run(25, MainTask, &arg);
 		}
+	}
+
+	void World::_AddToDestroyQueue(Node* node)
+	{
+		m_qDestroyQueue.push(node);
+	}
+
+	void World::CheckDestroyQueue()
+	{
+		Node* node;
+		uint32_t fn = g_pEngine->GetCurrentFrameNumber();
+		do
+		{
+			node = m_qDestroyQueue.peek();
+			if (node && node->m_iIsInDestroyQueue < fn)
+			{
+				if (node->GetType() == Node::Type::Entity)
+				{
+					Entity* entity = reinterpret_cast<Entity*>(node);
+					RemoveEntity(entity);
+				}
+				node->SetParent(nullptr);
+				delete node;
+				m_qDestroyQueue.pop();
+			}
+			else return;
+		}
+		while (node);
 	}
 
 } // ari

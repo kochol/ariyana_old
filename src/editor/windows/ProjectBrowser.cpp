@@ -15,8 +15,10 @@ void testOnClick()
 
 namespace shiva
 {
-	ProjectBrowser::ProjectBrowser(): m_pWindow(nullptr), m_pNewProjectName(nullptr), m_pNewProjectPath(nullptr),
-	                                  m_pNewProjectBtn(nullptr)
+	ProjectBrowser::ProjectBrowser(): m_pWindow(nullptr), m_pEntity(nullptr), m_pNewProjectName(nullptr),
+	                                  m_pNewProjectPath(nullptr),
+	                                  m_pNewProjectBtn(nullptr), m_pMessageBox(nullptr), m_pMbLabel(nullptr),
+	                                  m_pMbOkBtn(nullptr)
 	{
 	}
 
@@ -27,7 +29,8 @@ namespace shiva
 
 	void ProjectBrowser::Init(ari::World* p_world)
 	{
-		p_world->AddEntity(&m_Entity);
+		m_pEntity = new ari::Entity;
+		p_world->AddEntity(m_pEntity);
 
 		// Init Project browser window.
 		m_pWindow = new ari::Window();
@@ -35,7 +38,7 @@ namespace shiva
 		m_pWindow->Size.x = 800;
 		m_pWindow->Size.y = 600;
 		m_pWindow->Flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
-		m_Entity.AddChild(m_pWindow);
+		m_pEntity->AddChild(m_pWindow);
 		m_pNewProjectName = new ari::TextBox(32);
 		m_pNewProjectName->Label = "Project name";
 		m_pNewProjectName->SetText("New project");
@@ -52,21 +55,27 @@ namespace shiva
 		// Init message window
 		m_pMessageBox = new ari::Popup;
 		m_pMessageBox->Name = "MessageBox";
-		m_Entity.AddChild(m_pMessageBox);
-		m_pMessageBox->AddChild(&m_MbLabel);
-		m_MbOkBtn.Label = "OK";
-		m_MbOkBtn.OnClick.Bind(this, &ProjectBrowser::OnClickMbOk);
-		m_pMessageBox->AddChild(&m_MbOkBtn);
+		m_pEntity->AddChild(m_pMessageBox);
+		m_pMbLabel = new ari::Label;
+		m_pMessageBox->AddChild(m_pMbLabel);
+		m_pMbOkBtn = new ari::Button;
+		m_pMbOkBtn->Label = "OK";
+		m_pMbOkBtn->OnClick.Bind(this, &ProjectBrowser::OnClickMbOk);
+		m_pMessageBox->AddChild(m_pMbOkBtn);
 	}
 
 	void ProjectBrowser::Shutdown()
 	{
-		m_Entity.GetWorld()->RemoveEntity(&m_Entity);
-		delete m_pWindow;
-		delete m_pNewProjectName;
-		delete m_pNewProjectPath;
-		delete m_pNewProjectBtn;
-		delete m_pMessageBox;
+		m_pEntity->Destroy();
+		m_pEntity = nullptr;
+		m_pWindow = nullptr;
+		m_pNewProjectName = nullptr;
+		m_pNewProjectPath = nullptr;
+		m_pNewProjectBtn = nullptr;
+		m_pMessageBox = nullptr;
+		m_pMbLabel = nullptr;
+		m_pMbOkBtn = nullptr;
+
 	}
 
 	void ProjectBrowser::OnNewProjectClick()
@@ -79,7 +88,7 @@ namespace shiva
 		}
 		else
 		{
-			m_MbLabel.Text = err.getMessage().getPtr();
+			m_pMbLabel->Text = err.getMessage().getPtr();
 			m_pMessageBox->Show();
 		}
 	}

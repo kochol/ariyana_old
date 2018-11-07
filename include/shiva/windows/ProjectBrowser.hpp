@@ -43,13 +43,13 @@ namespace shiva
 	protected:
 
 		ari::Window		*	m_pWindow;
-		ari::Entity			m_Entity;
+		ari::Entity		*	m_pEntity;
 		ari::TextBox	*	m_pNewProjectName;
 		ari::TextBox	*	m_pNewProjectPath;
 		ari::Button		*	m_pNewProjectBtn;
 		ari::Popup		*	m_pMessageBox;
-		ari::Label			m_MbLabel;
-		ari::Button			m_MbOkBtn;
+		ari::Label		*	m_pMbLabel;
+		ari::Button		*	m_pMbOkBtn;
 
 		void OnNewProjectClick();
 

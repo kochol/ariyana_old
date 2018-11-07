@@ -4,6 +4,7 @@
 #include "EventSubscriber.hpp"
 #include <algorithm>
 #include <unordered_map>
+#include "bx/spscqueue.h"
 
 namespace ftl
 {
@@ -12,6 +13,7 @@ namespace ftl
 
 namespace ari
 {
+	class Node;
 	class System;
 	class Entity;
 
@@ -59,6 +61,12 @@ namespace ari
 		 * Updates the world
 		 */
 		void Update(float tick);
+
+		/**
+		 * internal use Node::Destroy() instead.
+		 * Add a node to destroy queue
+		 */
+		void _AddToDestroyQueue(Node* node);
 
 		/**
 		* Subscribe to an event.
@@ -140,10 +148,13 @@ namespace ari
 
 		std::unordered_map<TypeIndex,
 			tinystl::vector<Internal::BaseEventSubscriber*>> subscribers;
+		bx::SpScUnboundedQueueT<Node>	m_qDestroyQueue;
 		tinystl::vector<System*> systems;
 		tinystl::vector<Entity*> Entities;
 		ftl::TaskScheduler	*	m_pTaskScheduler;
 		UpdateType				m_UpdateType;
+
+		void CheckDestroyQueue();
 
 	}; // World
 

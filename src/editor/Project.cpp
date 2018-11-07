@@ -30,9 +30,20 @@ namespace shiva
 		// 1st Create the folders
 		if (!bx::makeAll(projectPath, err))
 		{
-			//ari::g_pEngine->GetLogger()->
 			return nullptr;
 		}
+		bx::FilePath tmp = projectPath;
+		tmp.join("src");
+		bx::make(tmp, err);
+		tmp = projectPath;
+		tmp.join("scripts");
+		bx::make(tmp, err);
+		tmp = projectPath;
+		tmp.join("assets");
+		bx::make(tmp, err);
+		tmp = projectPath;
+		tmp.join(".import");
+		bx::make(tmp, err);
 
 		Project* p = new Project();
 		p->m_ProjectName = name;

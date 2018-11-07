@@ -3,13 +3,18 @@
 #include "ari/en/World.hpp"
 #include "ari/en/gui/GuiSystem.hpp"
 #include "windows/ProjectBrowser.hpp"
-#include "Project.hpp"
 
 namespace shiva
 {
+	class Project;
+
 	class SHIVA_API Editor
 	{
 	public:
+
+		Editor();
+
+		~Editor();
 		
 		void Init();
 

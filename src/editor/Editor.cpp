@@ -1,4 +1,4 @@
-#include "..\..\include\shiva\Editor.hpp"
+#include "../../include/shiva/Editor.hpp"
 #include "shiva/Project.hpp"
 
 namespace shiva

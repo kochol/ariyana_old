@@ -3,6 +3,7 @@
 #include "../../../include/ari/en/Component.hpp"
 #include "../../../include/ari/en/Entity.hpp"
 #include <cassert>
+#include "../../../include/ari/Engine.hpp"
 
 namespace ari
 {
@@ -12,18 +13,25 @@ namespace ari
 
 	Node::~Node()
 	{
-		m_pParent = nullptr;
-		RemoveChildren();
+		RemoveChildren(true);
 	}
 
-	void Node::RemoveChildren()
+	void Node::RemoveChildren(bool _delete)
 	{
-		//for (auto & node : m_vChilds)
-		//{
-		//	node->m_pParent = nullptr;
-		//}
+		if (_delete)
+			for (auto & node : m_vChilds)
+			{
+				delete node;
+			}
+		else
+		{
+			for (auto & node : m_vChilds)
+			{
+				node->m_pParent = nullptr;
+			}
 
-		m_vChilds.clear();
+			m_vChilds.clear();
+		}
 
 	} // RemoveChildren
 
@@ -48,6 +56,18 @@ namespace ari
 			return m_pParent->GetParentEntity();
 		}
 		return nullptr;
+	}
+
+	void Node::Destroy(bool addToDestroyQueue)
+	{
+		assert(m_pWorld);
+		m_iIsInDestroyQueue = g_pEngine->GetCurrentFrameNumber() + 2;
+		for (auto child : m_vChilds)
+		{
+			child->Destroy(false);
+		}
+		if (addToDestroyQueue)
+			m_pWorld->_AddToDestroyQueue(this);
 	}
 
 } // ari

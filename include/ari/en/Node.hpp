@@ -74,7 +74,7 @@ namespace ari
 		} // RemoveChild
 
 		//! Removes all children of this node.
-		void RemoveChildren();
+		void RemoveChildren(bool _delete = false);
 
 		//! Returns the node parent.
 		virtual Node* GetParent() { return m_pParent; }
@@ -92,12 +92,21 @@ namespace ari
 
 		World* GetWorld() const { return m_pWorld; }
 
+		/**
+		 * Send the node to the destroy queue.
+		 * It will be deleted in next two frame;
+		 */
+		void Destroy(bool addToDestroyQueue = true);
+
+		uint32_t GetIsInDestroyQueue() const { return m_iIsInDestroyQueue; }
+
 	protected:
 
 		Node* m_pParent;
 		tinystl::vector<Node*> m_vChilds;
 		Node::Type m_eNodeType;
 		World* m_pWorld;
+		uint32_t m_iIsInDestroyQueue = 0;
 
 	}; // Node
 
