@@ -22,6 +22,7 @@ namespace ari
 
 		bool m_bDoEndPopup = false;
 		bool m_bOpenPopup = false;
+		bool m_bClosePopup = false;
 
 	}; // Popup
 

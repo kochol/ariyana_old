@@ -17,7 +17,14 @@ namespace ari
 	void Popup::EndRender()
 	{
 		if (m_bDoEndPopup)
+		{
+			if (m_bClosePopup)
+			{
+				ImGui::CloseCurrentPopup();
+				m_bClosePopup = false;
+			}
 			ImGui::EndPopup();
+		}
 	}
 
 	void Popup::Show()
@@ -27,7 +34,7 @@ namespace ari
 
 	void Popup::Hide()
 	{
-		ImGui::CloseCurrentPopup();
+		m_bClosePopup = true;
 	}
 
 } // ari
