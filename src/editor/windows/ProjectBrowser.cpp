@@ -66,16 +66,18 @@ namespace shiva
 
 	void ProjectBrowser::Shutdown()
 	{
-		m_pEntity->Destroy();
-		m_pEntity = nullptr;
-		m_pWindow = nullptr;
-		m_pNewProjectName = nullptr;
-		m_pNewProjectPath = nullptr;
-		m_pNewProjectBtn = nullptr;
-		m_pMessageBox = nullptr;
-		m_pMbLabel = nullptr;
-		m_pMbOkBtn = nullptr;
-
+		if (m_pEntity)
+		{
+			m_pEntity->Destroy();
+			m_pEntity = nullptr;
+			m_pWindow = nullptr;
+			m_pNewProjectName = nullptr;
+			m_pNewProjectPath = nullptr;
+			m_pNewProjectBtn = nullptr;
+			m_pMessageBox = nullptr;
+			m_pMbLabel = nullptr;
+			m_pMbOkBtn = nullptr;
+		}
 	}
 
 	void ProjectBrowser::OnNewProjectClick()

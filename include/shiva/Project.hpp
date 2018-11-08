@@ -3,6 +3,7 @@
 #include <string>
 #include <Meta.h>
 #include <bx/error.h>
+#include "DirectoryTree.hpp"
 
 BX_ERROR_RESULT(SH_ERROR_NOT_EMPTY_DIRECTPRY, BX_MAKEFOURCC('s', 'h', 0, 0));
 
@@ -21,10 +22,13 @@ namespace shiva
 		void Save();
 		static Project* Load(bx::FilePath path, bx::Error* err);
 
+		void UpdateProjectTree();
+
 	private:
 
 		bx::FilePath	m_ProjectPath;
 		std::string		m_ProjectName;
+		DirectoryTree	m_Tree;
 
 	}; // Project
 

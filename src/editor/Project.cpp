@@ -47,9 +47,11 @@ namespace shiva
 
 		Project* p = new Project();
 		p->m_ProjectName = name;
+		p->m_Tree.Path = projectPath;
 		projectPath.join(name.append(".shiva").c_str());
 		p->m_ProjectPath = projectPath;
 		p->Save();
+		p->UpdateProjectTree();
 
 		return p;
 	}
@@ -80,7 +82,14 @@ namespace shiva
 		Project* p = new Project();
 		from_json(root, *p);
 		p->m_ProjectPath = path;
+		p->m_Tree.Path.set(path.getPath());
+		p->UpdateProjectTree();
 		return p;
+	}
+
+	void Project::UpdateProjectTree()
+	{
+		m_Tree.Update();
 	}
 
 } // shiva
