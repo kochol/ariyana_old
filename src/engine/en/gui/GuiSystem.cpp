@@ -6,6 +6,7 @@
 #include "../../../../include/ari/en/gui/Gui.hpp"
 #include "bx/macros.h"
 #include "../../../../include/ari/Engine.hpp"
+#include "../../../../deps/imguiDock/imgui_dock.h"
 
 namespace ari
 {
@@ -16,7 +17,7 @@ namespace ari
 	GuiSystem::~GuiSystem()
 	{
 		if (m_bIsDockCreated)
-			ImGui::ShutdownDockContext();
+			ImGui::ShutdownDock();
 	}
 
 	void GuiSystem::Update(World * p_world, UpdateState state)
@@ -69,7 +70,7 @@ namespace ari
 		BX_UNUSED(world, event);
 		if (!m_bIsDockCreated)
 		{
-			ImGui::InitDockContext();
+			ImGui::InitDock();
 			m_bIsDockCreated = true;
 		}
 	}

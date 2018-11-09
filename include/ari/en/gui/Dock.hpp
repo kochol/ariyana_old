@@ -18,9 +18,6 @@ namespace ari
 
 		bool	isOpened;
 		char*	Label;
-		ImVec2	Pos,
-				Size;
-		bool	_root;
 
 	}; // Dock
 

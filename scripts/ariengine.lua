@@ -34,7 +34,9 @@ project ("ariengine")
 		"../deps/bgfx/3rdparty/dear-imgui/**.inl",
 		"../deps/bgfx/3rdparty/dear-imgui/**.cpp",
 		"../deps/bgfx/examples/common/imgui/*.h",
-		"../deps/bgfx/examples/common/imgui/*.cpp",				
+		"../deps/bgfx/examples/common/imgui/*.cpp",	
+		"../deps/imguiDock/*.cpp",			
+		"../deps/imguiDock/*.h",			
 	}
 
 	defines {

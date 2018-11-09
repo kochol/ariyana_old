@@ -1,4 +1,6 @@
 #include "..\..\..\..\include\ari\en\gui\Dock.hpp"
+#include "../../../../deps/imguiDock/imgui_dock.h"
+
 namespace ari
 {
 	Dock::Dock(): isOpened(true), Label(nullptr), _root(false)
@@ -7,18 +9,12 @@ namespace ari
 
 	bool Dock::BeginRender()
 	{
-		ImGui::BeginDock(Label, &isOpened);
-		if (_root)
-		{
-			ImGui::RootDock(Pos, Size);
-		}
-		return true;
+		return ImGui::BeginDock(Label, &isOpened);
 	}
 
 	void Dock::EndRender()
 	{
-		if (isOpened)
-			ImGui::EndDock();
+		ImGui::EndDock();
 	}
 
 } // ari
