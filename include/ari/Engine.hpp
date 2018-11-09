@@ -62,6 +62,8 @@ namespace ari
 
 		std::shared_ptr<spdlog::logger> GetLogger() const { return  Logger; }
 
+		std::shared_ptr<InitParams> GetParams() const { return m_params; }
+
 	protected:
 
 		static int InitBgfxInThread(bx::Thread* _thread, void* _userData);

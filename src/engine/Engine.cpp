@@ -29,6 +29,8 @@ namespace ari
 	Engine::~Engine()
 	{
 		m_bRun = false;
+		m_params->Program.release();
+
 		// 
 		bgfx::renderFrame();
 		m_pGfxThread->shutdown();
@@ -133,6 +135,9 @@ namespace ari
 			bgfx::frame();
 			g_pEngine->m_frame_number++;
 		}
+		if (g_pEngine->m_params->Program)
+			return g_pEngine->m_params->Program->Shutdown();
+
 		return 0;
 	}
 

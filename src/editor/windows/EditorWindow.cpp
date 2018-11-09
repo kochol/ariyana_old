@@ -4,6 +4,7 @@
 #include "ari/en/gui/Window.hpp"
 #include "ari/en/gui/DockSpace.hpp"
 #include "shiva/windows/AssetBrowser.hpp"
+#include "ari/Engine.hpp"
 
 namespace shiva
 {
@@ -21,6 +22,11 @@ namespace shiva
 		pWorld->AddEntity(m_pEntity);
 		m_pWindow = new ari::Window;
 		m_pWindow->Name = "MainEditorWindow";
+		m_pWindow->Flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove
+			| ImGuiWindowFlags_NoCollapse;
+		auto p = ari::g_pEngine->GetParams();
+		m_pWindow->Size.x = p->Width;
+		m_pWindow->Size.y = p->Height;
 		m_pEntity->AddChild(m_pWindow);
 		m_pDockSpace = new ari::DockSpace;
 		m_pWindow->AddChild(m_pDockSpace);
