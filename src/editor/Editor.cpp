@@ -30,6 +30,7 @@ namespace shiva
 	{
 		delete m_pCurrentProject;
 		m_pCurrentProject = project;
+		m_EditorWindow.Init(&m_EditorWorld);
 	}
 
 } // shiva

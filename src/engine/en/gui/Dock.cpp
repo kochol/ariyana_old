@@ -3,7 +3,7 @@
 
 namespace ari
 {
-	Dock::Dock(): isOpened(true), Label(nullptr), _root(false)
+	Dock::Dock(): isOpened(true), Label(nullptr)
 	{
 	}
 
