@@ -23,8 +23,8 @@ namespace shiva
 		m_pWindow = new ari::Window;
 		m_pWindow->Name = "MainEditorWindow";
 		m_pWindow->Flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove
-			| ImGuiWindowFlags_NoCollapse;
-		auto p = ari::g_pEngine->GetParams();
+			| ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
+		const auto p = ari::g_pEngine->GetParams();
 		m_pWindow->Size.x = p->Width;
 		m_pWindow->Size.y = p->Height;
 		m_pEntity->AddChild(m_pWindow);

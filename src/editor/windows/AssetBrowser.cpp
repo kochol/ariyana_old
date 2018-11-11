@@ -19,24 +19,6 @@ namespace shiva
 		m_pButton = new ari::Button;
 		m_pButton->Label = "TEST   Dock";
 		m_pDock->AddChild(m_pButton);
-		ari::Dock* d = new ari::Dock;
-		d->Label = "Test window";
-		pDockSpace->AddChild(d);
-		ari::Button* b = new ari::Button;
-		b->Label = "TTT FFFF";
-		d->AddChild(b);
-		d = new ari::Dock;
-		d->Label = "Test window2";
-		pDockSpace->AddChild(d);
-		b = new ari::Button;
-		b->Label = "TTT FFFF 22222";
-		d->AddChild(b);
-		d = new ari::Dock;
-		d->Label = "Test window 333";
-		pDockSpace->AddChild(d);
-		b = new ari::Button;
-		b->Label = "TTT FFFF 3333";
-		d->AddChild(b);
 	}
 
 	void AssetBrowser::ShutDown()
