@@ -22,3 +22,6 @@
 [submodule "deps/MetaStuff"]
 	path = deps/MetaStuff
 	url = https://github.com/eliasdaler/MetaStuff.git
+[submodule "deps/imguiDock"]
+	path = deps/imguiDock
+	url = https://github.com/kochol/imguiDock.git
