@@ -2,17 +2,23 @@
 
 #if defined( _MSC_VER )
 #	pragma warning(disable:4251) // dll interface for std types
-#	ifdef ARI_EXPORT
-#		define ARI_API __declspec(dllexport)
-#	else
-#		define ARI_API __declspec(dllimport)
-#	endif
+#	define ARI_EXPORT_DLL __declspec(dllexport)
+#	define ARI_IMPORT_DLL __declspec(dllimport)
 #else
-#	ifdef ARI_EXPORT
-#		define ARI_API __attribute__((visibility("default")))
-#	else
-#		define ARI_API
-#	endif
+#	define ARI_EXPORT_DLL __attribute__((visibility("default")))
+#	define ARI_IMPORT_DLL
+#endif
+
+#ifdef ARI_EXPORT
+#	define ARI_API ARI_EXPORT_DLL
+#else
+#	define ARI_API ARI_IMPORT_DLL
+#endif
+
+#ifdef ARI_PLUGIN_EXPORT
+#	define ARI_PLUGIN_API ARI_EXPORT_DLL
+#else
+#	define ARI_PLUGIN_API ARI_IMPORT_DLL
 #endif
 
 #define ARI_CONFIG_MAX_WINDOW		   8

@@ -22,7 +22,7 @@ solution "Ariyana"
 	end
 
 	language "C++"
-	-- startproject "example-00-helloworld"
+	startproject "Shiva"
 
 MODULE_DIR  = path.getabsolute("../")
 ASSETS_DIR  = path.getabsolute("../assets")
@@ -107,3 +107,6 @@ if _OPTIONS["with-tests"] then
 				"01-cubes",
 				"02-gui")
 end
+
+group "plugins"
+dofile("plugins.lua")
