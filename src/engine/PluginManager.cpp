@@ -14,7 +14,8 @@
 
 namespace ari
 {
-	bool PluginManager::LoadResource(Plugin ** ppOut, uint32_t handle, const std::string filename, void * extraParams)
+	bool PluginManager::LoadResource(Plugin ** ppOut, uint32_t handle, 
+		const std::string& filename, void * extraParams)
 	{
 		// RegisterPlugin function pointer
 		typedef Plugin*(*RegisterPlugin) (Engine*, const uint32_t&, const std::string&);

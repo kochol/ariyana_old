@@ -53,7 +53,7 @@ namespace bx
 }
 namespace ari
 {
-	static bx::AllocatorI* getDefaultAllocator();
+	ARI_API bx::AllocatorI* getDefaultAllocator();
 
 	struct ARI_API TinyStlAllocator
 	{

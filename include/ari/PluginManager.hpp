@@ -9,7 +9,8 @@ namespace ari
 	{
 	protected:
 
-		bool LoadResource(Plugin** ppOut, uint32_t handle, const std::string filename, void* extraParams) override;
+		bool LoadResource(Plugin** ppOut, uint32_t handle, 
+			const std::string& filename, void* extraParams) override;
 
 	};
 

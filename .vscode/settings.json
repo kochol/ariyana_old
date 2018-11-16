@@ -3,6 +3,8 @@
 	"files.associations": {
 		"xmemory0": "cpp",
 		"memory": "cpp",
-		"mutex": "cpp"
+		"mutex": "cpp",
+		"atomic": "cpp",
+		"xxatomic": "cpp"
 	}
 }

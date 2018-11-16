@@ -25,11 +25,12 @@ namespace ari
 
 		//! Loads a resource from a FileSystem and return its pointer.
 		/*!
-			\param strFilename The resource file name to load.
+			\param pStream
+			\param _extraParams
 			\return Returns the created resource pointer. Note resource may not loaded yet.
-			\sa kge::io::FileSystemManager, Resource::IsLoaded
 		 */
-		virtual Resource* LoadResource(bx::FileReaderI* pStream) = 0;
+		virtual Resource* LoadResource(bx::FileReaderI* pStream, uint32_t _handle, 
+			const std::string& _filename, void* _extraParams) = 0;
 
 	protected:
 

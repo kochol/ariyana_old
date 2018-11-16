@@ -67,7 +67,7 @@ namespace ari
 
 	protected:
 
-		virtual bool LoadResource(T** ppOut, uint32_t handle, const std::string filename, 
+		virtual bool LoadResource(T** ppOut, uint32_t handle, const std::string& filename, 
 			void* extraParams) = 0;
 
 		std::vector<std::shared_ptr<T>>	m_vResources;		/**< Stores the resources */

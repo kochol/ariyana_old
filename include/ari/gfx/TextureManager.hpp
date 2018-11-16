@@ -10,6 +10,10 @@ namespace ari
 		~TextureManager() override;
 
 	protected:
-		bool LoadResource(Texture** ppOut, uint32_t handle, const std::string filename, void* extraParams) override;
+
+		bool LoadResource(Texture** ppOut, uint32_t handle, 
+			const std::string& filename, void* extraParams) override;
+
 	};
+
 } // ari

@@ -6,11 +6,12 @@ namespace ari
 	class BimgLoader: public ResourceLoader
 	{
 	public:
-		BimgLoader() = default;
+		BimgLoader();
 
 		~BimgLoader() override = default;
 
-		Resource* LoadResource(bx::FileReaderI* pStream) override;
+		Resource* LoadResource(bx::FileReaderI* pStream, uint32_t _handle, 
+			const std::string& _filename, void* _extraParams) override;
 
 	}; // BimgLoader
 

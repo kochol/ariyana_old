@@ -10,6 +10,7 @@ project ("plugin_bimg")
 	links {
 		"bx",
 		"bimg",
+		"bimg_decode",
 		"bgfx",
 		"ariengine",
 	}
