@@ -29,6 +29,7 @@ extern "C"
 		const std::string& _fileName)
 	{
 		ari::BimgPlugin* p = new ari::BimgPlugin(_handel, _fileName);
+		pEngine->texture_manager.AddLoader(reinterpret_cast<ari::ResourceLoader*>(p->Create()));
 		return p;
 	}
 }

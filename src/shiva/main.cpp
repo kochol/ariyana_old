@@ -45,6 +45,7 @@ int main(int argc, char* argv[])
 	std::shared_ptr<ari::InitParams> p(new ari::InitParams);
 	p->Program.reset(new ShivaEditor("ShivaEditor"));
 	p_device->Init(p);
+	p_device->plugin_manager.Load("bimg", nullptr);
 
 	while (p_device->Run())
 	{

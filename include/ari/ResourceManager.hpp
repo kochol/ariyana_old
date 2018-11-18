@@ -14,7 +14,7 @@ namespace ari
 
 		virtual ~ResourceManager() = default;
 
-		std::shared_ptr<T> Load(const std::string filename,	void* extraParams)
+		std::shared_ptr<T> Load(const std::string& filename,	void* extraParams)
 		{
 			// Searching for resource.
 			for (const auto& res: m_vResources)

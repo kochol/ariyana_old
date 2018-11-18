@@ -3,6 +3,8 @@
 #include <memory>
 #include "io/IoEnums.hpp"
 #include "Program.hpp"
+#include "PluginManager.hpp"
+#include "gfx/TextureManager.hpp"
 
 namespace bx
 {
@@ -63,6 +65,9 @@ namespace ari
 		std::shared_ptr<spdlog::logger> GetLogger() const { return  Logger; }
 
 		std::shared_ptr<InitParams> GetParams() const { return m_params; }
+
+		PluginManager plugin_manager;
+		TextureManager texture_manager;
 
 	protected:
 

@@ -3,6 +3,7 @@
 #include "ari/en/gui/Button.hpp"
 #include "ari/en/gui/DockSpace.hpp"
 #include "ari/en/World.hpp"
+#include "AssetGui.hpp"
 
 namespace shiva
 {
@@ -19,6 +20,7 @@ namespace shiva
 		m_pButton = new ari::Button;
 		m_pButton->Label = "TEST   Dock";
 		m_pDock->AddChild(m_pButton);
+		m_pDock->AddChild(new AssetGui);
 	}
 
 	void AssetBrowser::ShutDown()

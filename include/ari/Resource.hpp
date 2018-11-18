@@ -1,9 +1,10 @@
 #pragma once
 #include <string>
+#include "aridef.hpp"
 
 namespace ari
-{
-	class Resource
+{	
+	class ARI_API Resource
 	{
 		template <class T>
 		friend class ResourceManager;

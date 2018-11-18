@@ -69,7 +69,7 @@ dofile("shivaeditor.lua")
 dofile(path.join(BGFX_DIR, "scripts/bgfx.lua"))
 
 group "deps"
-bgfxProject("", "StaticLib", {})
+bgfxProject("", "SharedLib", {})
 
 dofile(path.join(BX_DIR,   "scripts/bx.lua"))
 dofile(path.join(BIMG_DIR, "scripts/bimg.lua"))

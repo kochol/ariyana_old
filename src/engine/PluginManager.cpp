@@ -26,7 +26,13 @@ namespace ari
 
 #if BX_PLATFORM_WINDOWS
 		// Load .dll files under windows OS
-		std::string strPluginName = filename;
+		std::string strPluginName = "plugin_";
+		strPluginName += filename;
+#	ifdef _DEBUG
+		strPluginName += "Debug";
+#	else
+		strPluginName += "Release";
+#	endif
 		strPluginName += ".dll";
 
 		// Load dll and check for success
@@ -50,8 +56,13 @@ namespace ari
 #else
 
 		std::string strPluginName;
-		strPluginName = "lib";
+		strPluginName = "libplugin_";
 		strPluginName += filename;
+#	ifdef _DEBUG
+		strPluginName += "Debug";
+#	else
+		strPluginName += "Release";
+#	endif
 		strPluginName += ".so";
 
 		void* handle = dlopen(strPluginName.c_str(), RTLD_LAZY);
