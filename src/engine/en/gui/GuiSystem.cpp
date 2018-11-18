@@ -77,6 +77,9 @@ namespace ari
 
 	void GuiSystem::RenderGui(Node * node)
 	{
+		if (node->IsInDestroyQueue())
+			return;
+
 		Gui* gui = nullptr;
 		bool renderChilds = true;
 		if (node->GetType() == Node::Type::Component)

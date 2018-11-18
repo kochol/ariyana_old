@@ -98,7 +98,7 @@ namespace ari
 		 */
 		void Destroy(bool addToDestroyQueue = true);
 
-		uint32_t GetIsInDestroyQueue() const { return m_iIsInDestroyQueue; }
+		uint32_t IsInDestroyQueue() const { return m_iIsInDestroyQueue; }
 
 	protected:
 
