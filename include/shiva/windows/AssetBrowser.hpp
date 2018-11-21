@@ -1,5 +1,7 @@
 #pragma once
 #include "shiva/shivadef.hpp"
+#include "shiva/DirectoryTree.hpp"
+#include "../../../src/editor/windows/AssetGui.hpp"
 
 namespace ari {
 	class Button;
@@ -21,8 +23,10 @@ namespace shiva
 
 	private:
 
-		ari::Dock	*	m_pDock = nullptr;
-		ari::Button	*	m_pButton = nullptr;
+		void UpdateAssets(const DirectoryTree& _tree);
+
+		ari::Dock			*	m_pDock = nullptr;		
+		std::vector<AssetGui*>	m_vAssets;
 
 	}; // AssetBrowser
 

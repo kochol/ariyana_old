@@ -1,6 +1,7 @@
 #pragma once
 #include "ari/en/gui/Gui.hpp"
 #include "ari/gfx/Texture.hpp"
+#include "ari/Delegate.hpp"
 
 namespace shiva
 {
@@ -11,7 +12,11 @@ namespace shiva
 		~AssetGui() override;
 		bool BeginRender() override;
 
-		std::shared_ptr<ari::Texture> Image;
+		std::shared_ptr<ari::Texture>	Image;
+		std::string						FileName;
+		ari::DelegateOneParam<void, AssetGui*>
+										OnDblClick,
+										OnRightClick;
 	};
 
 } // shiva

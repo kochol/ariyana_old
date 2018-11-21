@@ -24,6 +24,8 @@ namespace shiva
 
 		void UpdateProjectTree();
 
+		const DirectoryTree& GetTree() const { return m_Tree; }
+
 	private:
 
 		bx::FilePath	m_ProjectPath;

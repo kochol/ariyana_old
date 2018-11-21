@@ -25,7 +25,7 @@ solution "Ariyana"
 	startproject "Shiva"
 
 MODULE_DIR  = path.getabsolute("../")
-ASSETS_DIR  = path.getabsolute("../assets")
+ASSETS_DIR  = "../../../assets"
 ARIDEPS_DIR = path.getabsolute("../deps/arideps") 
 BGFX_DIR    = path.getabsolute("../deps/bgfx")
 BX_DIR      = os.getenv("BX_DIR")

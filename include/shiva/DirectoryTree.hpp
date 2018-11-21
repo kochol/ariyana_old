@@ -19,6 +19,7 @@ namespace shiva
 		bx::FilePath Path;
 		std::vector<FileInfo> FileList;
 		std::vector<DirectoryTree> Directories;
+		bool IsRoot = false;
 
 		void Update();
 

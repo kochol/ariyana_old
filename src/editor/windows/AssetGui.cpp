@@ -6,9 +6,6 @@ namespace shiva
 {
 	AssetGui::AssetGui()
 	{
-		std::string str = ASSETS_DIR;
-		str += "/icons/filetypes/BMP.png";
-		Image = ari::g_pEngine->texture_manager.Load(str, nullptr);
 	}
 
 	AssetGui::~AssetGui()
@@ -17,7 +14,19 @@ namespace shiva
 
 	bool AssetGui::BeginRender()
 	{
-		ImGui::Image(Image->Handle, ImVec2(20, 20));
+		ImGui::BeginGroup();
+		ImGui::Image(Image->Handle, ImVec2(64, 64));
+		ImGui::TextWrapped(FileName.c_str());
+		ImGui::EndGroup();
+		if (ImGui::IsItemHovered())
+		{
+			if (OnDblClick.IsBound())
+				if (ImGui::IsMouseDoubleClicked(0))
+					OnDblClick.Execute(this);
+			if (OnRightClick.IsBound())
+				if (ImGui::IsMouseClicked(1))
+					OnRightClick.Execute(this);
+		}
 		return false;
 	}
 

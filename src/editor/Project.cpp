@@ -23,7 +23,7 @@ namespace shiva
 		bx::FileInfo fi;
 		if (bx::stat(projectPath, fi))
 		{
-			BX_ERROR_SET(err, SH_ERROR_NOT_EMPTY_DIRECTPRY, "The directory must not exist.");
+			BX_ERROR_SET(err, SH_ERROR_NOT_EMPTY_DIRECTPRY, "The directory is already exist.");
 			return nullptr;
 		}	
 
@@ -48,6 +48,7 @@ namespace shiva
 		Project* p = new Project();
 		p->m_ProjectName = name;
 		p->m_Tree.Path = projectPath;
+		p->m_Tree.IsRoot = true;
 		projectPath.join(name.append(".shiva").c_str());
 		p->m_ProjectPath = projectPath;
 		p->Save();
@@ -83,6 +84,7 @@ namespace shiva
 		from_json(root, *p);
 		p->m_ProjectPath = path;
 		p->m_Tree.Path.set(path.getPath());
+		p->m_Tree.IsRoot = true;
 		p->UpdateProjectTree();
 		return p;
 	}
