@@ -47,10 +47,10 @@ extensions = [
 ]
 
 # Setup the breathe extension
-breathe_projects = [
+breathe_projects = {
     'Ariyana engine': '../_build/ari/doxyoutput/xml',
     'Shiva editor': '../_build/shiva/doxyoutput/xml'
-]
+}
 breathe_default_project = "Ariyana engine"
 
 # Setup the exhale extension
