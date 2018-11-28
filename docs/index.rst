@@ -11,10 +11,9 @@ Welcome to Ariyana's documentation!
    :caption: Contents:
 
    building
-
+   api/library_root
+   
 Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
