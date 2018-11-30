@@ -36,6 +36,17 @@ namespace shiva
 		strFile += "/icons/filetypes/DEFAULT.png";
 		std::string strFolder = ASSETS_DIR;
 		strFolder += "/icons/filetypes/BMP.png";
+		if (_tree.IsRoot == false)
+		{
+			std::string strUp = ASSETS_DIR;
+			strUp += "/icons/filetypes/XLS.png";
+			m_vAssets[0]->Image = ari::g_pEngine->texture_manager.Load(strUp, nullptr);
+			m_vAssets[0]->Path = _tree.Path.get();
+			m_vAssets[0]->Path = m_vAssets[0]->Path.substr(0, m_vAssets[0]->Path.rfind('/'));
+			m_vAssets[0]->FileName = "..";
+			m_vAssets[0]->IsDirectory = true;
+			c++;
+		}
 		for (size_t i = 0; i < _tree.Directories.size(); ++i)
 		{
 			if (m_vAssets.size() <= c)
@@ -43,6 +54,10 @@ namespace shiva
 				AssetGui* p_gui = new AssetGui;
 				p_gui->Image = ari::g_pEngine->texture_manager.Load(strFolder, nullptr);
 				p_gui->FileName = _tree.Directories[i].Name;
+				p_gui->Path = _tree.Directories[i].Path.get();
+				p_gui->IsDirectory = true;
+				p_gui->OnDblClick.Bind(this, &AssetBrowser::OnDblClick);
+				p_gui->OnRightClick.Bind(this, &AssetBrowser::OnRightClick);
 				if (c % 2 == 1)
 					p_gui->SameLine = true;
 				m_pDock->AddChild(p_gui);
@@ -53,6 +68,8 @@ namespace shiva
 				m_vAssets[c]->Image = ari::g_pEngine->texture_manager.Load(strFolder, nullptr);
 				m_vAssets[c]->FileName = _tree.Directories[i].Name;
 				m_vAssets[c]->Visible = true;
+				m_vAssets[c]->Path = _tree.Directories[i].Path.get();
+				m_vAssets[c]->IsDirectory = true;
 			}
 			c++;
 		}
@@ -63,6 +80,10 @@ namespace shiva
 				AssetGui* p_gui = new AssetGui;
 				p_gui->Image = ari::g_pEngine->texture_manager.Load(strFile, nullptr);
 				p_gui->FileName = _tree.FileList[i].Name;
+				p_gui->Path = _tree.Path.get();
+				p_gui->IsDirectory = false;
+				p_gui->OnDblClick.Bind(this, &AssetBrowser::OnDblClick);
+				p_gui->OnRightClick.Bind(this, &AssetBrowser::OnRightClick);
 				if (c % 2 == 1)
 					p_gui->SameLine = true;
 				m_pDock->AddChild(p_gui);
@@ -73,6 +94,8 @@ namespace shiva
 				m_vAssets[c]->Image = ari::g_pEngine->texture_manager.Load(strFile, nullptr);
 				m_vAssets[c]->FileName = _tree.FileList[i].Name;
 				m_vAssets[c]->Visible = true;
+				m_vAssets[c]->Path = _tree.Path.get();
+				m_vAssets[c]->IsDirectory = false;
 			}
 			c++;
 		}
@@ -80,6 +103,36 @@ namespace shiva
 		{
 			m_vAssets[i]->Visible = false;
 		}
+	}
+
+	DirectoryTree* AssetBrowser::FindPathTree(DirectoryTree* _tree, const std::string& _path)
+	{
+		if (_tree->Path.get() == _path)
+			return _tree;
+		for (size_t i = 0; i < _tree->Directories.size(); i++)
+		{
+			const auto r = FindPathTree(&_tree->Directories[i], _path);
+			if (r)
+				return r;
+		}
+		return nullptr;
+	}
+
+	void AssetBrowser::OnDblClick(AssetGui* _sender)
+	{
+		if (_sender->IsDirectory)
+		{
+			DirectoryTree tree = g_pEditor->GetCurrentProject()->GetTree();
+			auto r = FindPathTree(&tree, _sender->Path);
+			if (r)
+				UpdateAssets(*r);
+			else
+				printf("Can't find the directory %s.", _sender->Path.c_str());
+		}
+	}
+
+	void AssetBrowser::OnRightClick(AssetGui* _sender)
+	{
 	}
 
 } // shiva

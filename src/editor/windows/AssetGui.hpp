@@ -13,7 +13,9 @@ namespace shiva
 		bool BeginRender() override;
 
 		std::shared_ptr<ari::Texture>	Image;
-		std::string						FileName;
+		std::string						FileName,
+										Path;
+		bool							IsDirectory;
 		ari::DelegateOneParam<void, AssetGui*>
 										OnDblClick,
 										OnRightClick;

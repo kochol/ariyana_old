@@ -11,6 +11,8 @@ namespace ari {
 
 namespace shiva
 {
+	class AssetGui;
+
 	class SHIVA_API AssetBrowser
 	{
 	public:
@@ -24,6 +26,9 @@ namespace shiva
 	private:
 
 		void UpdateAssets(const DirectoryTree& _tree);
+		DirectoryTree* FindPathTree(DirectoryTree* _tree, const std::string& _path);
+		void OnDblClick(AssetGui* _sender);
+		void OnRightClick(AssetGui* _sender);
 
 		ari::Dock			*	m_pDock = nullptr;		
 		std::vector<AssetGui*>	m_vAssets;
