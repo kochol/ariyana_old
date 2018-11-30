@@ -7,7 +7,7 @@ Getting Source
 .. code-block:: shell
 
     git clone https://github.com/kochol/ariyana.git
-	cd ariyana
+    cd ariyana
     git submodule update --init
 
 Quick Start

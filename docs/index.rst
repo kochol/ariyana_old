@@ -6,11 +6,14 @@
 Welcome to Ariyana's documentation!
 ===================================
 
+Ariyana is an open source and free WIP game engine.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
    building
+   design
    api/library_root
    
 Indices and tables
