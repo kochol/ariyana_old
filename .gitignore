@@ -38,3 +38,7 @@
 # Folders
 /_build/
 .build/
+docs/api
+docs/doctrees
+docs/doxyoutput
+docs/html 

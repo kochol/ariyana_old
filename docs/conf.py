@@ -48,8 +48,7 @@ extensions = [
 
 # Setup the breathe extension
 breathe_projects = {
-    'Ariyana engine': '../_build/ari/doxyoutput/xml',
-    'Shiva editor': '../_build/shiva/doxyoutput/xml'
+    'Ariyana engine': 'doxyoutput/xml'
 }
 breathe_default_project = "Ariyana engine"
 
@@ -65,7 +64,7 @@ exhale_args = {
     # TIP: if using the sphinx-bootstrap-theme, you need
     # "treeViewIsBootstrap": True,
     "exhaleExecutesDoxygen": True,
-    "exhaleDoxygenStdin":    "INPUT = ../include/ari"
+    "exhaleDoxygenStdin":    "INPUT = ../include"
 }
 
 # Tell sphinx what the primary language being documented is.
