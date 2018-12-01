@@ -35,11 +35,11 @@ namespace shiva
 		std::string strFile = ASSETS_DIR;
 		strFile += "/icons/filetypes/DEFAULT.png";
 		std::string strFolder = ASSETS_DIR;
-		strFolder += "/icons/filetypes/BMP.png";
+		strFolder += "/icons/filetypes/folder.png";
 		if (_tree.IsRoot == false)
 		{
 			std::string strUp = ASSETS_DIR;
-			strUp += "/icons/filetypes/XLS.png";
+			strUp += "/icons/filetypes/folder_up.png";
 			m_vAssets[0]->Image = ari::g_pEngine->texture_manager.Load(strUp, nullptr);
 			m_vAssets[0]->Path = _tree.Path.get();
 			m_vAssets[0]->Path = m_vAssets[0]->Path.substr(0, m_vAssets[0]->Path.rfind('/'));
