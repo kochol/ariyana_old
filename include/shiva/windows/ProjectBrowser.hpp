@@ -47,11 +47,14 @@ namespace shiva
 		ari::TextBox	*	m_pNewProjectName;
 		ari::TextBox	*	m_pNewProjectPath;
 		ari::Button		*	m_pNewProjectBtn;
+		ari::TextBox	*	m_pOpenProjectPath;
+		ari::Button		*	m_pOpenProjectBtn;
 		ari::Popup		*	m_pMessageBox;
 		ari::Label		*	m_pMbLabel;
 		ari::Button		*	m_pMbOkBtn;
 
 		void OnNewProjectClick();
+		void OnOpenProjectClick();
 
 		void OnClickMbOk();
 

@@ -16,7 +16,8 @@ void testOnClick()
 namespace shiva
 {
 	ProjectBrowser::ProjectBrowser(): m_pWindow(nullptr), m_pEntity(nullptr), m_pNewProjectName(nullptr),
-	                                  m_pNewProjectPath(nullptr),
+	                                  m_pNewProjectPath(nullptr), m_pOpenProjectPath(nullptr),
+									  m_pOpenProjectBtn(nullptr),
 	                                  m_pNewProjectBtn(nullptr), m_pMessageBox(nullptr), m_pMbLabel(nullptr),
 	                                  m_pMbOkBtn(nullptr)
 	{
@@ -52,6 +53,17 @@ namespace shiva
 		m_pNewProjectBtn->OnClick.Bind(this, &ProjectBrowser::OnNewProjectClick);
 		m_pWindow->AddChild(m_pNewProjectBtn);
 
+		// Init open project textbox
+		m_pOpenProjectPath = new ari::TextBox(512);
+		m_pOpenProjectPath->Label = "Project path to open";
+		// TODO: Set the last project path.
+		m_pOpenProjectPath->SetText(bx::FilePath(bx::Dir::Home).get());
+		m_pWindow->AddChild(m_pOpenProjectPath);
+		m_pOpenProjectBtn = new ari::Button();
+		m_pOpenProjectBtn->Label = "Open project";
+		m_pOpenProjectBtn->OnClick.Bind(this, &ProjectBrowser::OnOpenProjectClick);
+		m_pWindow->AddChild(m_pOpenProjectBtn);
+
 		// Init message window
 		m_pMessageBox = new ari::Popup;
 		m_pMessageBox->Name = "MessageBox";
@@ -74,9 +86,11 @@ namespace shiva
 			m_pNewProjectName = nullptr;
 			m_pNewProjectPath = nullptr;
 			m_pNewProjectBtn = nullptr;
+			m_pOpenProjectPath = nullptr;
+			m_pOpenProjectBtn = nullptr;
 			m_pMessageBox = nullptr;
 			m_pMbLabel = nullptr;
-			m_pMbOkBtn = nullptr;
+			m_pMbOkBtn = nullptr;			
 		}
 	}
 
@@ -84,6 +98,21 @@ namespace shiva
 	{
 		bx::Error err;
 		Project* p = Project::New(bx::FilePath(m_pNewProjectPath->Text), m_pNewProjectName->Text, &err);
+		if (p)
+		{
+			ProjectOpened(p);
+		}
+		else
+		{
+			m_pMbLabel->Text = err.getMessage().getPtr();
+			m_pMessageBox->Show();
+		}
+	}
+
+	void ProjectBrowser::OnOpenProjectClick()
+	{
+		bx::Error err;
+		Project* p = Project::Load(bx::FilePath(m_pOpenProjectPath->Text), &err);
 		if (p)
 		{
 			ProjectOpened(p);
