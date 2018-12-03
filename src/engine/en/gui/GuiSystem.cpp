@@ -95,6 +95,9 @@ namespace ari
 				if (gui->SameLine)
 					ImGui::SameLine();
 
+				if (gui->Separator)
+					ImGui::Separator();
+
 				renderChilds = gui->BeginRender();
 			}
 		}

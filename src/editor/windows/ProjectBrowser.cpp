@@ -56,6 +56,7 @@ namespace shiva
 		// Init open project textbox
 		m_pOpenProjectPath = new ari::TextBox(512);
 		m_pOpenProjectPath->Label = "Project path to open";
+		m_pOpenProjectPath->Separator = true;
 		// TODO: Set the last project path.
 		m_pOpenProjectPath->SetText(bx::FilePath(bx::Dir::Home).get());
 		m_pWindow->AddChild(m_pOpenProjectPath);

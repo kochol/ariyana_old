@@ -83,7 +83,9 @@ namespace shiva
 		Project* p = new Project();
 		from_json(root, *p);
 		p->m_ProjectPath = path;
-		p->m_Tree.Path.set(path.getPath());
+		char* str_path = (char*)path.getPath().getPtr();
+		str_path[path.getPath().getLength() - 1] = 0;
+		p->m_Tree.Path.set(str_path);
 		p->m_Tree.IsRoot = true;
 		p->UpdateProjectTree();
 		return p;
