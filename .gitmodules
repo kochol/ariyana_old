@@ -25,3 +25,6 @@
 [submodule "deps/imguiDock"]
 	path = deps/imguiDock
 	url = https://github.com/kochol/imguiDock.git
+[submodule "deps/ImWindow"]
+	path = deps/ImWindow
+	url = https://github.com/kochol/ImWindow.git
