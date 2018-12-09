@@ -13,6 +13,8 @@ project ("ariengine")
 		path.join(MODULE_DIR, "deps/brtshaderc/tools/brtshaderc"),	
 		path.join(MODULE_DIR, "deps/MetaStuff/include"),	
 		path.join(MODULE_DIR, "deps/MetaStuff/example/nlohmann_json"),					
+		path.join(MODULE_DIR, "deps/ImWindow"),					
+		path.join(MODULE_DIR, "deps/ImWindow/ImWindow"),					
 	}
 
 	links {
@@ -37,6 +39,9 @@ project ("ariengine")
 		"../deps/bgfx/examples/common/imgui/*.cpp",	
 		"../deps/imguiDock/*.cpp",			
 		"../deps/imguiDock/*.h",			
+		"../deps/ImWindow/*.h",					
+		"../deps/ImWindow/ImWindow/*.h",					
+		"../deps/ImWindow/ImWindow/*.cpp",					
 	}
 
 	defines {

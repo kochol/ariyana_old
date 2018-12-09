@@ -1,0 +1,5 @@
+
+namespace ari
+{
+	
+} // ari
