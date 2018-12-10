@@ -1,3 +1,5 @@
+#ifdef ARI_USE_SDL
+
 #include "SdlWindow.hpp"
 #include "../../../include/ari/Program.hpp"
 #include <string>
@@ -1078,3 +1080,5 @@ namespace ari
 	}
 
 } // ari
+
+#endif // ARI_USE_SDL

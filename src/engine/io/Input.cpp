@@ -1,9 +1,9 @@
 #include <bx/allocator.h>
 #include <bx/ringbuffer.h>
 #include "../../../include/ari/io/Input.hpp"
-#include "SdlWindow.hpp"
 #include <tinystl/string.h>
 #include <tinystl/unordered_map.h>
+#include "../../../include/ari/Engine.hpp"
 
 namespace stl = tinystl;
 
@@ -371,7 +371,7 @@ namespace ari
 		{
 			s_input->m_mouse.m_lock = _lock;
 			WindowHandle defaultWindow = { 0 };
-			SdlWindow::setMouseLock(defaultWindow, _lock);
+			g_pEngine->GetMainWindow()->SetMouseLock(_lock);
 			if (_lock)
 			{
 				s_input->m_mouse.m_norm[0] = 0.0f;

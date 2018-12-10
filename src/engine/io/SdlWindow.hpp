@@ -1,4 +1,6 @@
 #pragma once
+#ifdef ARI_USE_SDL
+
 #include "../../../include/ari/Engine.hpp"
 #include "../../../include/ari/io/IoEvents.hpp"
 #include "bx/handlealloc.h"
@@ -70,3 +72,5 @@ namespace ari
 	}; // SdlWindow
 
 } // ari
+
+#endif ARI_USE_SDL
