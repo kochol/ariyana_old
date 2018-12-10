@@ -49,6 +49,11 @@ namespace ari
 
 	bool Engine::Init(std::shared_ptr<InitParams> params)
 	{
+		inputInit();
+		m_params = params;
+		m_debug = BGFX_DEBUG_TEXT;
+		m_reset = BGFX_RESET_VSYNC;
+
 		// Create a window
 #if BX_PLATFORM_WINDOWS
 		m_pWindow = new WindowWin32(PlatformWindow::Type::Main);
@@ -66,12 +71,6 @@ namespace ari
 			return false;
 		}
 
-		m_params = params;
-		m_debug = BGFX_DEBUG_TEXT;
-		m_reset = BGFX_RESET_VSYNC;
-
-		inputInit();
-
 		m_pGfxThread = new bx::Thread();
 		m_pGfxThread->init(Engine::InitBgfxInThread, this);
 
@@ -80,6 +79,8 @@ namespace ari
 
 	bool Engine::Run()
 	{
+		bgfx::renderFrame();
+
 	    m_bRun = m_pWindow->Run();
 		uint32_t reset = m_reset;
 		m_bRun &= m_pWindow->ProcessEvents(m_params->Width, m_params->Height, m_debug, reset, &m_MouseState);

@@ -9,8 +9,6 @@ namespace ari
 		g_pEngine->m_debug = _debug;
 		g_pEngine->m_reset = _reset;
 
-		WindowHandle handle = { UINT16_MAX };
-
 		const bool mouseLock = inputIsMouseLocked();
 
 		const Event* ev;
@@ -111,7 +109,7 @@ namespace ari
 
 		} while (NULL != ev);
 
-		if (handle.idx == 0
+		if (m_Type == Type::Main
 			&& _reset != g_pEngine->m_reset)
 		{
 			_reset = g_pEngine->m_reset;

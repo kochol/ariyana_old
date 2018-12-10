@@ -2,6 +2,8 @@
 
 #if BX_PLATFORM_WINDOWS
 
+#include "bgfx/platform.h"
+#include <map>
 #include "bx/bx.h"
 #include <bx/math.h>
 
@@ -16,9 +18,25 @@
 #	define XINPUT_DLL_A "Xinput.dll"
 #endif // XINPUT_DLL_A
 
+static std::map<uintptr_t, ari::WindowWin32*> s_windows;
+
+ari::WindowWin32* GetWindowByHwnd(HWND _hwnd)
+{
+	auto it = s_windows.find((uintptr_t)_hwnd);
+	if (it == s_windows.end())
+		return nullptr;
+
+	return it->second;
+}
+
 LRESULT CALLBACK wndProc(HWND _hwnd, UINT _id, WPARAM _wparam, LPARAM _lparam)
 {
-	ari::WindowWin32* win = reinterpret_cast<ari::WindowWin32*>(_lparam);
+	ari::WindowWin32* win = GetWindowByHwnd(_hwnd);
+	if (!win)
+	{
+		return DefWindowProc(_hwnd, _id, _wparam, _lparam);
+	}
+
 	return win->Process(_hwnd, _id, _wparam, _lparam);
 }
 
@@ -167,7 +185,7 @@ namespace ari
 	bool WindowWin32::Run()
 	{
 		// TODO: s_xinput.update(m_eventQueue);
-		WaitForInputIdle(GetCurrentProcess(), 16);
+		//WaitForInputIdle(GetCurrentProcess(), 16);
 
 		MSG msg;
 		msg.message = WM_NULL;
@@ -177,7 +195,7 @@ namespace ari
 			DispatchMessage(&msg);
 		}
 
-		return m_exit;
+		return !m_exit;
 	}
 
 	void WindowWin32::SetMousePos(int _x, int _y)
@@ -285,14 +303,20 @@ namespace ari
 			, instance
 			, this
 		);
+		s_windows[(uintptr_t)m_hwnd] = this;
 
 		m_flags = 0
 			| ENTRY_WINDOW_FLAG_ASPECT_RATIO
 			| ENTRY_WINDOW_FLAG_FRAME
 			;
 
-		// TODO: Set bgfx platform data
-		//winSetHwnd(m_hwnd);
+		if (m_Type == Type::Main)
+		{
+			bgfx::PlatformData pd;
+			bx::memSet(&pd, 0, sizeof(pd));
+			pd.nwh = m_hwnd;
+			bgfx::setPlatformData(pd);
+		}
 
 		if (m_Type == Type::Main)
 			Adjust(_width, _height, true);
@@ -307,7 +331,7 @@ namespace ari
 
 		MSG msg;
 		msg.message = WM_NULL;
-		return false;
+		return true;
 	}
 
 	void WindowWin32::Adjust(uint32_t _width, uint32_t _height, bool _windowFrame)
