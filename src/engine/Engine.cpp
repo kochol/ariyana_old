@@ -9,6 +9,7 @@
 #include <bx/timer.h>
 #include "../../include/ari/io/Input.hpp"
 #include "../../deps/bgfx/src/renderer.h"
+#include "io/WindowWin32.hpp"
 
 extern bx::AllocatorI* g_allocator;
 
@@ -48,19 +49,27 @@ namespace ari
 
 	bool Engine::Init(std::shared_ptr<InitParams> params)
 	{
-		// Create a SDL window
-		m_pWindow = new SdlWindow();
-		if (!m_pWindow->Init(params))
-		{
-			Logger->error("Can't create SDL window");
-			return false;
-		}
-
+		inputInit();
 		m_params = params;
 		m_debug = BGFX_DEBUG_TEXT;
 		m_reset = BGFX_RESET_VSYNC;
 
-		inputInit();
+		// Create a window
+#if BX_PLATFORM_WINDOWS
+		m_pWindow = new WindowWin32(PlatformWindow::Type::Main);
+#else
+		Logger->error("Windowing in this platform not supported yet.");
+		return false;
+#endif
+
+		char* windowName = "Ariyana";
+		if (params->Program)
+			windowName = (char*)params->Program->GetProgramName().c_str();
+		if (!m_pWindow->Init(0, 0, params->Width, params->Height, 0, windowName))
+		{
+			Logger->error("Can't create window");
+			return false;
+		}
 
 		m_pGfxThread = new bx::Thread();
 		m_pGfxThread->init(Engine::InitBgfxInThread, this);
@@ -70,9 +79,11 @@ namespace ari
 
 	bool Engine::Run()
 	{
+		bgfx::renderFrame();
+
 	    m_bRun = m_pWindow->Run();
 		uint32_t reset = m_reset;
-		m_bRun &= m_pWindow->processEvents(m_params->Width, m_params->Height, m_debug, reset, &m_MouseState);
+		m_bRun &= m_pWindow->ProcessEvents(m_params->Width, m_params->Height, m_debug, reset, &m_MouseState);
 		return m_bRun;
 	}
 

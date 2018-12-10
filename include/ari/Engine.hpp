@@ -2,6 +2,7 @@
 #include "aridef.hpp"
 #include <memory>
 #include "io/IoEnums.hpp"
+#include "io/PlatformWindow.hpp"
 #include "Program.hpp"
 #include "PluginManager.hpp"
 #include "gfx/TextureManager.hpp"
@@ -21,7 +22,6 @@ namespace ftl
 
 namespace ari
 {
-	class SdlWindow;
 	struct Event;
 
 	struct InitParams
@@ -39,7 +39,7 @@ namespace ari
 
 	class ARI_API Engine
 	{
-		friend class SdlWindow;
+		friend class PlatformWindow;
 		friend class GuiSystem;
 	public:
 
@@ -66,6 +66,8 @@ namespace ari
 
 		std::shared_ptr<InitParams> GetParams() const { return m_params; }
 
+		PlatformWindow* GetMainWindow() const { return m_pWindow; }
+
 		PluginManager plugin_manager;
 		TextureManager texture_manager;
 
@@ -74,7 +76,7 @@ namespace ari
 		static int InitBgfxInThread(bx::Thread* _thread, void* _userData);
 
 		std::shared_ptr<spdlog::logger> Logger;
-		SdlWindow	*					m_pWindow;
+		PlatformWindow	*						m_pWindow;
 		std::shared_ptr<InitParams>		m_params;
 		uint32_t						m_debug, m_reset, m_frame_number;
 		int64_t							m_time_offset;

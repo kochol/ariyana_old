@@ -6,7 +6,7 @@
 #include "../en/EventSubscriber.hpp"
 
 #define ENTRY_IMPLEMENT_EVENT(_class, _type) \
-			_class(WindowHandle _handle) : Event(_type, _handle) {}
+			_class() : Event(_type) {}
 
 extern bx::AllocatorI* g_allocator;
 
@@ -31,17 +31,10 @@ namespace ari
 		Event(Enum _type)
 			: m_type(_type)
 		{
-			m_handle.idx = UINT16_MAX;
 		}
 
-		Event(Enum _type, WindowHandle _handle)
-			: m_type(_type)
-			, m_handle(_handle)
-		{
-		}
 
 		Event::Enum m_type;
-		WindowHandle m_handle;
 	};
 
 	struct AxisEvent : public Event
@@ -120,7 +113,7 @@ namespace ari
 	};
 
 	const Event* poll();
-	const Event* poll(WindowHandle _handle);
+	const Event* poll(WindowHandle );
 	void release(const Event* _event);
 
 	class EventQueue
@@ -139,18 +132,18 @@ namespace ari
 			}
 		}
 
-		void postAxisEvent(WindowHandle _handle, GamepadHandle _gamepad, GamepadAxis::Enum _axis, int32_t _value)
+		void postAxisEvent(GamepadHandle _gamepad, GamepadAxis::Enum _axis, int32_t _value)
 		{
-			AxisEvent* ev = BX_NEW(g_allocator, AxisEvent)(_handle);
+			AxisEvent* ev = BX_NEW(g_allocator, AxisEvent)();
 			ev->m_gamepad = _gamepad;
 			ev->m_axis    = _axis;
 			ev->m_value   = _value;
 			m_queue.push(ev);
 		}
 
-		void postCharEvent(WindowHandle _handle, uint8_t _len, const uint8_t _char[4])
+		void postCharEvent(uint8_t _len, const uint8_t _char[4])
 		{
-			CharEvent* ev = BX_NEW(g_allocator, CharEvent)(_handle);
+			CharEvent* ev = BX_NEW(g_allocator, CharEvent)();
 			ev->m_len = _len;
 			bx::memCopy(ev->m_char, _char, 4);
 			m_queue.push(ev);
@@ -162,26 +155,26 @@ namespace ari
 			m_queue.push(ev);
 		}
 
-		void postGamepadEvent(WindowHandle _handle, GamepadHandle _gamepad, bool _connected)
+		void postGamepadEvent(GamepadHandle _gamepad, bool _connected)
 		{
-			GamepadEvent* ev = BX_NEW(g_allocator, GamepadEvent)(_handle);
+			GamepadEvent* ev = BX_NEW(g_allocator, GamepadEvent)();
 			ev->m_gamepad   = _gamepad;
 			ev->m_connected = _connected;
 			m_queue.push(ev);
 		}
 
-		void postKeyEvent(WindowHandle _handle, Key::Enum _key, uint8_t _modifiers, bool _down)
+		void postKeyEvent(Key::Enum _key, uint8_t _modifiers, bool _down)
 		{
-			KeyEvent* ev = BX_NEW(g_allocator, KeyEvent)(_handle);
+			KeyEvent* ev = BX_NEW(g_allocator, KeyEvent)();
 			ev->m_key       = _key;
 			ev->m_modifiers = _modifiers;
 			ev->m_down      = _down;
 			m_queue.push(ev);
 		}
 
-		void postMouseEvent(WindowHandle _handle, int32_t _mx, int32_t _my, int32_t _mz)
+		void postMouseEvent(int32_t _mx, int32_t _my, int32_t _mz)
 		{
-			MouseEvent* ev = BX_NEW(g_allocator, MouseEvent)(_handle);
+			MouseEvent* ev = BX_NEW(g_allocator, MouseEvent)();
 			ev->m_mx     = _mx;
 			ev->m_my     = _my;
 			ev->m_mz     = _mz;
@@ -191,9 +184,9 @@ namespace ari
 			m_queue.push(ev);
 		}
 
-		void postMouseEvent(WindowHandle _handle, int32_t _mx, int32_t _my, int32_t _mz, MouseButton::Enum _button, bool _down)
+		void postMouseEvent(int32_t _mx, int32_t _my, int32_t _mz, MouseButton::Enum _button, bool _down)
 		{
-			MouseEvent* ev = BX_NEW(g_allocator, MouseEvent)(_handle);
+			MouseEvent* ev = BX_NEW(g_allocator, MouseEvent)();
 			ev->m_mx     = _mx;
 			ev->m_my     = _my;
 			ev->m_mz     = _mz;
@@ -203,31 +196,31 @@ namespace ari
 			m_queue.push(ev);
 		}
 
-		void postSizeEvent(WindowHandle _handle, uint32_t _width, uint32_t _height)
+		void postSizeEvent(uint32_t _width, uint32_t _height)
 		{
-			SizeEvent* ev = BX_NEW(g_allocator, SizeEvent)(_handle);
+			SizeEvent* ev = BX_NEW(g_allocator, SizeEvent)();
 			ev->m_width  = _width;
 			ev->m_height = _height;
 			m_queue.push(ev);
 		}
 
-		void postWindowEvent(WindowHandle _handle, void* _nwh = NULL)
+		void postWindowEvent(void* _nwh = NULL)
 		{
-			WindowEvent* ev = BX_NEW(g_allocator, WindowEvent)(_handle);
+			WindowEvent* ev = BX_NEW(g_allocator, WindowEvent)();
 			ev->m_nwh = _nwh;
 			m_queue.push(ev);
 		}
 
-		void postSuspendEvent(WindowHandle _handle, Suspend::Enum _state)
+		void postSuspendEvent(Suspend::Enum _state)
 		{
-			SuspendEvent* ev = BX_NEW(g_allocator, SuspendEvent)(_handle);
+			SuspendEvent* ev = BX_NEW(g_allocator, SuspendEvent)();
 			ev->m_state = _state;
 			m_queue.push(ev);
 		}
 
-		void postDropFileEvent(WindowHandle _handle, const bx::FilePath& _filePath)
+		void postDropFileEvent(const bx::FilePath& _filePath)
 		{
-			DropFileEvent* ev = BX_NEW(g_allocator, DropFileEvent)(_handle);
+			DropFileEvent* ev = BX_NEW(g_allocator, DropFileEvent)();
 			ev->m_filePath = _filePath;
 			m_queue.push(ev);
 		}
@@ -235,21 +228,6 @@ namespace ari
 		const Event* poll()
 		{
 			return m_queue.pop();
-		}
-
-		const Event* poll(WindowHandle _handle)
-		{
-			if (isValid(_handle) )
-			{
-				Event* ev = m_queue.peek();
-				if (NULL == ev
-				||  ev->m_handle.idx != _handle.idx)
-				{
-					return NULL;
-				}
-			}
-
-			return poll();
 		}
 
 		void release(const Event* _event) const
