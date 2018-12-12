@@ -18,13 +18,15 @@ namespace ari
 			const char* _title) override;
 
 		bool Run() override;
+		void Show(bool _show) override;
 
 		void SetMousePos(int _x, int _y) override;
 
-		void SetTitle(char* _title) override;
+		void SetTitle(const char* _title) override;
 	
 		void SetFlags(uint32_t _flags, bool _addFlags) override;
 
+		void GetPos(int& _x, int& _y) override;
 		void SetPos(int _x, int _y) override;
 
 		void SetSize(int _width, int _height) override;
@@ -32,6 +34,11 @@ namespace ari
 		void SetMouseLock(bool _lock) override;
 
 		void ToggleFrame() override;
+
+		bool IsWindowMaximized() override;
+		void SetWindowMaximized(bool _maximize) override;
+		bool IsWindowMinimized() override;
+		void SetWindowMinimized(bool _minimize) override;
 
 		LRESULT Process(HWND _hwnd, UINT _id, WPARAM _wparam, LPARAM _lparam);
 

@@ -25,19 +25,28 @@ namespace ari
 
 		virtual bool Run() = 0;
 
+		virtual void Show(bool _show) = 0;
+
 		virtual void SetMousePos(int _x, int _y) = 0;
 
-		virtual void SetTitle(char* _title) = 0;
+		virtual void SetTitle(const char* _title) = 0;
 
 		virtual void SetFlags(uint32_t _flags, bool _addFlags = false) = 0;
 
+		virtual void GetPos(int& _x, int& _y) = 0;
 		virtual void SetPos(int _x, int _y) = 0;
 
+		virtual void GetSize(int& _width, int& _height);
 		virtual void SetSize(int _width, int _height) = 0;
 
 		virtual void SetMouseLock(bool _lock) = 0;
 
 		virtual void ToggleFrame() = 0;
+
+		virtual bool IsWindowMaximized() = 0;
+		virtual void SetWindowMaximized(bool _maximize) = 0;
+		virtual bool IsWindowMinimized() = 0;
+		virtual void SetWindowMinimized(bool _minimize) = 0;
 
 		bool ProcessEvents(uint32_t& _width, uint32_t& _height, uint32_t& _debug, uint32_t& _reset,
 			MouseState* _mouse);

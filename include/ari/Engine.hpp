@@ -68,6 +68,8 @@ namespace ari
 
 		PlatformWindow* GetMainWindow() const { return m_pWindow; }
 
+		PlatformWindow*	NewWindow(PlatformWindow::Type _type);
+
 		PluginManager plugin_manager;
 		TextureManager texture_manager;
 

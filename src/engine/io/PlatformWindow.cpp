@@ -4,6 +4,12 @@
 
 namespace ari
 {
+	void PlatformWindow::GetSize(int& _width, int& _height)
+	{
+		_width = m_width;
+		_height = m_height;
+	}
+
 	bool PlatformWindow::ProcessEvents(uint32_t & _width, uint32_t & _height, uint32_t & _debug, uint32_t & _reset, MouseState * _mouse)
 	{
 		g_pEngine->m_debug = _debug;

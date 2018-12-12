@@ -198,6 +198,11 @@ namespace ari
 		return !m_exit;
 	}
 
+	void WindowWin32::Show(bool _show)
+	{
+		ShowWindow(m_hwnd, _show? SW_SHOW: SW_HIDE);
+	}
+
 	void WindowWin32::SetMousePos(int _x, int _y)
 	{
 		POINT pt = { _x, _y };
@@ -205,7 +210,7 @@ namespace ari
 		SetCursorPos(pt.x, pt.y);
 	}
 
-	void WindowWin32::SetTitle(char* _title)
+	void WindowWin32::SetTitle(const char* _title)
 	{
 		SetWindowTextA(m_hwnd, _title);
 	}
@@ -220,6 +225,14 @@ namespace ari
 		{
 			m_flags &= ~_flags;
 		}
+	}
+
+	void WindowWin32::GetPos(int & _x, int & _y)
+	{
+		RECT r;
+		GetWindowRect(m_hwnd, &r);
+		_x = r.left;
+		_y = r.top;
 	}
 
 	void WindowWin32::SetPos(int _x, int _y)
@@ -263,6 +276,32 @@ namespace ari
 			m_oldHeight = m_height;
 		}
 		Adjust(m_oldWidth, m_oldHeight, !m_frame);
+	}
+
+	bool WindowWin32::IsWindowMaximized()
+	{
+		return IsZoomed(m_hwnd) == TRUE;
+	}
+
+	void WindowWin32::SetWindowMaximized(bool _maximize)
+	{
+		if (_maximize)
+			ShowWindow(m_hwnd, SW_MAXIMIZE);
+		else
+			ShowWindow(m_hwnd, SW_RESTORE);
+	}
+
+	bool WindowWin32::IsWindowMinimized()
+	{
+		return IsIconic(m_hwnd) == TRUE;
+	}
+
+	void WindowWin32::SetWindowMinimized(bool _minimize)
+	{
+		if (_minimize)
+			ShowWindow(m_hwnd, SW_MINIMIZE);
+		else if (IsIconic(m_hwnd))
+			ShowWindow(m_hwnd, SW_RESTORE);
 	}
 
 	bool WindowWin32::Init(int _posx, int _posy, int _width, int _height, uint32_t _flags, const char * _title)

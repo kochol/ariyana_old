@@ -1,5 +1,6 @@
 #pragma once
 #include "ImwPlatformWindow.h"
+#include "../../../../../include/ari/io/PlatformWindow.hpp"
 
 namespace ari
 {
@@ -13,8 +14,6 @@ namespace ari
 
 		ImVec2 GetPosition() const override;
 		ImVec2 GetSize() const override;
-		ImVec2 GetNormalPosition() const override;
-		ImVec2 GetNormalSize() const override;
 
 		bool IsWindowMaximized() const override;
 		bool IsWindowMinimized() const override;
@@ -31,6 +30,8 @@ namespace ari
 		void PreRender() override;
 		void OnOverlay() override;
 		void RenderDrawLists(ImDrawData* pDrawData) override;
+
+		PlatformWindow	*	m_pWindow = nullptr;
 	};
 
 } // ari

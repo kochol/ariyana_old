@@ -54,13 +54,7 @@ namespace ari
 		m_debug = BGFX_DEBUG_TEXT;
 		m_reset = BGFX_RESET_VSYNC;
 
-		// Create a window
-#if BX_PLATFORM_WINDOWS
-		m_pWindow = new WindowWin32(PlatformWindow::Type::Main);
-#else
-		Logger->error("Windowing in this platform not supported yet.");
-		return false;
-#endif
+		m_pWindow = NewWindow(PlatformWindow::Type::Main);
 
 		char* windowName = "Ariyana";
 		if (params->Program)
@@ -95,6 +89,17 @@ namespace ari
 	void Engine::Release(const Event * _event)
 	{
 		m_pWindow->m_eventQueue.release(_event);
+	}
+
+	PlatformWindow * Engine::NewWindow(PlatformWindow::Type _type)
+	{
+		// Create a window
+#if BX_PLATFORM_WINDOWS
+		return new WindowWin32(_type);
+#else
+		Logger->error("Windowing in this platform not supported yet.");
+		return nullptr;
+#endif
 	}
 
 	int Engine::InitBgfxInThread(bx::Thread * _thread, void * _userData)
