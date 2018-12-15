@@ -1,5 +1,6 @@
 #include "ImwPlatformWindowAri.hpp"
 #include "../../../../../include/ari/Engine.hpp"
+#include "../../../../../deps/bgfx/examples/common/imgui/imgui.h"
 
 namespace ari
 {
@@ -16,6 +17,14 @@ namespace ari
 
 	bool ImwPlatformWindowAri::Init(ImwPlatformWindow* pParent)
 	{
+		// Init frame buffers
+		static bgfx::ViewId s_view_id = 0;
+		m_iViewId = ++s_view_id;
+		bgfx::setViewName(m_iViewId, "ImWindow");
+
+		m_hFrameBufferHandle = bgfx::createFrameBuffer(m_pWindow->GetHandle(), 800, 600);
+		bgfx::setViewFrameBuffer(m_iViewId, m_hFrameBufferHandle);
+
 		// Init key bindings
 		ImGuiIO& io = GetContext()->IO;
 		io.KeyMap[ImGuiKey_Tab] = (int)ari::Key::Tab;
@@ -59,7 +68,7 @@ namespace ari
 		int x, y;
 		m_pWindow->GetPos(x, y);
 
-		return {(float)x, (float)y};
+		return {float(x), float(y)};
 	}
 
 	ImVec2 ImwPlatformWindowAri::GetSize() const
@@ -67,7 +76,7 @@ namespace ari
 		int w, h;
 		m_pWindow->GetSize(w, h);
 
-		return { (float)w, (float)h};
+		return { float(w), float(h)};
 	}
 
 	bool ImwPlatformWindowAri::IsWindowMaximized() const
@@ -118,6 +127,8 @@ namespace ari
 
 	void ImwPlatformWindowAri::RenderDrawLists(ImDrawData* pDrawData)
 	{
+		bgfx::setViewFrameBuffer(m_iViewId, m_hFrameBufferHandle);
+		imguiRender(m_iViewId, pDrawData);
 	}
 
 	void ImwPlatformWindowAri::OnKey(Key::Enum _key, bool _down)
@@ -156,6 +167,19 @@ namespace ari
 
 	void ImwPlatformWindowAri::OnSize(int _w, int _h)
 	{
+		bgfx::frame();
+		if (bgfx::isValid(m_hFrameBufferHandle))
+			bgfx::destroy(m_hFrameBufferHandle);
+
+		GetContext()->IO.DisplaySize = ImVec2(float(_w), float(_h));
+
+		m_hFrameBufferHandle = bgfx::createFrameBuffer(m_pWindow->GetHandle(), uint16_t(_w), uint16_t(_h));
+
+		if (m_eType == ImWindow::E_PLATFORM_WINDOW_TYPE_MAIN)
+		{
+			bgfx::setViewFrameBuffer(m_iViewId, m_hFrameBufferHandle);
+			bgfx::reset(_w, _h);
+		}
 
 	}
 

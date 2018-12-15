@@ -1,6 +1,7 @@
 #pragma once
 #include "ImwPlatformWindow.h"
 #include "../../../../../include/ari/io/PlatformWindow.hpp"
+#include <bgfx/bgfx.h>
 
 namespace ari
 {
@@ -35,16 +36,16 @@ namespace ari
 		void OnMouseWheel(int _z);
 		void OnSize(int _w, int _h);
 
-		PlatformWindow	*	m_pWindow = nullptr;
+		PlatformWindow	*					m_pWindow = nullptr;
 		DelegateTwoParam<void, Key::Enum, bool>
-							m_onKey;
+											m_onKey;
 		DelegateTwoParam<void, MouseButton::Enum, bool>
-							m_onMouseBtn;
-		DelegateTwoParam<void, int, int>
-							m_onMouseMove,
-							m_onSize;
-		DelegateOneParam<void, int>
-							m_onMouseWheel;
+											m_onMouseBtn;
+		DelegateTwoParam<void, int, int>	m_onMouseMove,
+											m_onSize;
+		DelegateOneParam<void, int>			m_onMouseWheel;
+		bgfx::ViewId						m_iViewId;
+		bgfx::FrameBufferHandle				m_hFrameBufferHandle;
 	};
 
 } // ari

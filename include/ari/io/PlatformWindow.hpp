@@ -50,6 +50,8 @@ namespace ari
 		virtual bool IsWindowMinimized() = 0;
 		virtual void SetWindowMinimized(bool _minimize) = 0;
 
+		virtual void* GetHandle() = 0;
+
 		void AddOnKeyDelegate(DelegateTwoParam<void, Key::Enum, bool>* _pDelegate);
 		void RemoveOnKeyDelegate(DelegateTwoParam<void, Key::Enum, bool>* _pDelegate);
 

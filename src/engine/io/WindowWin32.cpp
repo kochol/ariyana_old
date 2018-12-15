@@ -304,6 +304,11 @@ namespace ari
 			ShowWindow(m_hwnd, SW_RESTORE);
 	}
 
+	void * WindowWin32::GetHandle()
+	{
+		return reinterpret_cast<void*>(m_hwnd);
+	}
+
 	bool WindowWin32::Init(int _posx, int _posy, int _width, int _height, uint32_t _flags, const char * _title)
 	{
 		SetDllDirectoryA(".");

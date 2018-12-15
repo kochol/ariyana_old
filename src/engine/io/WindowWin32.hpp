@@ -40,6 +40,8 @@ namespace ari
 		bool IsWindowMinimized() override;
 		void SetWindowMinimized(bool _minimize) override;
 
+		void* GetHandle() override;
+
 		LRESULT Process(HWND _hwnd, UINT _id, WPARAM _wparam, LPARAM _lparam);
 
 	protected:
