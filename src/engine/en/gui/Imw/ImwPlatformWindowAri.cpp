@@ -59,7 +59,7 @@ namespace ari
 		int x, y;
 		m_pWindow->GetPos(x, y);
 
-		return {x, y};
+		return {(float)x, (float)y};
 	}
 
 	ImVec2 ImwPlatformWindowAri::GetSize() const
@@ -67,7 +67,7 @@ namespace ari
 		int w, h;
 		m_pWindow->GetSize(w, h);
 
-		return {w, h};
+		return { (float)w, (float)h};
 	}
 
 	bool ImwPlatformWindowAri::IsWindowMaximized() const
