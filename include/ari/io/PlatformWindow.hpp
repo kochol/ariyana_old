@@ -2,6 +2,8 @@
 #include "../aridef.hpp"
 #include <cstdint>
 #include "IoEvents.hpp"
+#include "../Delegate.hpp"
+#include "tinystl/vector.h"
 
 namespace ari
 {
@@ -48,6 +50,21 @@ namespace ari
 		virtual bool IsWindowMinimized() = 0;
 		virtual void SetWindowMinimized(bool _minimize) = 0;
 
+		void AddOnKeyDelegate(DelegateTwoParam<void, Key::Enum, bool>* _pDelegate);
+		void RemoveOnKeyDelegate(DelegateTwoParam<void, Key::Enum, bool>* _pDelegate);
+
+		void AddOnMouseButtonDelegate(DelegateTwoParam<void, MouseButton::Enum, bool>* _pDelegate);
+		void RemoveOnMouseButtonDelegate(DelegateTwoParam<void, MouseButton::Enum, bool>* _pDelegate);
+
+		void AddOnMouseMoveDelegate(DelegateTwoParam<void, int, int>* _pDelegate);
+		void RemoveOnMouseMoveDelegate(DelegateTwoParam<void, int, int>* _pDelegate);
+
+		void AddOnMouseWheelDelegate(DelegateOneParam<void, int>* _pDelegate);
+		void RemoveOnMouseWheelDelegate(DelegateOneParam<void, int>* _pDelegate);
+
+		void AddOnSizeDelegate(DelegateTwoParam<void, int, int>* _pDelegate);
+		void RemoveOnSizeDelegate(DelegateTwoParam<void, int, int>* _pDelegate);
+
 		bool ProcessEvents(uint32_t& _width, uint32_t& _height, uint32_t& _debug, uint32_t& _reset,
 			MouseState* _mouse);
 
@@ -62,6 +79,16 @@ namespace ari
 		uint32_t	m_frameHeight;
 		float		m_aspectRatio;
 		EventQueue	m_eventQueue;
+		tinystl::vector<DelegateTwoParam<void, Key::Enum, bool>*>
+					m_vOnKeys;
+		tinystl::vector<DelegateTwoParam<void, MouseButton::Enum, bool>*>
+					m_vOnMouseButtons;
+		tinystl::vector<DelegateTwoParam<void, int, int>*>
+					m_vOnMouseMove;
+		tinystl::vector<DelegateOneParam<void, int>*>
+					m_vOnMouseWheel;
+		tinystl::vector<DelegateTwoParam<void, int, int>*>
+					m_vOnSize;
 
 	}; // Window
 

@@ -16,6 +16,41 @@ namespace ari
 
 	bool ImwPlatformWindowAri::Init(ImwPlatformWindow* pParent)
 	{
+		// Init key bindings
+		ImGuiIO& io = GetContext()->IO;
+		io.KeyMap[ImGuiKey_Tab] = (int)ari::Key::Tab;
+		io.KeyMap[ImGuiKey_LeftArrow] = (int)ari::Key::Left;
+		io.KeyMap[ImGuiKey_RightArrow] = (int)ari::Key::Right;
+		io.KeyMap[ImGuiKey_UpArrow] = (int)ari::Key::Up;
+		io.KeyMap[ImGuiKey_DownArrow] = (int)ari::Key::Down;
+		io.KeyMap[ImGuiKey_PageUp] = (int)ari::Key::PageUp;
+		io.KeyMap[ImGuiKey_PageDown] = (int)ari::Key::PageDown;
+		io.KeyMap[ImGuiKey_Home] = (int)ari::Key::Home;
+		io.KeyMap[ImGuiKey_End] = (int)ari::Key::End;
+		io.KeyMap[ImGuiKey_Insert] = (int)ari::Key::Insert;
+		io.KeyMap[ImGuiKey_Delete] = (int)ari::Key::Delete;
+		io.KeyMap[ImGuiKey_Backspace] = (int)ari::Key::Backspace;
+		io.KeyMap[ImGuiKey_Space] = (int)ari::Key::Space;
+		io.KeyMap[ImGuiKey_Enter] = (int)ari::Key::Return;
+		io.KeyMap[ImGuiKey_Escape] = (int)ari::Key::Esc;
+		io.KeyMap[ImGuiKey_A] = (int)ari::Key::KeyA;
+		io.KeyMap[ImGuiKey_C] = (int)ari::Key::KeyC;
+		io.KeyMap[ImGuiKey_V] = (int)ari::Key::KeyV;
+		io.KeyMap[ImGuiKey_X] = (int)ari::Key::KeyX;
+		io.KeyMap[ImGuiKey_Y] = (int)ari::Key::KeyY;
+		io.KeyMap[ImGuiKey_Z] = (int)ari::Key::KeyZ;
+
+		// Setup on events.
+		m_onKey.Bind(this, &ImwPlatformWindowAri::OnKey);
+		m_pWindow->AddOnKeyDelegate(&m_onKey);
+		m_onMouseBtn.Bind(this, &ImwPlatformWindowAri::OnMouseKey);
+		m_pWindow->AddOnMouseButtonDelegate(&m_onMouseBtn);
+		m_onMouseMove.Bind(this, &ImwPlatformWindowAri::OnMouseMove);
+		m_pWindow->AddOnMouseMoveDelegate(&m_onMouseMove);
+		m_onMouseWheel.Bind(this, &ImwPlatformWindowAri::OnMouseWheel);
+		m_onSize.Bind(this, &ImwPlatformWindowAri::OnSize);
+		m_pWindow->AddOnSizeDelegate(&m_onSize);
+
 		return m_pWindow->Init(0, 0, 800, 600, 0, "Test");
 	}
 
@@ -77,17 +112,51 @@ namespace ari
 
 	void ImwPlatformWindowAri::PreUpdate()
 	{
-	}
+		m_pWindow->Run();
 
-	void ImwPlatformWindowAri::PreRender()
-	{
-	}
-
-	void ImwPlatformWindowAri::OnOverlay()
-	{
 	}
 
 	void ImwPlatformWindowAri::RenderDrawLists(ImDrawData* pDrawData)
 	{
 	}
+
+	void ImwPlatformWindowAri::OnKey(Key::Enum _key, bool _down)
+	{
+		GetContext()->IO.KeysDown[_key] = _down;
+	}
+
+	void ImwPlatformWindowAri::OnMouseKey(MouseButton::Enum _btn, bool _down)
+	{
+		switch (_btn)
+		{
+		case MouseButton::Left:
+			GetContext()->IO.MouseDown[0] = _down;
+			break;
+		case MouseButton::Middle:
+			GetContext()->IO.MouseDown[2] = _down;
+			break;
+		case MouseButton::Right:
+			GetContext()->IO.MouseDown[1] = _down;
+			break;
+		default:
+			break;
+		}
+	}
+
+	void ImwPlatformWindowAri::OnMouseMove(int _x, int _y)
+	{
+		GetContext()->IO.MousePos.x = _x;
+		GetContext()->IO.MousePos.y = _y;
+	}
+
+	void ImwPlatformWindowAri::OnMouseWheel(int _z)
+	{
+		GetContext()->IO.MouseWheel = _z;
+	}
+
+	void ImwPlatformWindowAri::OnSize(int _w, int _h)
+	{
+
+	}
+
 } // ari

@@ -556,6 +556,8 @@ namespace ari
 					}
 
 					m_eventQueue.postSizeEvent(width, height);
+					for (auto e : m_vOnSize)
+						e->Execute(width, height);
 				}
 			}
 			return 0;
@@ -568,6 +570,8 @@ namespace ari
 				m_width = width;
 				m_height = height;
 				m_eventQueue.postSizeEvent(m_width, m_height);
+				for (auto e : m_vOnSize)
+					e->Execute(width, height);
 			}
 			break;
 
@@ -606,6 +610,8 @@ namespace ari
 				}
 
 				m_eventQueue.postMouseEvent(mx, my, m_mz);
+				for (auto e : m_vOnMouseMove)
+					e->Execute(mx, my);
 			}
 			break;
 
@@ -617,6 +623,8 @@ namespace ari
 				int32_t my = pt.y;
 				m_mz += GET_WHEEL_DELTA_WPARAM(_wparam) / WHEEL_DELTA;
 				m_eventQueue.postMouseEvent(mx, my, m_mz);
+				for (auto e : m_vOnMouseWheel)
+					e->Execute(m_mz);
 			}
 			break;
 
@@ -628,6 +636,8 @@ namespace ari
 				int32_t mx = GET_X_LPARAM(_lparam);
 				int32_t my = GET_Y_LPARAM(_lparam);
 				m_eventQueue.postMouseEvent(mx, my, m_mz, MouseButton::Left, _id == WM_LBUTTONDOWN);
+				for (auto e : m_vOnMouseButtons)
+					e->Execute(MouseButton::Left, _id == WM_LBUTTONDOWN);
 			}
 			break;
 
@@ -639,6 +649,8 @@ namespace ari
 				int32_t mx = GET_X_LPARAM(_lparam);
 				int32_t my = GET_Y_LPARAM(_lparam);
 				m_eventQueue.postMouseEvent(mx, my, m_mz, MouseButton::Middle, _id == WM_MBUTTONDOWN);
+				for (auto e : m_vOnMouseButtons)
+					e->Execute(MouseButton::Middle, _id == WM_MBUTTONDOWN);
 			}
 			break;
 
@@ -650,6 +662,8 @@ namespace ari
 				int32_t mx = GET_X_LPARAM(_lparam);
 				int32_t my = GET_Y_LPARAM(_lparam);
 				m_eventQueue.postMouseEvent(mx, my, m_mz, MouseButton::Right, _id == WM_RBUTTONDOWN);
+				for (auto e : m_vOnMouseButtons)
+					e->Execute(MouseButton::Right, _id == WM_RBUTTONDOWN);
 			}
 			break;
 
@@ -671,7 +685,10 @@ namespace ari
 					m_eventQueue.postKeyEvent(key, modifiers, true);
 				}
 
-				m_eventQueue.postKeyEvent(key, modifiers, _id == WM_KEYDOWN || _id == WM_SYSKEYDOWN);
+				const bool down = _id == WM_KEYDOWN || _id == WM_SYSKEYDOWN;
+				m_eventQueue.postKeyEvent(key, modifiers, down);
+				for (auto e : m_vOnKeys)
+					e->Execute(key, down);
 			}
 			break;
 

@@ -27,11 +27,24 @@ namespace ari
 
 	protected:
 		void PreUpdate() override;
-		void PreRender() override;
-		void OnOverlay() override;
 		void RenderDrawLists(ImDrawData* pDrawData) override;
 
+		void OnKey(Key::Enum _key, bool _down);
+		void OnMouseKey(MouseButton::Enum _btn, bool _down);
+		void OnMouseMove(int _x, int _y);
+		void OnMouseWheel(int _z);
+		void OnSize(int _w, int _h);
+
 		PlatformWindow	*	m_pWindow = nullptr;
+		DelegateTwoParam<void, Key::Enum, bool>
+							m_onKey;
+		DelegateTwoParam<void, MouseButton::Enum, bool>
+							m_onMouseBtn;
+		DelegateTwoParam<void, int, int>
+							m_onMouseMove,
+							m_onSize;
+		DelegateOneParam<void, int>
+							m_onMouseWheel;
 	};
 
 } // ari

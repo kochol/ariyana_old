@@ -10,6 +10,81 @@ namespace ari
 		_height = m_height;
 	}
 
+	void PlatformWindow::AddOnKeyDelegate(DelegateTwoParam<void, Key::Enum, bool>* _pDelegate)
+	{
+		m_vOnKeys.push_back(_pDelegate);
+	}
+
+	void PlatformWindow::RemoveOnKeyDelegate(DelegateTwoParam<void, Key::Enum, bool>* _pDelegate)
+	{
+		for (auto it = m_vOnKeys.begin(); it != m_vOnKeys.end(); it++)
+			if (*it == _pDelegate)
+			{
+				m_vOnKeys.erase(it);
+				return;
+			}
+	}
+
+	void PlatformWindow::AddOnMouseButtonDelegate(DelegateTwoParam<void, MouseButton::Enum, bool>* _pDelegate)
+	{
+		m_vOnMouseButtons.push_back(_pDelegate);
+	}
+
+	void PlatformWindow::RemoveOnMouseButtonDelegate(DelegateTwoParam<void, MouseButton::Enum, bool>* _pDelegate)
+	{
+		for (auto it = m_vOnMouseButtons.begin(); it != m_vOnMouseButtons.end(); it++)
+			if (*it == _pDelegate)
+			{
+				m_vOnMouseButtons.erase(it);
+				return;
+			}
+	}
+
+	void PlatformWindow::AddOnMouseMoveDelegate(DelegateTwoParam<void, int, int>* _pDelegate)
+	{
+		m_vOnMouseMove.push_back(_pDelegate);
+	}
+
+	void PlatformWindow::RemoveOnMouseMoveDelegate(DelegateTwoParam<void, int, int>* _pDelegate)
+	{
+		for (auto it = m_vOnMouseMove.begin(); it != m_vOnMouseMove.end(); it++)
+			if (*it == _pDelegate)
+			{
+				m_vOnMouseMove.erase(it);
+				return;
+			}
+	}
+
+	void PlatformWindow::AddOnMouseWheelDelegate(DelegateOneParam<void, int>* _pDelegate)
+	{
+		m_vOnMouseWheel.push_back(_pDelegate);
+	}
+
+	void PlatformWindow::RemoveOnMouseWheelDelegate(DelegateOneParam<void, int>* _pDelegate)
+	{
+		for (auto it = m_vOnMouseWheel.begin(); it != m_vOnMouseWheel.end(); it++)
+			if (*it == _pDelegate)
+			{
+				m_vOnMouseWheel.erase(it);
+				return;
+			}
+	}
+
+	void PlatformWindow::AddOnSizeDelegate(DelegateTwoParam<void, int, int>* _pDelegate)
+	{
+		m_vOnSize.push_back(_pDelegate);
+	}
+
+	void PlatformWindow::RemoveOnSizeDelegate(DelegateTwoParam<void, int, int>* _pDelegate)
+	{
+		for (auto it = m_vOnSize.begin(); it != m_vOnSize.end(); it++)
+			if (*it == _pDelegate)
+			{
+				m_vOnSize.erase(it);
+				return;
+			}
+	}
+
 	bool PlatformWindow::ProcessEvents(uint32_t & _width, uint32_t & _height, uint32_t & _debug, uint32_t & _reset, MouseState * _mouse)
 	{
 		g_pEngine->m_debug = _debug;
