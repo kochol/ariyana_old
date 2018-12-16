@@ -7,23 +7,34 @@ namespace ari
 	ImwPlatformWindowAri::ImwPlatformWindowAri(ImWindow::EPlatformWindowType eType, bool bCreateContext):
 		ImwPlatformWindow(eType, bCreateContext)
 	{
-		m_pWindow = g_pEngine->NewWindow(PlatformWindow::Type::Child);
+		if (eType == ImWindow::E_PLATFORM_WINDOW_TYPE_MAIN)
+			m_pWindow = g_pEngine->GetMainWindow();
+		else
+			m_pWindow = g_pEngine->NewWindow(PlatformWindow::Type::Child);
 	}
 
 	ImwPlatformWindowAri::~ImwPlatformWindowAri()
 	{
-		delete m_pWindow;
+		if (m_eType != ImWindow::E_PLATFORM_WINDOW_TYPE_MAIN)
+			delete m_pWindow;
 	}
 
 	bool ImwPlatformWindowAri::Init(ImwPlatformWindow* pParent)
 	{
 		// Init frame buffers
 		static bgfx::ViewId s_view_id = 0;
-		m_iViewId = ++s_view_id;
-		bgfx::setViewName(m_iViewId, "ImWindow");
+		if (m_eType == ImWindow::E_PLATFORM_WINDOW_TYPE_MAIN)
+		{
+			m_iViewId = 0;
+		}
+		else
+		{
+			m_iViewId = ++s_view_id;
+			bgfx::setViewName(m_iViewId, "ImWindow");
 
-		m_hFrameBufferHandle = bgfx::createFrameBuffer(m_pWindow->GetHandle(), 800, 600);
-		bgfx::setViewFrameBuffer(m_iViewId, m_hFrameBufferHandle);
+			m_hFrameBufferHandle = bgfx::createFrameBuffer(m_pWindow->GetHandle(), 800, 600);
+			bgfx::setViewFrameBuffer(m_iViewId, m_hFrameBufferHandle);
+		}
 
 		// Init key bindings
 		ImGuiIO& io = GetContext()->IO;
@@ -59,6 +70,9 @@ namespace ari
 		m_onMouseWheel.Bind(this, &ImwPlatformWindowAri::OnMouseWheel);
 		m_onSize.Bind(this, &ImwPlatformWindowAri::OnSize);
 		m_pWindow->AddOnSizeDelegate(&m_onSize);
+
+		if (m_eType == ImWindow::E_PLATFORM_WINDOW_TYPE_MAIN)
+			return true;
 
 		return m_pWindow->Init(0, 0, 800, 600, 0, "Test");
 	}
@@ -127,7 +141,8 @@ namespace ari
 
 	void ImwPlatformWindowAri::RenderDrawLists(ImDrawData* pDrawData)
 	{
-		bgfx::setViewFrameBuffer(m_iViewId, m_hFrameBufferHandle);
+		if (m_iViewId != 0)
+			bgfx::setViewFrameBuffer(m_iViewId, m_hFrameBufferHandle);
 		imguiRender(m_iViewId, pDrawData);
 	}
 

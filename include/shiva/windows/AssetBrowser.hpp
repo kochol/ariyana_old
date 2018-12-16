@@ -2,6 +2,7 @@
 #include "shiva/shivadef.hpp"
 #include "shiva/DirectoryTree.hpp"
 #include "../../../src/editor/windows/AssetGui.hpp"
+#include "ari/en/gui/DockableWindow.hpp"
 
 namespace ari {
 	class Button;
@@ -19,7 +20,7 @@ namespace shiva
 
 		~AssetBrowser();
 
-		void Init(ari::DockSpace * pDockSpace);
+		void Init(ari::Entity* _pParent);
 
 		void ShutDown();
 
@@ -30,7 +31,7 @@ namespace shiva
 		void OnDblClick(AssetGui* _sender);
 		void OnRightClick(AssetGui* _sender);
 
-		ari::Dock			*	m_pDock = nullptr;		
+		ari::DockableWindow	*	m_pDock = nullptr;		
 		std::vector<AssetGui*>	m_vAssets;
 
 	}; // AssetBrowser

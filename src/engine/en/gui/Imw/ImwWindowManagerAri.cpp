@@ -18,7 +18,8 @@ namespace ari
 	ImWindow::ImwPlatformWindow* ImwWindowManagerAri::CreatePlatformWindow(ImWindow::EPlatformWindowType eType,
 		ImWindow::ImwPlatformWindow* pParent)
 	{
-		ImwPlatformWindowAri* pWindow = new ImwPlatformWindowAri(eType, CanCreateMultipleWindow());
+		bool createContex = eType == ImWindow::E_PLATFORM_WINDOW_TYPE_MAIN ? false : CanCreateMultipleWindow();
+		ImwPlatformWindowAri* pWindow = new ImwPlatformWindowAri(eType, createContex);
 		if (pWindow->Init(pParent))
 		{
 			return pWindow;

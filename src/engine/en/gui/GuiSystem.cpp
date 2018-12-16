@@ -7,6 +7,7 @@
 #include "bx/macros.h"
 #include "../../../../include/ari/Engine.hpp"
 #include "../../../../deps/imguiDock/imgui_dock.h"
+#include "ImwWindowManager.h"
 
 namespace ari
 {
@@ -24,6 +25,13 @@ namespace ari
 	{
 		if (state == UpdateState::MainThreadState)
 		{
+			ImWindow::ImwWindowManager* p_window_manager = ImWindow::ImwWindowManager::GetInstance();
+			if (p_window_manager)
+			{
+				p_window_manager->Run(false);
+				p_window_manager->Run(true);
+			}
+
 			imguiBeginFrame(g_pEngine->m_MouseState.m_mx
 				, g_pEngine->m_MouseState.m_my
 				, (g_pEngine->m_MouseState.m_buttons[MouseButton::Left] ? IMGUI_MBUT_LEFT : 0)

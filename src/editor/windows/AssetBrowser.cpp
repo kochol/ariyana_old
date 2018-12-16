@@ -15,11 +15,15 @@ namespace shiva
 		ShutDown();
 	}
 
-	void AssetBrowser::Init(ari::DockSpace * pDockSpace)
+	void AssetBrowser::Init(ari::Entity* _pParent)
 	{
-		m_pDock = new ari::Dock;
-		m_pDock->Label = "Asset browser";
-		pDockSpace->AddChild(m_pDock);
+		m_pDock = new ari::DockableWindow(g_pEditor->GetGuiSystem());
+		m_pDock->SetTitle("Asset browser");
+		m_pDock->Dock(ari::DockableWindow::Oriention::Left);
+		ari::DockableWindow* test = new ari::DockableWindow(g_pEditor->GetGuiSystem());
+		test->SetTitle("Test");
+		test->Dock();
+		_pParent->AddChild(m_pDock);
 		UpdateAssets(g_pEditor->GetCurrentProject()->GetTree());
 	}
 

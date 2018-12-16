@@ -25,6 +25,8 @@ namespace shiva
 
 		Project* GetCurrentProject() const { return m_pCurrentProject; }
 
+		ari::GuiSystem* GetGuiSystem() { return &m_GuiSystem; }
+
 	protected:
 
 		ari::World		m_EditorWorld;

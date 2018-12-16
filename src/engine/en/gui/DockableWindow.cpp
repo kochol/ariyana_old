@@ -11,11 +11,13 @@ namespace ari
 	public:
 		AriImwWindow(DockableWindow* _pDock): m_pDockable(_pDock)
 		{
-			
 		}
 
 		void OnGui() override
 		{
+			SetAlone(m_pDockable->Alone);
+			SetClosable(m_pDockable->Closable);
+
 			for (auto c : m_pDockable->m_vChilds)
 				m_pDockable->m_pGuiSystem->RenderGui(c);
 		}
@@ -62,6 +64,11 @@ namespace ari
 		ImWindow::ImwWindowManager* p_window_manager = ImWindow::ImwWindowManager::GetInstance();
 		p_window_manager->DockWith(m_pWindow, _pOtherDock->m_pWindow, 
 			ImWindow::EDockOrientation(_oriention), _raito);
+	}
+
+	void DockableWindow::SetTitle(const char * _pTitle)
+	{
+		m_pWindow->SetTitle(_pTitle);
 	}
 
 } // ari

@@ -29,8 +29,6 @@ namespace shiva
 	protected:
 
 		ari::Entity			*	m_pEntity = nullptr;
-		ari::Window			*	m_pWindow = nullptr;
-		ari::DockSpace		*	m_pDockSpace = nullptr;
 		AssetBrowser		*	m_pAssetBrowser = nullptr;
 				
 	}; // EditorWindow

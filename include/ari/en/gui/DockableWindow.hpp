@@ -34,7 +34,8 @@ namespace ari
 		void DockWith(DockableWindow* _pOtherDock, Oriention _oriention = Oriention::Center, 
 			float _raito = 0.5f) const;
 
-		char				*	Tiltle = nullptr;
+		void SetTitle(const char* _pTitle);
+
 		bool					Alone = false;
 		bool					Closable = true;
 
