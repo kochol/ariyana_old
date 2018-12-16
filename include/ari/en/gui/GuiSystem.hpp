@@ -10,6 +10,8 @@ namespace ari
 	class ARI_API GuiSystem: public System,
 		public EventSubscriber<events::OnComponentAssigned<Dock>>
 	{
+		friend class AriImwWindow;
+
 	public:
 
 		GuiSystem();
