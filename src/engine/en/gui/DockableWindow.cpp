@@ -15,9 +15,6 @@ namespace ari
 
 		void OnGui() override
 		{
-			SetAlone(m_pDockable->Alone);
-			SetClosable(m_pDockable->Closable);
-
 			for (auto c : m_pDockable->m_vChilds)
 				m_pDockable->m_pGuiSystem->RenderGui(c);
 		}
@@ -46,6 +43,8 @@ namespace ari
 		// TODO: Add some function to delete it.
 		// The ImwWill delete it later on shutdown
 		// delete m_pWindow;
+		ImWindow::ImwWindowManager* p_window_manager = ImWindow::ImwWindowManager::GetInstance();
+		p_window_manager->DestroyWindow(m_pWindow);
 	}
 
 	bool DockableWindow::BeginRender()
@@ -69,6 +68,16 @@ namespace ari
 	void DockableWindow::SetTitle(const char * _pTitle)
 	{
 		m_pWindow->SetTitle(_pTitle);
+	}
+
+	void DockableWindow::SetAlone(bool _alone)
+	{
+		m_pWindow->SetAlone(_alone);
+	}
+
+	void DockableWindow::SetClosable(bool _closable)
+	{
+		m_pWindow->SetClosable(_closable);
 	}
 
 } // ari

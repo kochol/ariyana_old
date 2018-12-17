@@ -35,9 +35,8 @@ namespace ari
 			float _raito = 0.5f) const;
 
 		void SetTitle(const char* _pTitle);
-
-		bool					Alone = false;
-		bool					Closable = true;
+		void SetAlone(bool _alone);
+		void SetClosable(bool _closable);
 
 	protected:
 

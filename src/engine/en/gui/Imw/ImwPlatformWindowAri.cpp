@@ -9,6 +9,8 @@ namespace ari
 	{
 		if (eType == ImWindow::E_PLATFORM_WINDOW_TYPE_MAIN)
 			m_pWindow = g_pEngine->GetMainWindow();
+		else if (eType == ImWindow::E_PLATFORM_WINDOW_TYPE_DRAG_PREVIEW)
+			m_pWindow = g_pEngine->NewWindow(PlatformWindow::Type::Popup);
 		else
 			m_pWindow = g_pEngine->NewWindow(PlatformWindow::Type::Child);
 	}
@@ -70,7 +72,14 @@ namespace ari
 		m_onSize.Bind(this, &ImwPlatformWindowAri::OnSize);
 		m_pWindow->AddOnSizeDelegate(&m_onSize);
 
-		return m_pWindow->Init(0, 0, 800, 600, 0, "Test");
+		if (m_pWindow->Init(0, 0, 800, 600, 0, "Test"))
+		{
+			if (m_eType == ImWindow::E_PLATFORM_WINDOW_TYPE_DRAG_PREVIEW)
+				m_pWindow->SetAlpha(128);
+			return true;
+		}
+
+		return false;
 	}
 
 	ImVec2 ImwPlatformWindowAri::GetPosition() const

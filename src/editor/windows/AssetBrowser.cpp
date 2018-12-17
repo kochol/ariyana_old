@@ -20,9 +20,6 @@ namespace shiva
 		m_pDock = new ari::DockableWindow(g_pEditor->GetGuiSystem());
 		m_pDock->SetTitle("Asset browser");
 		m_pDock->Dock(ari::DockableWindow::Oriention::Left);
-		ari::DockableWindow* test = new ari::DockableWindow(g_pEditor->GetGuiSystem());
-		test->SetTitle("Test");
-		test->Dock();
 		_pParent->AddChild(m_pDock);
 		UpdateAssets(g_pEditor->GetCurrentProject()->GetTree());
 	}

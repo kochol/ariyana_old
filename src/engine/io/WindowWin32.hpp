@@ -31,6 +31,8 @@ namespace ari
 
 		void SetSize(int _width, int _height) override;
 
+		void SetAlpha(unsigned char _alpha) override;
+
 		void SetMouseLock(bool _lock) override;
 
 		void ToggleFrame() override;

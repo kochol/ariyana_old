@@ -16,7 +16,8 @@ namespace ari
 		enum class Type
 		{
 			Main,
-			Child
+			Child,
+			Popup
 		};
 
 		PlatformWindow(Type _type): m_Type(_type) {}
@@ -40,6 +41,8 @@ namespace ari
 
 		virtual void GetSize(int& _width, int& _height);
 		virtual void SetSize(int _width, int _height) = 0;
+
+		virtual void SetAlpha(unsigned char _alpha) = 0;
 
 		virtual void SetMouseLock(bool _lock) = 0;
 

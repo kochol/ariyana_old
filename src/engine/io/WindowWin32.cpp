@@ -249,6 +249,19 @@ namespace ari
 		Adjust(_width, _height, true);
 	}
 
+	void WindowWin32::SetAlpha(unsigned char _alpha)
+	{
+		if (_alpha < 255)
+		{
+			SetWindowLong(m_hwnd, GWL_EXSTYLE, GetWindowLong(m_hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
+		}
+		else
+		{
+			SetWindowLong(m_hwnd, GWL_EXSTYLE, GetWindowLong(m_hwnd, GWL_EXSTYLE) & ~WS_EX_LAYERED);
+		}
+		SetLayeredWindowAttributes(m_hwnd, RGB(0, 0, 0), _alpha, LWA_ALPHA);
+	}
+
 	void WindowWin32::SetMouseLock(bool _lock)
 	{
 		if (_lock)
@@ -333,11 +346,17 @@ namespace ari
 			RegisterClassExA(&wnd);
 		}
 
+		DWORD iWindowStyle = WS_OVERLAPPEDWINDOW;
+		if (m_Type == Type::Main)
+			iWindowStyle |= WS_VISIBLE;
+		else if (m_Type == Type::Popup)
+			iWindowStyle = WS_POPUP | WS_OVERLAPPED | WS_SYSMENU;
+
 		m_hwnd = CreateWindowExA(
 			WS_EX_ACCEPTFILES
 			, "Ariyana"
 			, _title
-			, WS_OVERLAPPEDWINDOW | WS_VISIBLE
+			, iWindowStyle
 			, _posx
 			, _posy
 			, _width
