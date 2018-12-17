@@ -25,13 +25,6 @@ namespace ari
 	{
 		if (state == UpdateState::MainThreadState)
 		{
-			ImWindow::ImwWindowManager* p_window_manager = ImWindow::ImwWindowManager::GetInstance();
-			if (p_window_manager)
-			{
-				p_window_manager->Run(false);
-				p_window_manager->Run(true);
-			}
-
 			imguiBeginFrame(g_pEngine->m_MouseState.m_mx
 				, g_pEngine->m_MouseState.m_my
 				, (g_pEngine->m_MouseState.m_buttons[MouseButton::Left] ? IMGUI_MBUT_LEFT : 0)
@@ -41,6 +34,13 @@ namespace ari
 				, uint16_t(g_pEngine->m_params->Width)
 				, uint16_t(g_pEngine->m_params->Height)
 			);
+
+			ImWindow::ImwWindowManager* p_window_manager = ImWindow::ImwWindowManager::GetInstance();
+			if (p_window_manager)
+			{
+				p_window_manager->Run(false);
+				p_window_manager->Run(true);
+			}
 
 			for (auto e: p_world->GetAllEntities())
 			{

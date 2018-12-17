@@ -7,6 +7,7 @@
 #include "shiva/Project.hpp"
 #include "ari/en/gui/Popup.hpp"
 #include "shiva/Editor.hpp"
+#include "ari/en/gui/DockableWindow.hpp"
 
 void testOnClick()
 {
@@ -34,11 +35,8 @@ namespace shiva
 		p_world->AddEntity(m_pEntity);
 
 		// Init Project browser window.
-		m_pWindow = new ari::Window();
-		m_pWindow->Name = "Project Browser";
-		m_pWindow->Size.x = 800;
-		m_pWindow->Size.y = 600;
-		m_pWindow->Flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+		m_pWindow = new ari::DockableWindow(g_pEditor->GetGuiSystem());
+		m_pWindow->SetTitle("Project Browser");
 		m_pEntity->AddChild(m_pWindow);
 		m_pNewProjectName = new ari::TextBox(32);
 		m_pNewProjectName->Label = "Project name";
