@@ -64,6 +64,8 @@ namespace ari
 		// Setup on events.
 		m_onKey.Bind(this, &ImwPlatformWindowAri::OnKey);
 		m_pWindow->AddOnKeyDelegate(&m_onKey);
+		m_onChar.Bind(this, &ImwPlatformWindowAri::OnChar);
+		m_pWindow->AddOnCharDelegate(&m_onChar);
 		m_onMouseBtn.Bind(this, &ImwPlatformWindowAri::OnMouseKey);
 		m_pWindow->AddOnMouseButtonDelegate(&m_onMouseBtn);
 		m_onMouseMove.Bind(this, &ImwPlatformWindowAri::OnMouseMove);
@@ -154,6 +156,12 @@ namespace ari
 	void ImwPlatformWindowAri::OnKey(Key::Enum _key, bool _down)
 	{
 		GetContext()->IO.KeysDown[_key] = _down;
+	}
+
+	void ImwPlatformWindowAri::OnChar(uint8_t _len, uint8_t * _utf8)
+	{
+		for (uint8_t i = 0; i < _len; i++)
+			GetContext()->IO.AddInputCharactersUTF8(reinterpret_cast<char*>(&_utf8[i * 4]));
 	}
 
 	void ImwPlatformWindowAri::OnMouseKey(MouseButton::Enum _btn, bool _down)

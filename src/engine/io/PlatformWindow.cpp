@@ -25,6 +25,21 @@ namespace ari
 			}
 	}
 
+	void PlatformWindow::AddOnCharDelegate(DelegateTwoParam<void, uint8_t, uint8_t*>* _pDelegate)
+	{
+		m_vOnChar.push_back(_pDelegate);
+	}
+
+	void PlatformWindow::RemoveOnCharDelegate(DelegateTwoParam<void, uint8_t, uint8_t*>* _pDelegate)
+	{
+		for (auto it = m_vOnChar.begin(); it != m_vOnChar.end(); it++)
+			if (*it == _pDelegate)
+			{
+				m_vOnChar.erase(it);
+				return;
+			}
+	}
+
 	void PlatformWindow::AddOnMouseButtonDelegate(DelegateTwoParam<void, MouseButton::Enum, bool>* _pDelegate)
 	{
 		m_vOnMouseButtons.push_back(_pDelegate);

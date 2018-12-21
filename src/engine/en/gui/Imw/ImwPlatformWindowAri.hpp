@@ -31,6 +31,7 @@ namespace ari
 		void RenderDrawLists(ImDrawData* pDrawData) override;
 
 		void OnKey(Key::Enum _key, bool _down);
+		void OnChar(uint8_t len, uint8_t* utf8);
 		void OnMouseKey(MouseButton::Enum _btn, bool _down);
 		void OnMouseMove(int _x, int _y);
 		void OnMouseWheel(int _z);
@@ -39,6 +40,8 @@ namespace ari
 		PlatformWindow	*					m_pWindow = nullptr;
 		DelegateTwoParam<void, Key::Enum, bool>
 											m_onKey;
+		DelegateTwoParam<void, uint8_t, uint8_t*>
+											m_onChar;
 		DelegateTwoParam<void, MouseButton::Enum, bool>
 											m_onMouseBtn;
 		DelegateTwoParam<void, int, int>	m_onMouseMove,

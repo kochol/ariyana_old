@@ -58,6 +58,9 @@ namespace ari
 		void AddOnKeyDelegate(DelegateTwoParam<void, Key::Enum, bool>* _pDelegate);
 		void RemoveOnKeyDelegate(DelegateTwoParam<void, Key::Enum, bool>* _pDelegate);
 
+		void AddOnCharDelegate(DelegateTwoParam<void, uint8_t, uint8_t*>* _pDelegate);
+		void RemoveOnCharDelegate(DelegateTwoParam<void, uint8_t, uint8_t*>* _pDelegate);
+
 		void AddOnMouseButtonDelegate(DelegateTwoParam<void, MouseButton::Enum, bool>* _pDelegate);
 		void RemoveOnMouseButtonDelegate(DelegateTwoParam<void, MouseButton::Enum, bool>* _pDelegate);
 
@@ -86,6 +89,8 @@ namespace ari
 		EventQueue	m_eventQueue;
 		tinystl::vector<DelegateTwoParam<void, Key::Enum, bool>*>
 					m_vOnKeys;
+		tinystl::vector<DelegateTwoParam<void, uint8_t, uint8_t*>*>
+					m_vOnChar;
 		tinystl::vector<DelegateTwoParam<void, MouseButton::Enum, bool>*>
 					m_vOnMouseButtons;
 		tinystl::vector<DelegateTwoParam<void, int, int>*>

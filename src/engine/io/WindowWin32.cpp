@@ -731,6 +731,8 @@ namespace ari
 				if (0 != len)
 				{
 					m_eventQueue.postCharEvent(len, utf8);
+					for (auto e : m_vOnChar)
+						e->Execute(len, utf8);
 				}
 			}
 			break;
