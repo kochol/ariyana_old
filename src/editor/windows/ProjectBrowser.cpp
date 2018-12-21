@@ -66,7 +66,13 @@ namespace shiva
 		// Init message window
 		m_pMessageBox = new ari::Popup;
 		m_pMessageBox->Name = "MessageBox";
-		m_pEntity->AddChild(m_pMessageBox);
+		ari::Window* p_window = new ari::Window;
+		p_window->Name = "M";
+		p_window->Pos.x = -1000;
+		p_window->Flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoInputs | 
+			ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
+		m_pEntity->AddChild(p_window);
+		p_window->AddChild(m_pMessageBox);
 		m_pMbLabel = new ari::Label;
 		m_pMessageBox->AddChild(m_pMbLabel);
 		m_pMbOkBtn = new ari::Button;

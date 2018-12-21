@@ -35,6 +35,11 @@ namespace ari
 				, uint16_t(g_pEngine->m_params->Height)
 			);
 
+			for (auto e: p_world->GetAllEntities())
+			{
+				RenderGui(e);
+			}
+
 			ImWindow::ImwWindowManager* p_window_manager = ImWindow::ImwWindowManager::GetInstance();
 			if (p_window_manager)
 			{
@@ -42,10 +47,6 @@ namespace ari
 				p_window_manager->Run(true);
 			}
 
-			for (auto e: p_world->GetAllEntities())
-			{
-				RenderGui(e);
-			}
 			imguiEndFrame();
 
 		}
