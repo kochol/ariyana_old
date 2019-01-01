@@ -1,4 +1,4 @@
-#include "../../../include/shiva/windows/EditorWindow.hpp"
+#include "../../../include/shiva/windows/EditorWindowManager.hpp"
 #include "ari/en/Entity.hpp"
 #include "ari/en/World.hpp"
 #include "ari/en/gui/Window.hpp"
@@ -8,15 +8,15 @@
 
 namespace shiva
 {
-	EditorWindow::EditorWindow() = default;
+	EditorWindowManager::EditorWindowManager() = default;
 
-	EditorWindow::~EditorWindow()
+	EditorWindowManager::~EditorWindowManager()
 	{
 		ShutDown();
 		delete m_pAssetBrowser;
 	}
 
-	void EditorWindow::Init(ari::World* pWorld)
+	void EditorWindowManager::Init(ari::World* pWorld)
 	{
 		m_pEntity = new ari::Entity;
 		pWorld->AddEntity(m_pEntity);
@@ -24,11 +24,11 @@ namespace shiva
 		// Init Asset Browser
 		if (!m_pAssetBrowser)
 			m_pAssetBrowser = new AssetBrowser;
-		m_pAssetBrowser->Init(m_pEntity);
+		m_pAssetBrowser->Init(pWorld);
 
 	} // Init
 
-	void EditorWindow::ShutDown()
+	void EditorWindowManager::ShutDown()
 	{
 		if (m_pEntity)
 			m_pEntity->Destroy();

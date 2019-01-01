@@ -3,6 +3,7 @@
 #include "shiva/DirectoryTree.hpp"
 #include "../../../src/editor/windows/AssetGui.hpp"
 #include "ari/en/gui/DockableWindow.hpp"
+#include "DockWindow.hpp"
 
 namespace ari {
 	class Button;
@@ -14,20 +15,20 @@ namespace shiva
 {
 	class AssetGui;
 
-	class SHIVA_API AssetBrowser
+	class SHIVA_API AssetBrowser : public DockWindow
 	{
 	public:
 
 		~AssetBrowser();
 
-		void Init(ari::Entity* _pParent);
+		void Init(ari::World* p_world);
 
 		void ShutDown();
 
 	private:
 
 		void UpdateAssets(const DirectoryTree& _tree);
-		DirectoryTree* FindPathTree(DirectoryTree* _tree, const std::string& _path);
+		static DirectoryTree* FindPathTree(DirectoryTree* _tree, const std::string& _path);
 		void OnDblClick(AssetGui* _sender);
 		void OnRightClick(AssetGui* _sender);
 

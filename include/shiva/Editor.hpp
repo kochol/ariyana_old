@@ -3,7 +3,7 @@
 #include "ari/en/World.hpp"
 #include "ari/en/gui/GuiSystem.hpp"
 #include "windows/ProjectBrowser.hpp"
-#include "windows/EditorWindow.hpp"
+#include "windows/EditorWindowManager.hpp"
 
 namespace shiva
 {
@@ -29,11 +29,11 @@ namespace shiva
 
 	protected:
 
-		ari::World		m_EditorWorld;
-		ari::GuiSystem	m_GuiSystem;
-		ProjectBrowser	m_ProjectBrowser;
-		EditorWindow	m_EditorWindow;
-		Project		*	m_pCurrentProject = nullptr;
+		ari::World			m_EditorWorld;
+		ari::GuiSystem		m_GuiSystem;
+		ProjectBrowser		m_ProjectBrowser;
+		EditorWindowManager	m_EditorWindow;
+		Project			*	m_pCurrentProject = nullptr;
 
 	}; // Editor
 

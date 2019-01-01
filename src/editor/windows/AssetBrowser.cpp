@@ -15,12 +15,12 @@ namespace shiva
 		ShutDown();
 	}
 
-	void AssetBrowser::Init(ari::Entity* _pParent)
+	void AssetBrowser::Init(ari::World* p_world)
 	{
 		m_pDock = new ari::DockableWindow(g_pEditor->GetGuiSystem());
 		m_pDock->SetTitle("Asset browser");
 		m_pDock->Dock(ari::DockableWindow::Oriention::Left);
-		_pParent->AddChild(m_pDock);
+		p_world->GetAllEntities()[0]->AddChild(m_pDock);
 		UpdateAssets(g_pEditor->GetCurrentProject()->GetTree());
 	}
 
@@ -37,7 +37,7 @@ namespace shiva
 		strFile += "/icons/filetypes/DEFAULT.png";
 		std::string strFolder = ASSETS_DIR;
 		strFolder += "/icons/filetypes/folder.png";
-		if (_tree.IsRoot == false)
+		if (!_tree.IsRoot)
 		{
 			std::string strUp = ASSETS_DIR;
 			strUp += "/icons/filetypes/folder_up.png";

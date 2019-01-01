@@ -4,6 +4,7 @@
 #include "ari/en/gui/Gui.hpp"
 #include "ari/en/gui/Button.hpp"
 #include "ari/en/gui/Label.hpp"
+#include "DockWindow.hpp"
 
 namespace ari
 {
@@ -29,7 +30,7 @@ namespace shiva
 
 	}; // ProjectGui
 
-	class SHIVA_API ProjectBrowser
+	class SHIVA_API ProjectBrowser : DockWindow
 	{
 	public:
 		ProjectBrowser();
@@ -42,7 +43,6 @@ namespace shiva
 		
 	protected:
 
-		ari::DockableWindow	*	m_pWindow;
 		ari::Entity			*	m_pEntity;
 		ari::TextBox		*	m_pNewProjectName;
 		ari::TextBox		*	m_pNewProjectPath;

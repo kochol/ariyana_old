@@ -1,5 +1,6 @@
 #pragma once
 #include "shiva/shivadef.hpp"
+#include "ari/en/gui/DockableWindow.hpp"
 
 namespace shiva
 {
@@ -11,6 +12,14 @@ namespace shiva
 	public:
 
 		virtual ~DockWindow() = default;
+
+		ari::DockableWindow* GetDock() const { return m_pWindow; }
+
+		virtual void Init(ari::World* p_world) = 0;
+
+	protected:
+
+		ari::DockableWindow	*	m_pWindow = nullptr;
 
 	};
 
