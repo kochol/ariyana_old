@@ -7,7 +7,8 @@ namespace shiva
 	{
 		if (Name.length() == 0)
 		{
-			const char* slash = bx::strRFind(Path.get(), '/');
+			bx::StringView p = Path.get();
+			const char* slash = bx::strRFind(p, '/').getPtr();
 			slash++;
 			Name = slash;
 		}

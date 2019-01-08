@@ -39,9 +39,11 @@ namespace ari
 
 			if (m_pActiveCamera)
 			{
-				bx::mtxLookAt(m_pActiveCamera->_view.v, m_pActiveCamera->Position.v,
-					m_pActiveCamera->Target.v, m_pActiveCamera->Up.v);
-				bx::mtxProj(m_pActiveCamera->_proj.v, 60.0f, 800.0f / 600.0f, 1.0f, 1000.0f, bgfx::getCaps()->homogeneousDepth);
+				bx::mtxLookAt(m_pActiveCamera->_view.v, m_pActiveCamera->Position.ToVec3(),
+					m_pActiveCamera->Target.ToVec3(), m_pActiveCamera->Up.ToVec3());
+
+				bx::mtxProj(m_pActiveCamera->_proj.v, 60.0f, 800.0f / 600.0f, 1.0f, 1000.0f, 
+					bgfx::getCaps()->homogeneousDepth);
 			}
 		}
 	}

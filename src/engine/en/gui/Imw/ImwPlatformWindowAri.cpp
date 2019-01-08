@@ -34,9 +34,6 @@ namespace ari
 		m_iViewId = ++s_view_id;
 		bgfx::setViewName(m_iViewId, "ImWindow");
 
-		m_hFrameBufferHandle = bgfx::createFrameBuffer(m_pWindow->GetHandle(), 800, 600);
-		bgfx::setViewFrameBuffer(m_iViewId, m_hFrameBufferHandle);
-
 		// Init key bindings
 		ImGuiIO& io = GetContext()->IO;
 		io.KeyMap[ImGuiKey_Tab] = (int)ari::Key::Tab;
@@ -78,6 +75,10 @@ namespace ari
 		{
 			if (m_eType == ImWindow::E_PLATFORM_WINDOW_TYPE_DRAG_PREVIEW)
 				m_pWindow->SetAlpha(128);
+
+			m_hFrameBufferHandle = bgfx::createFrameBuffer(m_pWindow->GetHandle(), 800, 600);
+			bgfx::setViewFrameBuffer(m_iViewId, m_hFrameBufferHandle);
+
 			return true;
 		}
 

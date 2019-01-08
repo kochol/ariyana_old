@@ -73,7 +73,8 @@ namespace ari
 
 	bool Engine::Run()
 	{
-		bgfx::renderFrame();
+//		if (m_time_offset > 0)
+			bgfx::renderFrame();
 
 	    m_bRun = m_pWindow->Run();
 		uint32_t reset = m_reset;
@@ -111,6 +112,7 @@ namespace ari
 		init.resolution.width = g_pEngine->m_params->Width;
 		init.resolution.height = g_pEngine->m_params->Height;
 		init.resolution.reset = g_pEngine->m_reset;
+		
 		bgfx::init(init);
 
 		// Enable debug text.

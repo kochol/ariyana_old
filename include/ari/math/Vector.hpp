@@ -1,5 +1,7 @@
 #pragma once
 
+#include <bx/math.h>
+
 namespace ari
 {
 	struct Vector3
@@ -13,6 +15,15 @@ namespace ari
 			x = _x;
 			y = _y;
 			z = _z;
+		}
+
+		bx::Vec3 ToVec3()
+		{
+			return {
+				x,
+				y,
+				z
+			};
 		}
 
 		union
