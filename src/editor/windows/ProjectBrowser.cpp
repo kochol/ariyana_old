@@ -8,6 +8,7 @@
 #include "ari/en/gui/Popup.hpp"
 #include "shiva/Editor.hpp"
 #include "ari/en/gui/DockableWindow.hpp"
+#include "shiva/EditorSettings.hpp"
 
 void testOnClick()
 {
@@ -55,8 +56,7 @@ namespace shiva
 		m_pOpenProjectPath = new ari::TextBox(512);
 		m_pOpenProjectPath->Label = "Project path to open";
 		m_pOpenProjectPath->Separator = true;
-		// TODO: Set the last project path.
-		m_pOpenProjectPath->SetText(bx::FilePath(bx::Dir::Home).get());
+		m_pOpenProjectPath->SetText(EditorSettings::Get().LastProjectPath.c_str());
 		m_pWindow->AddChild(m_pOpenProjectPath);
 		m_pOpenProjectBtn = new ari::Button();
 		m_pOpenProjectBtn->Label = "Open project";

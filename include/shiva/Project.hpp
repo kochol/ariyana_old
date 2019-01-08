@@ -26,6 +26,8 @@ namespace shiva
 
 		const DirectoryTree& GetTree() const { return m_Tree; }
 
+		const bx::FilePath& GetPath() const { return m_ProjectPath; }
+
 	private:
 
 		bx::FilePath	m_ProjectPath;

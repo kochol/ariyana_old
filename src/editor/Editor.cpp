@@ -1,5 +1,6 @@
 #include "../../include/shiva/Editor.hpp"
 #include "shiva/Project.hpp"
+#include "shiva/EditorSettings.hpp"
 
 namespace shiva
 {
@@ -17,6 +18,7 @@ namespace shiva
 
 	void Editor::Init()
 	{
+		EditorSettings::Load();
 		m_EditorWorld.AddSystem(&m_GuiSystem);
 		m_ProjectBrowser.Init(&m_EditorWorld);
 	}
@@ -30,6 +32,10 @@ namespace shiva
 	{
 		delete m_pCurrentProject;
 		m_pCurrentProject = project;
+
+		EditorSettings::Get().LastProjectPath = project->GetPath().get();
+		EditorSettings::Save();
+
 		m_EditorWindow.Init(&m_EditorWorld);
 	}
 
