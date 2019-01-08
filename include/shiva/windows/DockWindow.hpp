@@ -1,6 +1,7 @@
 #pragma once
 #include "shiva/shivadef.hpp"
 #include "ari/en/gui/DockableWindow.hpp"
+#include "ari/en/Entity.hpp"
 
 namespace shiva
 {
@@ -19,6 +20,7 @@ namespace shiva
 
 	protected:
 
+		ari::Entity			*	m_pEntity = nullptr;
 		ari::DockableWindow	*	m_pWindow = nullptr;
 
 	};

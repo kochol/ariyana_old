@@ -17,17 +17,23 @@ namespace shiva
 
 	void AssetBrowser::Init(ari::World* p_world)
 	{
-		m_pDock = new ari::DockableWindow(g_pEditor->GetGuiSystem());
-		m_pDock->SetTitle("Asset browser");
-		m_pDock->Dock(ari::DockableWindow::Oriention::Left);
-		p_world->GetAllEntities()[0]->AddChild(m_pDock);
+		m_pEntity = new ari::Entity;
+		p_world->AddEntity(m_pEntity);
+
+		m_pWindow = new ari::DockableWindow(g_pEditor->GetGuiSystem());
+		m_pWindow->SetTitle("Asset browser");
+		m_pWindow->Dock(ari::DockableWindow::Oriention::Left);
+		m_pEntity->AddChild(m_pWindow);
 		UpdateAssets(g_pEditor->GetCurrentProject()->GetTree());
 	}
 
 	void AssetBrowser::ShutDown()
 	{
-		m_pDock->Destroy();
-		m_pDock = nullptr;
+		if (m_pEntity)
+		{
+			m_pEntity->Destroy();
+			m_pWindow = nullptr;
+		}
 	}
 
 	void AssetBrowser::UpdateAssets(const DirectoryTree & _tree)
@@ -61,7 +67,7 @@ namespace shiva
 				p_gui->OnRightClick.Bind(this, &AssetBrowser::OnRightClick);
 				if (c % 2 == 1)
 					p_gui->SameLine = true;
-				m_pDock->AddChild(p_gui);
+				m_pWindow->AddChild(p_gui);
 				m_vAssets.push_back(p_gui);
 			}
 			else
@@ -87,7 +93,7 @@ namespace shiva
 				p_gui->OnRightClick.Bind(this, &AssetBrowser::OnRightClick);
 				if (c % 2 == 1)
 					p_gui->SameLine = true;
-				m_pDock->AddChild(p_gui);
+				m_pWindow->AddChild(p_gui);
 				m_vAssets.push_back(p_gui);
 			}
 			else

@@ -32,7 +32,6 @@ namespace shiva
 		void OnDblClick(AssetGui* _sender);
 		void OnRightClick(AssetGui* _sender);
 
-		ari::DockableWindow	*	m_pDock = nullptr;		
 		std::vector<AssetGui*>	m_vAssets;
 
 	}; // AssetBrowser

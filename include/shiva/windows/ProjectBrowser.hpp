@@ -43,7 +43,6 @@ namespace shiva
 		
 	protected:
 
-		ari::Entity			*	m_pEntity;
 		ari::TextBox		*	m_pNewProjectName;
 		ari::TextBox		*	m_pNewProjectPath;
 		ari::Button			*	m_pNewProjectBtn;

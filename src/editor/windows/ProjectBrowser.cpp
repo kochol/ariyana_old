@@ -17,7 +17,7 @@ void testOnClick()
 
 namespace shiva
 {
-	ProjectBrowser::ProjectBrowser(): m_pEntity(nullptr), m_pNewProjectName(nullptr),
+	ProjectBrowser::ProjectBrowser(): m_pNewProjectName(nullptr),
 	                                  m_pNewProjectPath(nullptr), m_pOpenProjectPath(nullptr),
 									  m_pOpenProjectBtn(nullptr),
 	                                  m_pNewProjectBtn(nullptr), m_pMessageBox(nullptr), m_pMbLabel(nullptr),
