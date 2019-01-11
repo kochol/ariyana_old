@@ -5,6 +5,7 @@
 #include "ari/en/gui/DockSpace.hpp"
 #include "shiva/windows/AssetBrowser.hpp"
 #include "shiva/windows/Viewport.hpp"
+#include "shiva/windows/PropertyEditor.hpp"
 #include "ari/Engine.hpp"
 
 namespace shiva
@@ -32,6 +33,11 @@ namespace shiva
 			m_pAssetBrowser = new AssetBrowser;
 		m_pAssetBrowser->Init(pWorld);
 
+		// Init Property Editor
+		if (!m_pPropertyEditor)
+			m_pPropertyEditor = new PropertyEditor;
+		m_pPropertyEditor->Init(pWorld);
+
 	} // Init
 
 	void EditorWindowManager::Shutdown()
@@ -41,6 +47,7 @@ namespace shiva
 		m_pEntity = nullptr;
 		m_pAssetBrowser->Shutdown();
 		m_pViewport->Shutdown();
+		m_pPropertyEditor->Shutdown();
 
 	} // ShutDown
 

@@ -14,6 +14,7 @@ namespace shiva
 	class AssetBrowser;
 	class Viewport;
 	class Project;
+	class PropertyEditor;
 
 	class SHIVA_API EditorWindowManager
 	{
@@ -29,9 +30,10 @@ namespace shiva
 
 	protected:
 
-		ari::Entity			*	m_pEntity = nullptr;
-		AssetBrowser		*	m_pAssetBrowser = nullptr;
-		Viewport			*	m_pViewport = nullptr;
+		ari::Entity			*	m_pEntity			= nullptr;
+		AssetBrowser		*	m_pAssetBrowser		= nullptr;
+		Viewport			*	m_pViewport			= nullptr;
+		PropertyEditor		*	m_pPropertyEditor	= nullptr;
 
 	}; // EditorWindowManager
 

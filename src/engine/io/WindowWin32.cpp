@@ -392,6 +392,10 @@ namespace ari
 		m_init = true;
 		m_eventQueue.postSizeEvent(m_width, m_height);
 
+		// Calling this function before bgfx init makes bgfx single threaded.
+		if (m_Type == Type::Main)
+			bgfx::renderFrame();
+
 		MSG msg;
 		msg.message = WM_NULL;
 		return true;
