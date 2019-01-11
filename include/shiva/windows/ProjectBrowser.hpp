@@ -37,9 +37,9 @@ namespace shiva
 
 		~ProjectBrowser();
 
-		void Init(ari::World* p_world);
+		void Init(ari::World* p_world) override;
 
-		void Shutdown();
+		void Shutdown() override;
 		
 	protected:
 

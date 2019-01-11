@@ -16,7 +16,9 @@ namespace shiva
 
 		ari::DockableWindow* GetDock() const { return m_pWindow; }
 
-		virtual void Init(ari::World* p_world) = 0;
+		virtual void Init(ari::World* p_world);
+
+		virtual void Shutdown();
 
 	protected:
 

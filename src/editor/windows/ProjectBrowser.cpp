@@ -32,13 +32,10 @@ namespace shiva
 
 	void ProjectBrowser::Init(ari::World* p_world)
 	{
-		m_pEntity = new ari::Entity;
-		p_world->AddEntity(m_pEntity);
+		DockWindow::Init(p_world);
 
 		// Init Project browser window.
-		m_pWindow = new ari::DockableWindow(g_pEditor->GetGuiSystem());
 		m_pWindow->SetTitle("Project Browser");
-		m_pEntity->AddChild(m_pWindow);
 		m_pNewProjectName = new ari::TextBox(32);
 		m_pNewProjectName->Label = "Project name";
 		m_pNewProjectName->SetText("New project");

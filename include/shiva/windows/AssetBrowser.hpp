@@ -23,8 +23,6 @@ namespace shiva
 
 		void Init(ari::World* p_world);
 
-		void ShutDown();
-
 	private:
 
 		void UpdateAssets(const DirectoryTree& _tree);

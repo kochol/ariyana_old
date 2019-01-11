@@ -12,6 +12,7 @@ namespace ari
 namespace shiva
 {
 	class AssetBrowser;
+	class Viewport;
 	class Project;
 
 	class SHIVA_API EditorWindowManager
@@ -24,13 +25,14 @@ namespace shiva
 
 		void Init(ari::World* pWorld);
 
-		void ShutDown();
+		void Shutdown();
 
 	protected:
 
 		ari::Entity			*	m_pEntity = nullptr;
 		AssetBrowser		*	m_pAssetBrowser = nullptr;
-				
+		Viewport			*	m_pViewport = nullptr;
+
 	}; // EditorWindowManager
 
 } // shiva

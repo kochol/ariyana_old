@@ -4,6 +4,7 @@
 #include "ari/en/gui/Window.hpp"
 #include "ari/en/gui/DockSpace.hpp"
 #include "shiva/windows/AssetBrowser.hpp"
+#include "shiva/windows/Viewport.hpp"
 #include "ari/Engine.hpp"
 
 namespace shiva
@@ -12,7 +13,7 @@ namespace shiva
 
 	EditorWindowManager::~EditorWindowManager()
 	{
-		ShutDown();
+		Shutdown();
 		delete m_pAssetBrowser;
 	}
 
@@ -21,6 +22,11 @@ namespace shiva
 		m_pEntity = new ari::Entity;
 		pWorld->AddEntity(m_pEntity);
 
+		// Init Viewport
+		if (!m_pViewport)
+			m_pViewport = new Viewport;
+		m_pViewport->Init(pWorld);
+
 		// Init Asset Browser
 		if (!m_pAssetBrowser)
 			m_pAssetBrowser = new AssetBrowser;
@@ -28,12 +34,13 @@ namespace shiva
 
 	} // Init
 
-	void EditorWindowManager::ShutDown()
+	void EditorWindowManager::Shutdown()
 	{
 		if (m_pEntity)
 			m_pEntity->Destroy();
 		m_pEntity = nullptr;
-		m_pAssetBrowser->ShutDown();
+		m_pAssetBrowser->Shutdown();
+		m_pViewport->Shutdown();
 
 	} // ShutDown
 

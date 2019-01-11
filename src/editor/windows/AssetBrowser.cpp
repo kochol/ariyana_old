@@ -12,28 +12,16 @@ namespace shiva
 {
 	AssetBrowser::~AssetBrowser()
 	{
-		ShutDown();
+		Shutdown();
 	}
 
 	void AssetBrowser::Init(ari::World* p_world)
 	{
-		m_pEntity = new ari::Entity;
-		p_world->AddEntity(m_pEntity);
+		DockWindow::Init(p_world);
 
-		m_pWindow = new ari::DockableWindow(g_pEditor->GetGuiSystem());
 		m_pWindow->SetTitle("Asset browser");
-		m_pWindow->Dock(ari::DockableWindow::Oriention::Left);
-		m_pEntity->AddChild(m_pWindow);
+		m_pWindow->Dock(ari::DockableWindow::Oriention::Left, 0.25f);
 		UpdateAssets(g_pEditor->GetCurrentProject()->GetTree());
-	}
-
-	void AssetBrowser::ShutDown()
-	{
-		if (m_pEntity)
-		{
-			m_pEntity->Destroy();
-			m_pWindow = nullptr;
-		}
 	}
 
 	void AssetBrowser::UpdateAssets(const DirectoryTree & _tree)
