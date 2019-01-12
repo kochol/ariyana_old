@@ -40,23 +40,23 @@ namespace ari
 			child->m_pWorld = m_pWorld;
 			child->SetParent(this);
 
+			// Add the child to map
+			auto index = getTypeIndex<T>();
+			auto found = childs.find(index);
+			if (found == childs.end())
+			{
+				tinystl::vector<Node*> subList;
+				subList.push_back(child);
+
+				childs.insert({ index, subList });
+			}
+			else
+			{
+				found->second.push_back(child);
+			}
+
 			if (child->m_eNodeType == Type::Component)
 			{
-				// Add the child to map
-				auto index = getTypeIndex<T>();
-				auto found = childs.find(index);
-				if (found == childs.end())
-				{
-					tinystl::vector<Node*> subList;
-					subList.push_back(child);
-
-					childs.insert({ index, subList });
-				}
-				else
-				{
-					found->second.push_back(child);
-				}
-
 				assert(m_pWorld);
 				m_pWorld->emit<events::OnComponentAssigned<T>>({ child->GetParentEntity(), child });
 			}
@@ -65,16 +65,27 @@ namespace ari
 
 		} // AddChild
 
-		// Returns the first attached component.
+		// Returns the first attached Node.
 		template <class T>
 		T* GetChild()
 		{
 			auto found = childs.find(getTypeIndex<T>());
 			if (found != childs.end())
 			{
-				return found->second[0];
+				return reinterpret_cast<T*>(found->second[0]);
 			}
 			return nullptr;
+		}
+
+		template <class T>
+		tinystl::vector<Node*> GetChildren()
+		{
+			auto found = childs.find(getTypeIndex<T>());
+			if (found != childs.end())
+			{
+				return found->second;
+			}
+			return tinystl::vector<Node*>();
 		}
 
 		/*! Removes a child from this node.
@@ -90,20 +101,21 @@ namespace ari
 				{
 					child->m_pParent = nullptr;
 					m_vChilds.erase(it);
+
+					// Remove it from map
+					auto index = getTypeIndex<T>();
+					auto found = childs.find(index);
+					if (found != childs.end())
+					{
+						found->second.erase(std::remove(found->second.begin(), found->second.end(), child), found->second.end());
+						if (found->second.size() == 0)
+						{
+							childs.erase(found);
+						}
+					}
+
 					if (child->m_eNodeType == Type::Component)
 					{
-						// Remove it from map
-						auto index = getTypeIndex<T>();
-						auto found = childs.find(index);
-						if (found != childs.end())
-						{
-							found->second.erase(std::remove(found->second.begin(), found->second.end(), child), found->second.end());
-							if (found->second.size() == 0)
-							{
-								childs.erase(found);
-							}
-						}
-
 						assert(m_pWorld);
 						m_pWorld->emit<events::OnComponentRemoved<T>>({ child->GetParentEntity(), child });
 					}

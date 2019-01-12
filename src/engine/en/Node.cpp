@@ -18,6 +18,8 @@ namespace ari
 
 	void Node::RemoveChildren(bool _delete)
 	{
+		childs.clear();
+
 		if (_delete)
 			for (auto & node : m_vChilds)
 			{
