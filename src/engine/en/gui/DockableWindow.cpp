@@ -3,6 +3,7 @@
 #include "../../../../include/ari/en/gui/GuiSystem.hpp"
 #include "ImwWindowManager.h"
 #include "Imw/ImwWindowManagerAri.hpp"
+#include "..\..\..\..\include\ari\en\gui\DockableWindow.hpp"
 
 namespace ari
 {
@@ -15,6 +16,9 @@ namespace ari
 
 		void OnGui() override
 		{
+			if (m_pDockable->OnGui.IsBound())
+				m_pDockable->OnGui.Execute();
+
 			for (auto c : m_pDockable->m_vChilds)
 				m_pDockable->m_pGuiSystem->RenderGui(c);
 		}
@@ -78,6 +82,25 @@ namespace ari
 	void DockableWindow::SetClosable(bool _closable)
 	{
 		m_pWindow->SetClosable(_closable);
+	}
+
+	void DockableWindow::SetFillingSpace(bool _fill)
+	{
+		m_pWindow->SetFillingSpace(_fill);
+	}
+
+	void DockableWindow::GetLastPosition(float & _x, float & _y)
+	{
+		auto p = m_pWindow->GetLastPosition();
+		_x = p.x;
+		_y = p.y;
+	}
+
+	void DockableWindow::GetLastSize(float & _width, float & _height)
+	{
+		auto s = m_pWindow->GetLastSize();
+		_width = s.x;
+		_height = s.y;
 	}
 
 } // ari

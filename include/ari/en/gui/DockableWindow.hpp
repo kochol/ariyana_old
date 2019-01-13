@@ -1,5 +1,6 @@
 #pragma once
 #include "Gui.hpp"
+#include "../../Delegate.hpp"
 
 namespace ImWindow
 {
@@ -37,6 +38,15 @@ namespace ari
 		void SetTitle(const char* _pTitle);
 		void SetAlone(bool _alone);
 		void SetClosable(bool _closable);
+		void SetFillingSpace(bool _fill);
+
+		void GetLastPosition(float& _x, float& _y);
+		void GetLastSize(float& _width, float& _height);
+
+		/**
+		* This is a callback for when we want to draw the Guis good to get the window size here.
+		*/
+		DelegateNoParam<void> OnGui;
 
 	protected:
 
