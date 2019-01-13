@@ -1,6 +1,7 @@
 #include "../../../../include/ari/en/3d/RenderSystem.hpp"
 #include "../../../../include/ari/en/3d/BoxShape.hpp"
 #include "../../../../include/ari/en/3d/Camera.hpp"
+#include "../../../../include/ari/en/2d/Viewport.hpp"
 #include "../../../../include/ari/en/World.hpp"
 #include "../../../../include/ari/gfx/FrameData.hpp"
 #include <bgfx/bgfx.h>
@@ -35,6 +36,14 @@ namespace ari
 				{
 					bgfx::setViewTransform(0, m_pFrameDataCurrent->Camera->_view.v,
 						m_pFrameDataCurrent->Camera->_proj.v);
+
+					// Set viewport
+					Viewport* pViewport = m_pFrameDataCurrent->Camera->GetChild<Viewport>();
+					if (pViewport)
+					{
+						bgfx::setViewRect(0, pViewport->Rect.x, pViewport->Rect.y, 
+							pViewport->Rect.width, pViewport->Rect.height);
+					}
 				}
 		}
 		else if (state == UpdateState::GameplayState)

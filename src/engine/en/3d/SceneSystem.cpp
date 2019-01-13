@@ -4,6 +4,7 @@
 #include "../../../../include/ari/en/3d/Camera.hpp"
 #include <bx/math.h>
 #include "../../../../include/ari/Engine.hpp"
+#include "../../../../include/ari/en/2d/Viewport.hpp"
 #include <spdlog/logger.h>
 #include "bgfx/bgfx.h"
 
@@ -42,7 +43,15 @@ namespace ari
 				bx::mtxLookAt(m_pActiveCamera->_view.v, m_pActiveCamera->Position.ToVec3(),
 					m_pActiveCamera->Target.ToVec3(), m_pActiveCamera->Up.ToVec3());
 
-				bx::mtxProj(m_pActiveCamera->_proj.v, 60.0f, 800.0f / 600.0f, 1.0f, 1000.0f, 
+				RectI rect;
+				Viewport* p = m_pActiveCamera->GetChild<Viewport>();
+				if (p)
+					rect = p->Rect;
+				else
+				{
+					g_pEngine->GetMainWindow()->GetSize(rect.width, rect.height);
+				}
+				bx::mtxProj(m_pActiveCamera->_proj.v, 60.0f, float(rect.width) / float(rect.height), 1.0f, 1000.0f, 
 					bgfx::getCaps()->homogeneousDepth);
 			}
 		}

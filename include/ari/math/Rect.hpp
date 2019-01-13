@@ -5,17 +5,17 @@ namespace ari
 	template <class T>
 	struct Rect
 	{
-		Rect() : top(0), left(0), right(0), bottom(0) { }
+		Rect() : x(0), y(0), width(0), height(0) { }
 
-		Rect(const T _top, const T _left, const T _bottom, const T _right):
-			top(_top), left(_left), bottom(_bottom), right(_right) { }
+		Rect(const T _x, const T _y, const T _width, const T _height):
+			x(_x), y(_y), width(_width), height(_height) { }
 
-		void Set(const T _top, const T _left, const T _bottom, const T _right)
+		void Set(const T _x, const T _y, const T _width, const T _height)
 		{
-			top    = _top;
-			left   = _left;
-			right  = _right;
-			bottom = _bottom;
+			x      = _x;
+			y      = _y;
+			width  = _width;
+			height = _height;
 		}
 
 		union
@@ -23,15 +23,16 @@ namespace ari
 			T p[4];
 			struct 
 			{
-				T	top,
-					left,
-					bottom,
-					right;
+				T	x,
+					y,
+					width,
+					height;
 			};
 		};
 	};
 
-	typedef Rect<int>   RectI;
-	typedef Rect<float> RectF;
+	typedef Rect<uint16_t>	RectU16;
+	typedef Rect<int>		RectI;
+	typedef Rect<float>		RectF;
 
 } // ari
