@@ -18,6 +18,16 @@ namespace ari
 			height = _height;
 		}
 
+		bool operator == (const Rect<T> &v) const
+		{
+			return (width == v.width && height == v.height && x == v.x && y == v.y);
+		}
+
+		bool operator != (const Rect<T> &v) const
+		{
+			return (width != v.width || height != v.height || x != v.x || y != v.y);
+		}
+
 		union
 		{
 			T p[4];

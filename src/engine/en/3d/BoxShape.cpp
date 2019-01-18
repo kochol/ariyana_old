@@ -50,7 +50,7 @@ namespace ari
 		6, 3, 7,
 	};
 
-	void BoxShape::Render(const Matrix & matrix, bgfx::Encoder* encoder)
+	void BoxShape::Render(const Matrix & matrix, bgfx::Encoder* encoder, uint16_t _view_id)
 	{
 		if (encoder)
 		{
@@ -58,7 +58,7 @@ namespace ari
 			encoder->setVertexBuffer(0, m_sVBPos);
 			encoder->setVertexBuffer(1, m_sVBColor);
 			encoder->setIndexBuffer(m_sIB);
-			encoder->submit(0, m_sProgram);
+			encoder->submit(_view_id, m_sProgram);
 		}
 		else
 		{
@@ -66,7 +66,7 @@ namespace ari
 			bgfx::setVertexBuffer(0, m_sVBPos);
 			bgfx::setVertexBuffer(1, m_sVBColor);
 			bgfx::setIndexBuffer(m_sIB);
-			bgfx::submit(0, m_sProgram);
+			bgfx::submit(_view_id, m_sProgram);
 		}
 	}
 

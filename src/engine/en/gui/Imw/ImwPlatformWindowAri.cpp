@@ -24,14 +24,13 @@ namespace ari
 	bool ImwPlatformWindowAri::Init(ImwPlatformWindow* pParent)
 	{
 		// Init frame buffers
-		static bgfx::ViewId s_view_id = 0;
 		if (m_eType == ImWindow::E_PLATFORM_WINDOW_TYPE_MAIN)
 		{
 			m_iViewId = 0;
 			return true;
 		}
 
-		m_iViewId = ++s_view_id;
+		m_iViewId = g_pEngine->GetNewViewId();
 		bgfx::setViewName(m_iViewId, "ImWindow");
 
 		// Init key bindings

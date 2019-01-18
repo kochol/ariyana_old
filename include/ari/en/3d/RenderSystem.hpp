@@ -50,6 +50,7 @@ namespace ari
 		bgfx::ProgramHandle	*	m_Program;
 		FrameData			*	m_pFrameDataCurrent,
 							*	m_pFrameDataNext;
+		uint16_t				m_view_id = 0;
 	};
 	
 } // ari

@@ -33,36 +33,43 @@ namespace ari
 
 			// Resource not loaded yet.
 			T* pResource = nullptr;
-			uint32_t handle;
-			bool add;
-			if (m_sHandles.size() > 0)
-			{
-				handle = m_sHandles.top();
-				m_sHandles.pop();
-				add = false;
-			}
-			else
-			{
-				handle = (uint32_t)(m_vResources.size());
-				add = true;
-			}
+			const uint32_t handle = GetNewHandle();
 
 			if (!LoadResource(&pResource, handle, filename, extraParams))
 				return nullptr;
 
-			// Add it to array
-			std::shared_ptr<T> sp(pResource);
-			if (add)
-				m_vResources.push_back(sp);
-			else
-				m_vResources[handle] = sp;
-
-			return sp;
+			return AddResource(pResource);
 		}
 
 		void AddLoader(ResourceLoader* pLoader)
 		{
 			m_vLoaders.push_back(pLoader);
+		}
+
+		uint32_t GetNewHandle()
+		{
+			uint32_t handle;
+			if (!m_sHandles.empty())
+			{
+				handle = m_sHandles.top();
+				m_sHandles.pop();
+			}
+			else
+			{
+				handle = uint32_t(m_vResources.size());
+			}
+			return handle;
+		}
+
+		std::shared_ptr<T> AddResource(T* _resource)
+		{			
+			std::shared_ptr<T> sp(_resource);
+			if (_resource->m_iHandle >= m_vResources.size())
+				m_vResources.push_back(sp);
+			else
+				m_vResources[_resource->m_iHandle] = sp;
+
+			return sp;
 		}
 
 	protected:

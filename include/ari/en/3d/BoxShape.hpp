@@ -23,7 +23,7 @@ namespace ari
 		virtual ~BoxShape() = default;
 
 		//! Render
-		virtual void Render(const Matrix& matrix, bgfx::Encoder* encoder) override;
+		virtual void Render(const Matrix& matrix, bgfx::Encoder* encoder, uint16_t _view_id) override;
 
 		static void Init(RenderSystem* render_system);
 		static void Shutdown();

@@ -17,6 +17,8 @@ namespace ari
 	{
 	public:
 
+		Texture() = default;
+
 		Texture(const uint32_t& _handel, const std::string& _fileName);
 
 		~Texture() override;

@@ -11,6 +11,8 @@ namespace ari
 
 	public:
 
+		Resource(): m_iHandle(0) { }
+
 		Resource(const uint32_t& _handel, const std::string& _fileName): 
 			m_iHandle(_handel), m_sFileName(_fileName) { }
 

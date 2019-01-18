@@ -2,6 +2,8 @@
 #include "shivadef.hpp"
 #include "ari/en/World.hpp"
 #include "ari/en/gui/GuiSystem.hpp"
+#include "ari/en/3d/RenderSystem.hpp"
+#include "ari/en/3d/SceneSystem.hpp"
 #include "windows/ProjectBrowser.hpp"
 #include "windows/EditorWindowManager.hpp"
 
@@ -31,6 +33,8 @@ namespace shiva
 
 		ari::World			m_EditorWorld;
 		ari::GuiSystem		m_GuiSystem;
+		ari::RenderSystem	m_RenderSystem;
+		ari::SceneSystem	m_SceneSystem;
 		ProjectBrowser		m_ProjectBrowser;
 		EditorWindowManager	m_EditorWindow;
 		Project			*	m_pCurrentProject = nullptr;

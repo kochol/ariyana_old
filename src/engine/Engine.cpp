@@ -103,6 +103,16 @@ namespace ari
 #endif
 	}
 
+	uint16_t Engine::GetNewViewId()
+	{
+		return ++m_viewId;
+	}
+
+	uint32_t Engine::GetMsaaFlags() const
+	{
+		return (m_reset & BGFX_RESET_MSAA_MASK) >> BGFX_RESET_MSAA_SHIFT;
+	}
+
 	int Engine::InitBgfxInThread(bx::Thread * _thread, void * _userData)
 	{
 		BX_UNUSED(_thread, _userData);

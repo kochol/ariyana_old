@@ -70,6 +70,10 @@ namespace ari
 
 		PlatformWindow*	NewWindow(PlatformWindow::Type _type);
 
+		uint16_t GetNewViewId();
+
+		uint32_t GetMsaaFlags() const;
+
 		PluginManager plugin_manager;
 		TextureManager texture_manager;
 
@@ -81,6 +85,7 @@ namespace ari
 		PlatformWindow	*						m_pWindow;
 		std::shared_ptr<InitParams>		m_params;
 		uint32_t						m_debug, m_reset, m_frame_number;
+		uint16_t						m_viewId = 0;
 		int64_t							m_time_offset;
 		bx::Thread					*	m_pGfxThread;
 		ftl::TaskScheduler			*	m_pTaskMgr;
