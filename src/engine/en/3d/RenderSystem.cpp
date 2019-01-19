@@ -127,7 +127,11 @@ namespace ari
 			if (p_world->GetUpdateType() == World::UpdateType::Async)
 			{
 				encoder = bgfx::begin();
-			}			
+			}
+			else
+			{
+				encoder = bgfx::getEncoder0();
+			}
 			if (m_pFrameDataCurrent)
 			{
 				for (size_t i = 0; i < m_pFrameDataCurrent->Nodes.size(); i++)

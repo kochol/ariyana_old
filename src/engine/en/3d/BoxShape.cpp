@@ -52,22 +52,11 @@ namespace ari
 
 	void BoxShape::Render(const Matrix & matrix, bgfx::Encoder* encoder, uint16_t _view_id)
 	{
-		if (encoder)
-		{
-			encoder->setTransform(matrix.v);
-			encoder->setVertexBuffer(0, m_sVBPos);
-			encoder->setVertexBuffer(1, m_sVBColor);
-			encoder->setIndexBuffer(m_sIB);
-			encoder->submit(_view_id, m_sProgram);
-		}
-		else
-		{
-			bgfx::setTransform(matrix.v);
-			bgfx::setVertexBuffer(0, m_sVBPos);
-			bgfx::setVertexBuffer(1, m_sVBColor);
-			bgfx::setIndexBuffer(m_sIB);
-			bgfx::submit(_view_id, m_sProgram);
-		}
+		encoder->setTransform(matrix.v);
+		encoder->setVertexBuffer(0, m_sVBPos);
+		encoder->setVertexBuffer(1, m_sVBColor);
+		encoder->setIndexBuffer(m_sIB);
+		encoder->submit(_view_id, m_sProgram);
 	}
 
 	void BoxShape::Init(RenderSystem * render_system)

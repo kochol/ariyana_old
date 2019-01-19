@@ -1,5 +1,4 @@
 #include "../../../include/shiva/windows/Viewport.hpp"
-#include "../../../deps/bgfx/examples/common/imgui/imgui.h"
 #include "ari/en/2d/Viewport.hpp"
 #include "ari/en/3d/Camera.hpp"
 #include "ari/en/3d/BoxShape.hpp"

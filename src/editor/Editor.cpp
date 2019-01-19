@@ -25,7 +25,6 @@ namespace shiva
 		m_EditorWorld.AddSystem(&m_GuiSystem);
 		m_EditorWorld.AddSystem(&m_RenderSystem);
 		m_EditorWorld.AddSystem(&m_SceneSystem);
-		m_EditorWorld.SetUpdateType(ari::World::UpdateType::Sync);
 		
 		// Init project browser
 		m_ProjectBrowser.Init(&m_EditorWorld);
