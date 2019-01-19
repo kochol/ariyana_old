@@ -26,6 +26,8 @@ namespace ari
 		void SetWindowMinimized(bool bMinimized) override;
 		void SetTitle(const char* pTtile) override;
 
+		PlatformWindow* GetPlatformWindow() const { return m_pWindow; }
+
 	protected:
 		void PreUpdate() override;
 		void RenderDrawLists(ImDrawData* pDrawData) override;

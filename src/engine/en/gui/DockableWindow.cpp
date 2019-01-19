@@ -3,7 +3,7 @@
 #include "../../../../include/ari/en/gui/GuiSystem.hpp"
 #include "ImwWindowManager.h"
 #include "Imw/ImwWindowManagerAri.hpp"
-#include "..\..\..\..\include\ari\en\gui\DockableWindow.hpp"
+#include "imw/ImwPlatformWindowAri.hpp"
 
 namespace ari
 {
@@ -16,6 +16,17 @@ namespace ari
 
 		void OnGui() override
 		{
+			auto p_window_manager = ImWindow::ImwWindowManager::GetInstance();
+			const auto win = reinterpret_cast<ImwPlatformWindowAri*>
+				(p_window_manager->GetCurrentPlatformWindow())->GetPlatformWindow();
+
+			if (win != m_pDockable->m_pPlatformWindow && m_pDockable->OnWindowChanged.IsBound())
+			{
+				m_pDockable->m_pPlatformWindow = win;
+				m_pDockable->OnWindowChanged.Execute();
+			}
+			m_pDockable->m_pPlatformWindow = win;
+
 			if (m_pDockable->OnGui.IsBound())
 				m_pDockable->OnGui.Execute();
 
@@ -28,7 +39,7 @@ namespace ari
 		DockableWindow	*	m_pDockable;
 	};
 
-	DockableWindow::DockableWindow(GuiSystem * _pGuiSystem): m_pGuiSystem(_pGuiSystem)
+	DockableWindow::DockableWindow(GuiSystem * _pGuiSystem): m_pGuiSystem(_pGuiSystem), m_pPlatformWindow(nullptr)
 	{
 		// Check window manager Init
 		ImWindow::ImwWindowManager* p_window_manager = ImWindow::ImwWindowManager::GetInstance();
@@ -69,38 +80,43 @@ namespace ari
 			ImWindow::EDockOrientation(_oriention), _raito);
 	}
 
-	void DockableWindow::SetTitle(const char * _pTitle)
+	void DockableWindow::SetTitle(const char * _pTitle) const
 	{
 		m_pWindow->SetTitle(_pTitle);
 	}
 
-	void DockableWindow::SetAlone(bool _alone)
+	void DockableWindow::SetAlone(bool _alone) const
 	{
 		m_pWindow->SetAlone(_alone);
 	}
 
-	void DockableWindow::SetClosable(bool _closable)
+	void DockableWindow::SetClosable(bool _closable) const
 	{
 		m_pWindow->SetClosable(_closable);
 	}
 
-	void DockableWindow::SetFillingSpace(bool _fill)
+	void DockableWindow::SetFillingSpace(bool _fill) const
 	{
 		m_pWindow->SetFillingSpace(_fill);
 	}
 
-	void DockableWindow::GetLastPosition(float & _x, float & _y)
+	void DockableWindow::GetLastPosition(float & _x, float & _y) const
 	{
 		auto p = m_pWindow->GetLastPosition();
 		_x = p.x;
 		_y = p.y;
 	}
 
-	void DockableWindow::GetLastSize(float & _width, float & _height)
+	void DockableWindow::GetLastSize(float & _width, float & _height) const
 	{
 		auto s = m_pWindow->GetLastSize();
 		_width = s.x;
 		_height = s.y;
+	}
+
+	PlatformWindow * DockableWindow::GetPlatformWindow() const
+	{
+		return m_pPlatformWindow;
 	}
 
 } // ari
