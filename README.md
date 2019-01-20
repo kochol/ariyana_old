@@ -23,3 +23,14 @@ Ariyana is a WIP game engine that is planned to include these features.
   
 ## How to build
 https://github.com/kochol/ariyana/blob/master/docs/building.rst
+
+## Dependencies
+
+- [bgfx](https://github.com/bkaradzic/bgfx) rendering library
+- [bimg](https://github.com/bkaradzic/bimg) image library
+- [bx](https://github.com/bkaradzic/bx) core library
+- [brtshaderc](https://github.com/fredakilla/brtshaderc) runtime shader compiler for bgfx
+- [dear imgui](https://github.com/ocornut/imgui) gui library
+- [imwindow](https://github.com/thennequin/ImWindow) window docking library for imgui
+- [MetaStuff](https://github.com/eliasdaler/MetaStuff) serialization/deserialization/introspection stuff
+- [spdlog](https://github.com/gabime/spdlog) Fast c++ logging library
