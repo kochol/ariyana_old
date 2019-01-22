@@ -5,7 +5,11 @@ namespace ari
 {
 	bool Image::BeginRender()
 	{
-		ImGui::Image(ImageTxture->Handle, Size);
+		ImGui::Image(ImageTexture->Handle, Size);
+
+		if (OnHovered.IsBound() && ImGui::IsItemHovered())
+			OnHovered.Execute();
+
 		return false;
 	}
 

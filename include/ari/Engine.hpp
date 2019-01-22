@@ -74,6 +74,10 @@ namespace ari
 
 		uint32_t GetMsaaFlags() const;
 
+		float GetElapsedTime() const { return m_fElapsedTime; }
+
+		float GetDeltaTime() const { return m_fDeltaTime; }
+
 		PluginManager plugin_manager;
 		TextureManager texture_manager;
 
@@ -92,6 +96,8 @@ namespace ari
 		MouseState						m_MouseState;
 		bool							m_bRun;
 		bool							m_bNeedReset;
+		float							m_fElapsedTime = 0.0f,
+										m_fDeltaTime = 0.0f;
 
 	}; // Engine
 

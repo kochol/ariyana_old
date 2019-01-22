@@ -36,7 +36,7 @@ namespace ari
 		return { float(pt.x), float(pt.y) };
 #endif
 
-		return { 0.0f, 0.0f };
+		// TODO: Add other os codes
 	}
 
 	bool ImwWindowManagerAri::IsLeftClickDown()
@@ -44,8 +44,7 @@ namespace ari
 #if BX_PLATFORM_WINDOWS
 		return GetAsyncKeyState(VK_LBUTTON) & 0x8000;
 #endif
-
-		return false;
+		// TODO: Add other os codes
 	}
 
 } // ari

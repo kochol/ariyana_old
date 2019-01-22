@@ -17,6 +17,17 @@ namespace shiva
 		m_pViewport->Rect.Set(0, 0, int(w), int(h));
 	}
 
+	void Viewport::OnHovered()
+	{
+		// Rotate camera by right click
+		if (ImGui::IsMouseDragging(1))
+		{
+			const auto d = ImGui::GetMouseDragDelta(1);
+			m_pCamera->RotateByMouse(int(d.x), int(d.y), 0.3f * ari::g_pEngine->GetDeltaTime());
+			ImGui::ResetMouseDragDelta(1);
+		}
+	}
+
 	void Viewport::Init(ari::World * p_world)
 	{
 		DockWindow::Init(p_world);
@@ -42,8 +53,9 @@ namespace shiva
 
 		// Add image
 		m_pView = new ari::Image;
-		m_pView->ImageTxture = std::shared_ptr<ari::Texture>(&m_pViewport->m_texture);
+		m_pView->ImageTexture = std::shared_ptr<ari::Texture>(&m_pViewport->m_texture);
 		m_pView->Size.x = m_pView->Size.y = 300;
+		m_pView->OnHovered.Bind(this, &Viewport::OnHovered);
 		m_pWindow->AddChild(m_pView);
 
 	} // Init

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <bx/math.h>
+#include "arimath.hpp"
 
 namespace ari
 {
@@ -17,7 +18,34 @@ namespace ari
 			z = _z;
 		}
 
-		bx::Vec3 ToVec3()
+		Vector3 operator-(const Vector3& v) const
+		{
+			return Vector3(x - v.x, y - v.y, z - v.z);
+		}
+
+		void Cross(const Vector3& _v1, const Vector3& _v2)
+		{
+			x = _v1.y*_v2.z - _v1.z*_v2.y;
+			y = _v1.z*_v2.x - _v1.x*_v2.z;
+			z = _v1.x*_v2.y - _v1.y*_v2.x;
+		}
+
+		//! Returns the vector length
+		float GetLength() const
+		{
+			return sqrtf(x*x + y * y + z * z);
+		}
+
+		void Normalize()
+		{
+			float length = GetLength();
+			length = fEpsilon > length ? fEpsilon : length;
+			x /= length;
+			y /= length;
+			z /= length;
+		}
+
+		bx::Vec3 ToVec3() const
 		{
 			return {
 				x,

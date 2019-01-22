@@ -2,6 +2,7 @@
 #include "Gui.hpp"
 #include "../../gfx/Texture.hpp"
 #include "dear-imgui/imgui.h"
+#include "../../Delegate.hpp"
 
 namespace ari
 {
@@ -10,8 +11,9 @@ namespace ari
 	public:
 		bool BeginRender() override;
 
-		std::shared_ptr<Texture>	ImageTxture;
+		std::shared_ptr<Texture>	ImageTexture;
 		ImVec2						Size;
+		DelegateNoParam<void>		OnHovered;
 
 	}; // Image
 

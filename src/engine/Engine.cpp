@@ -155,10 +155,12 @@ namespace ari
 			// if no other draw calls are submitted to view 0.
 			bgfx::touch(0);
 
-			float time = (float)((bx::getHPCounter() - g_pEngine->m_time_offset) / double(bx::getHPFrequency()));
+			g_pEngine->m_fDeltaTime   = -g_pEngine->m_fElapsedTime;
+			g_pEngine->m_fElapsedTime = float((bx::getHPCounter() - g_pEngine->m_time_offset) / double(bx::getHPFrequency()));
+			g_pEngine->m_fDeltaTime  += g_pEngine->m_fElapsedTime;
 
 			if (g_pEngine->m_params->Program)
-				g_pEngine->m_params->Program->Update(g_pEngine->m_frame_number, time);
+				g_pEngine->m_params->Program->Update(g_pEngine->m_frame_number, g_pEngine->m_fDeltaTime);
 
 			bgfx::frame();
 			g_pEngine->m_frame_number++;

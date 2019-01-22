@@ -18,11 +18,15 @@ namespace shiva
 
 	protected:
 
-		ari::Camera			*	m_pCamera = nullptr;
-		ari::Viewport		*	m_pViewport = nullptr;
-		ari::Image			*	m_pView = nullptr;
+		ari::Camera			*	m_pCamera			= nullptr;
+		ari::Viewport		*	m_pViewport			= nullptr;
+		ari::Image			*	m_pView				= nullptr;
+		ari::PlatformWindow	*	m_pPlatformWindow	= nullptr;
+		ari::DelegateTwoParam<void, int, int>
+								m_OnMouseMove;
 
 		void OnGui();
+		void OnHovered();
 
 	};
 
