@@ -25,6 +25,23 @@ namespace shiva
 			const auto d = ImGui::GetMouseDragDelta(1);
 			m_pCamera->RotateByMouse(int(d.x), int(d.y), 0.3f * ari::g_pEngine->GetDeltaTime());
 			ImGui::ResetMouseDragDelta(1);
+
+			const float speed = 0.3f * ari::g_pEngine->GetDeltaTime();
+			if (ImGui::IsKeyDown(ari::Key::KeyW))
+				m_pCamera->MoveBF(speed);
+			if (ImGui::IsKeyDown(ari::Key::KeyS))
+				m_pCamera->MoveBF(-speed);
+			if (ImGui::IsKeyDown(ari::Key::KeyA))
+				m_pCamera->MoveLR(-speed);
+			if (ImGui::IsKeyDown(ari::Key::KeyD))
+				m_pCamera->MoveLR(speed);
+		}
+		if (ImGui::IsMouseDragging(2))
+		{
+			const auto d = ImGui::GetMouseDragDelta(2);
+			m_pCamera->MoveUD(d.y * -0.3f * ari::g_pEngine->GetDeltaTime());
+			m_pCamera->MoveLR(d.x * 0.5f * ari::g_pEngine->GetDeltaTime());
+			ImGui::ResetMouseDragDelta(2);
 		}
 	}
 

@@ -28,6 +28,15 @@ namespace ari
 		//! Rotate by mouse movement
 		void RotateByMouse(int _x, int _y, float _speed);
 
+		//! Move back & forward
+		void MoveBF(const float& _speed);
+
+		//! Move left & right
+		void MoveLR(const float& _speed);
+
+		//! Move up & down
+		void MoveUD(const float& _speed);
+
 	protected:
 
 		float			m_fCurRotX  = 0.0f, // Current Rotation X

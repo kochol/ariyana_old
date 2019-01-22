@@ -20,7 +20,7 @@ namespace ari
 
 		Vector3 operator-(const Vector3& v) const
 		{
-			return Vector3(x - v.x, y - v.y, z - v.z);
+			return { x - v.x, y - v.y, z - v.z };
 		}
 
 		void Cross(const Vector3& _v1, const Vector3& _v2)

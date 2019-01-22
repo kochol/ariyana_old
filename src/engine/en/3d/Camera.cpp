@@ -58,10 +58,11 @@ namespace ari
 		Vector3 right;
 		right.Cross(Up, view);
 		right.Normalize();
-		Up.Cross(view, right);
+		Vector3 up;
+		up.Cross(view, right);
 
 		Vector3 vAxis;
-		vAxis.Cross(view, Up);
+		vAxis.Cross(view, up);
 		vAxis.Normalize();
 
 		if (m_fCurRotX > 1.0f)
@@ -87,6 +88,43 @@ namespace ari
 			Rotate(angleZ, vAxis);
 		}
 		Rotate(-angleY, Vector3(0.0f, 1.0f, 0.0f));
+	}
+
+	void Camera::MoveBF(const float & _speed)
+	{
+		Vector3 v = Target - Position;
+		v.Normalize();
+		Position.x += v.x * _speed;
+		Position.y += v.y * _speed;
+		Position.z += v.z * _speed;
+
+		Target.x += v.x * _speed;
+		Target.y += v.y * _speed;
+		Target.z += v.z * _speed;
+	}
+
+	void Camera::MoveLR(const float & _speed)
+	{
+		// calculate the correct up
+		Vector3 view = Target - Position;
+		view.Normalize();
+		Vector3 right;
+		right.Cross(Up, view);
+		right.Normalize();
+
+		Position.x += right.x * _speed;
+		Position.y += right.y * _speed;
+		Position.z += right.z * _speed;
+
+		Target.x += right.x * _speed;
+		Target.y += right.y * _speed;
+		Target.z += right.z * _speed;
+	}
+
+	void Camera::MoveUD(const float & _speed)
+	{
+		Position.y += _speed;
+		Target.y += _speed;
 	}
 
 }
