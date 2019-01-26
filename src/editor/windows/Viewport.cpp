@@ -43,6 +43,7 @@ namespace shiva
 			m_pCamera->MoveLR(d.x * 0.5f * ari::g_pEngine->GetDeltaTime());
 			ImGui::ResetMouseDragDelta(2);
 		}
+		m_pCamera->MoveBF(ImGui::GetIO().MouseWheel * ari::g_pEngine->GetDeltaTime());
 	}
 
 	void Viewport::Init(ari::World * p_world)
