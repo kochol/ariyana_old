@@ -31,6 +31,23 @@ BGFX_DIR    = path.getabsolute("../deps/bgfx")
 BX_DIR      = path.getabsolute("../deps/bx")
 BIMG_DIR    = path.getabsolute("../deps/bimg")
 
+function getBuildDir()
+configuration { "x32", "vs*" }
+	BUILD_DIR = path.getabsolute("../.build/" .. "win32_" .. _ACTION .. "/bin") 
+	defines {
+		"BUILD_DIR=\"" .. BUILD_DIR .. "/\"",		
+	}
+
+configuration { "x64", "vs*" }
+	BUILD_DIR = path.getabsolute("../.build/" .. "win64_" .. _ACTION .. "/bin") 
+	defines {
+		"BUILD_DIR=\"" .. BUILD_DIR .. "/\"",		
+	}
+
+configuration {}
+
+end
+
 local BGFX_BUILD_DIR = path.join(MODULE_DIR, ".build")
 local BGFX_THIRD_PARTY_DIR = path.join(BGFX_DIR, "3rdparty")
 

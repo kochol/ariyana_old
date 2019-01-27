@@ -41,16 +41,12 @@ project ("Shiva")
 		"../include"
 	}
 
-	links {
-		"bx",
-		"ariengine",
-		"shivaeditor",
-	}
-
 	files {
 		"../src/shiva/**.cpp",
 		"../src/shiva/**.hpp",
 	}
+
+	getBuildDir()
 
 	configuration { "vs*" }
 		buildoptions { "/EHsc" }

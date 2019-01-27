@@ -1,55 +1,22 @@
-#include <ari/Engine.hpp>
-#include "ari/Program.hpp"
-#include "ari/en/World.hpp"
-#include "ari/en/Entity.hpp"
-#include "ari/en/gui/GuiSystem.hpp"
-#include "ari/en/gui/Window.hpp"
-#include "ari/en/gui/CheckBox.hpp"
-#include "ari/en/gui/Label.hpp"
-#include "ari/en/gui/Dock.hpp"
-#include "shiva/Editor.hpp"
+#define CR_HOST // required in the host only and before including cr.h
+#include "../../deps/cr/cr.h"
 
-class ShivaEditor : public ari::IProgram
-{
-public:
-	explicit ShivaEditor(const char* programName)
-		: IProgram(programName)
-	{
+const char *plugin = BUILD_DIR CR_PLUGIN("shivaeditorDebug");
+
+int main(int argc, char *argv[]) {
+	cr_plugin ctx;
+	// the host application should initalize a plugin with a context, a plugin
+	// filename without extension and the full path to the plugin
+	cr_plugin_load(ctx, plugin);
+
+	// call the plugin update function with the plugin context to execute it
+	// at any frequency matters to you
+	while (cr_plugin_update(ctx)) {
+		
 	}
 
-	~ShivaEditor() override = default;
-
-	void Init() override
-	{
-		// Init editor
-		m_editor.Init();
-	}
-
-	bool Update(uint32_t frame_number, float elasped) override
-	{
-		m_editor.Update(elasped);
-		return true;
-	}
-
-	int Shutdown() override
-	{
-		return 0;
-	}
-
-	shiva::Editor m_editor;
-};
-
-int main(int argc, char* argv[])
-{
-	std::unique_ptr<ari::Engine> p_device(new ari::Engine());
-	std::shared_ptr<ari::InitParams> p(new ari::InitParams);
-	p->Program.reset(new ShivaEditor("ShivaEditor"));
-	p_device->Init(p);
-	p_device->plugin_manager.Load("bimg", nullptr);
-
-	while (p_device->Run())
-	{
-
-	}
+	// at the end do not forget to cleanup the plugin context, as it needs to
+	// allocate some memory to track internal and plugin states
+	cr_plugin_close(ctx);
 	return 0;
 }

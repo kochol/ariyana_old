@@ -51,7 +51,7 @@ namespace shiva
 		DockWindow::Init(p_world);
 
 		m_pWindow->SetTitle("Viewport");
-		m_pWindow->SetAlone(true);
+		//m_pWindow->SetAlone(true);
 		m_pWindow->Dock();
 		m_pWindow->SetFillingSpace(true);
 		m_pWindow->OnGui.Bind(this, &Viewport::OnGui);

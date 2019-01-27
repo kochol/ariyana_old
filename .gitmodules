@@ -28,3 +28,6 @@
 [submodule "deps/ImWindow"]
 	path = deps/ImWindow
 	url = https://github.com/kochol/ImWindow.git
+[submodule "deps/cr"]
+	path = deps/cr
+	url = https://github.com/kochol/cr.git

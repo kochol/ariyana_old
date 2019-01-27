@@ -32,8 +32,6 @@ namespace ari
 		m_bRun = false;
 		m_params->Program.release();
 
-		// 
-		bgfx::renderFrame();
 		m_pGfxThread->shutdown();
 		delete m_pGfxThread;
 
@@ -74,11 +72,11 @@ namespace ari
 	bool Engine::Run()
 	{
 //		if (m_time_offset > 0)
-			bgfx::renderFrame();
 
 	    m_bRun = m_pWindow->Run();
 		uint32_t reset = m_reset;
 		m_bRun &= m_pWindow->ProcessEvents(m_params->Width, m_params->Height, m_debug, reset, &m_MouseState);
+		bgfx::renderFrame();
 		return m_bRun;
 	}
 
@@ -165,10 +163,13 @@ namespace ari
 			bgfx::frame();
 			g_pEngine->m_frame_number++;
 		}
+		int exit_code = 0;
 		if (g_pEngine->m_params->Program)
-			return g_pEngine->m_params->Program->Shutdown();
+			exit_code = g_pEngine->m_params->Program->Shutdown();
 
-		return 0;
+		// bgfx::shutdown();
+
+		return exit_code;
 	}
 
 } // ari
