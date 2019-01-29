@@ -41,8 +41,9 @@ public:
 	shiva::Editor m_editor;
 };
 
-std::unique_ptr<ari::Engine> p_device(new ari::Engine());
-std::shared_ptr<ari::InitParams> p(new ari::InitParams);
+static CR_STATE ari::Engine* p_device = nullptr;
+static CR_STATE ari::InitParams* p = new ari::InitParams;
+static CR_STATE ShivaEditor* prog = new ShivaEditor("ShivaEditor");
 
 extern "C"
 {
@@ -52,14 +53,29 @@ extern "C"
 		switch (operation) {
 		case CR_LOAD:
 			{
-				p->Program.reset(new ShivaEditor("ShivaEditor"));
-				p_device->Init(p);
-				p_device->plugin_manager.Load("bimg", nullptr);
+				if (p_device == nullptr)
+				{
+					printf("CR_LOAD\n");
+					p_device = new ari::Engine();
+					p->Program = prog;
+					p_device->Init(p);
+					p_device->plugin_manager.Load("bimg", nullptr);
+				}
+				else
+				{
+					printf("Reloaded: %d\n", ctx->version);
+					ari::g_pEngine = p_device;
+					p->Program = prog;
+					p_device->SetParams(p);
+					p_device->UnlockUpdateThread();
+				}
 				return 0;
 			}
 		case CR_UNLOAD:
 			{
-				
+				printf("CR_UNLOAD\n");
+				p->Program = nullptr;
+				p_device->LockUpdateThread();
 			}
 		case CR_STEP:
 			{

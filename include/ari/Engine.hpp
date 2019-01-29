@@ -10,6 +10,7 @@
 namespace bx
 {
 	class Thread;
+	class Mutex;
 }
 namespace spdlog
 {
@@ -33,7 +34,7 @@ namespace ari
 				 Width;
 
 		bool FullScreen;
-		std::unique_ptr<IProgram> Program;
+		IProgram* Program;
 
 	}; // InitParams
 
@@ -52,9 +53,13 @@ namespace ari
 		static Engine& GetSingleton();
 
 		//! Init the engine device
-		bool Init(std::shared_ptr<InitParams> params);
+		bool Init(InitParams* params);
 
 		bool Run();
+
+		void LockUpdateThread();
+
+		void UnlockUpdateThread();
 
 		Event* Poll();
 
@@ -64,7 +69,9 @@ namespace ari
 
 		std::shared_ptr<spdlog::logger> GetLogger() const { return  Logger; }
 
-		std::shared_ptr<InitParams> GetParams() const { return m_params; }
+		InitParams* GetParams() const { return m_params; }
+
+		void SetParams(InitParams* _params) { m_params = _params; }
 
 		PlatformWindow* GetMainWindow() const { return m_pWindow; }
 
@@ -85,13 +92,15 @@ namespace ari
 
 		static int InitBgfxInThread(bx::Thread* _thread, void* _userData);
 
+		InitParams					*	m_params;
 		std::shared_ptr<spdlog::logger> Logger;
-		PlatformWindow	*						m_pWindow;
-		std::shared_ptr<InitParams>		m_params;
+		PlatformWindow				*	m_pWindow;
 		uint32_t						m_debug, m_reset, m_frame_number;
 		uint16_t						m_viewId = 0;
 		int64_t							m_time_offset;
 		bx::Thread					*	m_pGfxThread;
+		bx::Mutex					*	m_pMutex = nullptr;
+		int								m_iLockStatus = 0; //! 0 = No action, 1 = Lock, 2 = Unlock the update thread.
 		ftl::TaskScheduler			*	m_pTaskMgr;
 		MouseState						m_MouseState;
 		bool							m_bRun;

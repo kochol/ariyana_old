@@ -29,8 +29,8 @@ namespace ari
 
 	Engine::~Engine()
 	{
+		printf("Shutting down the Ariyana engine.\n");
 		m_bRun = false;
-		m_params->Program.release();
 
 		m_pGfxThread->shutdown();
 		delete m_pGfxThread;
@@ -45,7 +45,7 @@ namespace ari
 		return *g_pEngine;
 	}
 
-	bool Engine::Init(std::shared_ptr<InitParams> params)
+	bool Engine::Init(InitParams* params)
 	{
 		inputInit();
 		m_params = params;
@@ -63,6 +63,8 @@ namespace ari
 			return false;
 		}
 
+		m_pMutex = new bx::Mutex;
+
 		m_pGfxThread = new bx::Thread();
 		m_pGfxThread->init(Engine::InitBgfxInThread, this);
 
@@ -78,6 +80,17 @@ namespace ari
 		m_bRun &= m_pWindow->ProcessEvents(m_params->Width, m_params->Height, m_debug, reset, &m_MouseState);
 		bgfx::renderFrame();
 		return m_bRun;
+	}
+
+	void Engine::LockUpdateThread()
+	{
+		m_iLockStatus = 1;
+		bgfx::renderFrame();
+	}
+
+	void Engine::UnlockUpdateThread()
+	{
+		m_pMutex->unlock();
 	}
 
 	Event * Engine::Poll()
@@ -141,6 +154,8 @@ namespace ari
 
 		while (g_pEngine->m_bRun)
 		{
+			g_pEngine->m_pMutex->lock();
+
 			if (g_pEngine->m_bNeedReset)
 			{
 				bgfx::reset(g_pEngine->m_params->Width, g_pEngine->m_params->Height, g_pEngine->m_reset);
@@ -162,6 +177,9 @@ namespace ari
 
 			bgfx::frame();
 			g_pEngine->m_frame_number++;
+
+			if (g_pEngine->m_iLockStatus != 1)
+				g_pEngine->m_pMutex->unlock();
 		}
 		int exit_code = 0;
 		if (g_pEngine->m_params->Program)
